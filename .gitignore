@@ -27,4 +27,9 @@ proguard/
 *.ipr
 *.iws
 .idea/
+.gradle/
+build/
+gradlew
+gradle/
+gradlew.bat
 
