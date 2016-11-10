@@ -1,0 +1,3 @@
+[submodule "libxml2object"]
+	path = libxml2object
+	url = https://github.com/247321453/Xml2Object.git
