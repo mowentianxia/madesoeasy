@@ -30,86 +30,107 @@ import java.util.zip.ZipFile;
 public class Drawer {
     public static final boolean DEBUG = BuildConfig.DEBUG;
     public static final String XML_STYLE_NAME = "style.xml";
-    private Context context;
-    protected IDataProvider IDataor;
+    protected Context context;
+    protected IDataProvider mDataProvider;
     protected ViewGroup mViewGroup;
     protected Style mStyle;
     protected View mView;
-    protected int pWidth;
-    protected int pHeight;
+    protected int maxWidth;
+    protected int maxHeight;
     public static final long Version = 3;
 
     public enum Error {
+        /**没错*/
         None,
+        /**没有样式信息*/
         InfoEmpty,
+        /**版本过低，需要更新*/
         NeedUpdate,
+        /**没有数据*/
         NoData,
+        /**没有主布局*/
         NoLayout,
+        /**未知版本*/
         UnknownVersion,
+        /**未知错误*/
         UnknownError
     }
 
-    public Drawer(Context context, ViewGroup pViewGroup, int pWidth, int pHeight, IDataProvider pIDataor) {
+    /***
+     * @param context
+     * @param pViewGroup 布局容器
+     * @param maxWidth   最大宽度
+     * @param maxHeight  最大高度
+     * @param pIDataor   内容提供
+     */
+    public Drawer(Context context, ViewGroup pViewGroup, int maxWidth, int maxHeight, IDataProvider pIDataor) {
         this.context = context;
-        this.IDataor = pIDataor;
+        this.mDataProvider = pIDataor == null ?
+                new DefaultData(context) : pIDataor;
         this.mViewGroup = pViewGroup;
-        this.pWidth = pWidth;
-        this.pHeight = pHeight;
+        this.maxWidth = maxWidth;
+        this.maxHeight = maxHeight;
     }
 
+    /***
+     * @return 是否加载成功
+     */
     public boolean isLoad() {
         return mStyle != null;
     }
 
+    /***
+     * @param file 加载存档
+     */
     public void loadSet(File file) {
-        if (IDataor != null)
-            IDataor.load(file);
+        if (mDataProvider != null)
+            mDataProvider.load(file);
     }
 
+    /***
+     * @param file 保存存档
+     */
     public void saveSet(File file) {
-        if (IDataor != null)
-            IDataor.save(file);
+        if (mDataProvider != null)
+            mDataProvider.save(file);
     }
 
+    /***
+     * 重置信息
+     */
     public void reset() {
-        if (IDataor != null) {
-            IDataor.reset();
-            List<String> files = IDataor.getOutFiles();
+        if (mDataProvider != null) {
+            mDataProvider.reset();
+            List<String> files = mDataProvider.getOutFiles();
             for (String file : files) {
                 FileUtil.delete(file);
             }
         }
         updateViews();
     }
-//
-//    public StyleInfo formXml(String xmlFile) {
-//        XmlReader reader = new XmlReader();
-//        InputStream inputStream = null;
-//        StyleInfo styleInfo = null;
-//        try {
-//            inputStream = new FileInputStream(xmlFile);
-//            styleInfo = reader.from(inputStream, StyleInfo.class);
-//            styleInfo.setFile(xmlFile, false);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            FileUtil.close(inputStream);
-//        }
-//        return styleInfo;
-//    }
 
+    /***
+     * @param zipFile 样式zip/xml
+     * @return 加载样式
+     */
     public Error loadStyle(String zipFile) {
         if (TextUtils.isEmpty(zipFile))
             return Error.UnknownError;
         mStyle = parseStyle(zipFile);
         Error e = check(mStyle);
         if (e != Error.None) return e;
-        if (IDataor != null) {
-            IDataor.bind(mStyle);
+        if (mDataProvider != null) {
+            mDataProvider.bind(mStyle);
         }
         return Error.None;
     }
 
+    /***
+     * 检查错误
+     *
+     * @param pStyleInfo
+     * @return
+     */
     public static Error check(Style pStyleInfo) {
         if (pStyleInfo == null) return Error.UnknownError;
         StyleInfo styleInfo = pStyleInfo.getStyleInfo();
@@ -121,6 +142,12 @@ public class Drawer {
         return Error.None;
     }
 
+    /***
+     * 初始化
+     *
+     * @param s 比例 如果<=0，则自适应
+     * @return 当前比例
+     */
     public float initViews(float s) {
         if (mStyle == null || mViewGroup == null) {
             if (DEBUG)
@@ -131,23 +158,31 @@ public class Drawer {
         if (s <= 0)
             s = getDefaultScale();
         mStyle.setScale(s);
-        if (IDataor == null) {
-            IDataor = new DefaultData(context);
-            IDataor.bind(mStyle);
+        if (mDataProvider == null) {
+            mDataProvider = new DefaultData(context);
+            mDataProvider.bind(mStyle);
             if (Drawer.DEBUG)
                 Log.i("kk", "create default dataor");
         }
         ViewCreator creator = new ViewCreator(context);
-        mView = creator.draw(mStyle, mViewGroup, IDataor);
+        mView = creator.draw(mStyle, mViewGroup, mDataProvider);
         updateViews();
         return s;
     }
 
+    /***
+     * 刷新视图
+     */
     public void updateViews() {
         if (mStyle == null || mViewGroup == null) return;
         updateView(mViewGroup);
     }
 
+    /***
+     * 刷新某个视图
+     *
+     * @param view
+     */
     protected void updateView(View view) {
         if (view == null) return;
         if (view instanceof ViewGroup) {
@@ -157,12 +192,12 @@ public class Drawer {
                 updateView(vg.getChildAt(i));
             }
         }
-        if (view instanceof IKView<?,?,?>) {
+        if (view instanceof IKView<?, ?, ?>) {
             IKView<ViewData, ViewInfo, View> ikView = (IKView<ViewData, ViewInfo, View>) view;
             ViewGroup.LayoutParams params = ScaleHelper.getLayoutParams(ikView,
                     view.getParent(), mStyle.getScale());
             view.setLayoutParams(params);
-            ViewData viewData = IDataor.get(ikView.getViewElement());
+            ViewData viewData = mDataProvider.get(ikView.getViewElement());
             if (viewData != null) {
                 ikView.update(viewData);
             }
@@ -219,19 +254,26 @@ public class Drawer {
         return style;
     }
 
-    public static String getDataFile(Style style, String zip) {
-        if (TextUtils.isEmpty(zip)) return "";
+    /***
+     * 获取数据包
+     *
+     * @param style 样式
+     * @param file  zip/xml
+     * @return
+     */
+    protected static String getDataFile(Style style, String file) {
+        if (TextUtils.isEmpty(file)) return "";
         if (style == null) {
-            return zip.replace(".xml", ".zip");
+            return file.replace(".xml", ".zip");
         } else {
-            String file = style.getFile();
+            file = style.getFile();
             if (!TextUtils.isEmpty(file)) {
                 if (FileUtil.exists(file)) {
                     return file;
                 } else {
-                    File file1 = FileUtil.file(FileUtil.getParent(zip), file);
-                    if (file1 != null) {
-                        return file1.getAbsolutePath();
+                    File f = FileUtil.file(FileUtil.getParent(file), file);
+                    if (f != null) {
+                        return f.getAbsolutePath();
                     }
                 }
             }
@@ -267,16 +309,26 @@ public class Drawer {
         return list;
     }
 
-    public boolean isEmpty(){
-        return  (mStyle == null || mViewGroup == null);
+    public boolean isEmpty() {
+        return (!isLoad() || mViewGroup == null);
     }
 
+    /***
+     * 缩放视图
+     *
+     * @param sc 比例
+     */
     public void scale(float sc) {
         if (isEmpty()) return;
         scale(mViewGroup, sc);
         updateViews();
     }
 
+    /***
+     * 适应最大宽高
+     *
+     * @return
+     */
     public float scaleFit() {
         if (isEmpty()) return 1.0f;
         float sc = getDefaultScale();
@@ -284,20 +336,34 @@ public class Drawer {
         return sc;
     }
 
+    /***
+     * 默认比例
+     */
     public float getDefaultScale() {
         if (isEmpty()) return 1.0f;
         if (DEBUG) {
-            Log.i("kk", mStyle.getWidth() + "/" + pWidth + "," + mStyle.getHeight() + "/" + pHeight);
+            Log.i("kk", mStyle.getWidth() + "/" + maxWidth + "," + mStyle.getHeight() + "/" + maxHeight);
         }
-        float s = ScaleHelper.getScale(pWidth, pHeight, mStyle.getWidth(), mStyle.getHeight());
+        float s = ScaleHelper.getScale(maxWidth, maxHeight, mStyle.getWidth(), mStyle.getHeight());
         return s;
     }
 
+    /***
+     * 获取图片
+     *
+     * @return
+     */
     public Bitmap getImage() {
         if (isEmpty()) return null;
         return BitmapUtil.getBitmap(mView);
     }
 
+    /***
+     * 缩放
+     *
+     * @param view
+     * @param sc
+     */
     protected void scale(View view, float sc) {
         if (isEmpty()) return;
         mStyle.setScale(sc);
@@ -310,9 +376,9 @@ public class Drawer {
             }
         }
         if (view instanceof IKView) {
-            View v  = ((IKView<?,?,View>) view).getView();
-            ViewParent vp= v==null?null:v.getParent();
-            ScaleHelper.getLayoutParams((IKView<?,?,View>) view, vp, sc);
+            View v = ((IKView<?, ?, View>) view).getView();
+            ViewParent vp = v == null ? null : v.getParent();
+            ScaleHelper.getLayoutParams((IKView<?, ?, View>) view, vp, sc);
         }
     }
 }

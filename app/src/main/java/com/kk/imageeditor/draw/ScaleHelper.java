@@ -14,7 +14,7 @@ import com.kk.imageeditor.view.IKView;
 import com.kk.imageeditor.view.KTextView;
 
 
-public class ScaleHelper {
+class ScaleHelper {
 
     public static float getScale(float srcWidth, float srcHeight, float destWidth, float destHeight) {
         float sx = srcWidth / destWidth;
