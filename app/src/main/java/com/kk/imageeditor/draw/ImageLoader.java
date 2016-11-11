@@ -15,13 +15,13 @@ import java.util.zip.ZipFile;
 
 public class ImageLoader {
 
-    public static Bitmap getBitmapFormFile(File file) {
+    public static Bitmap getBitmapFormFile(File file, int w, int h) {
         if (file == null || !file.exists()) return null;
         InputStream inputStream = null;
         Bitmap bitmap = null;
         try {
             inputStream = new FileInputStream(file);
-            bitmap = BitmapUtil.getBitmapByStream(inputStream);
+            bitmap = BitmapUtil.getBitmapByStream(inputStream, w, h);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -30,7 +30,7 @@ public class ImageLoader {
         return bitmap;
     }
 
-    public static Bitmap getBitmapFormZip(String file, String name) {
+    public static Bitmap getBitmapFormZip(String file, String name, int w, int h) {
         ZipFile zipFile = null;
         InputStream inputStream = null;
         Bitmap bitmap = null;
@@ -39,7 +39,7 @@ public class ImageLoader {
             ZipEntry entry = zipFile.getEntry(name);
             if (entry != null) {
                 inputStream = zipFile.getInputStream(entry);
-                bitmap = BitmapUtil.getBitmapByStream(inputStream);
+                bitmap = BitmapUtil.getBitmapByStream(inputStream, w, h);
             }
         } catch (IllegalStateException e) {
             e.printStackTrace();

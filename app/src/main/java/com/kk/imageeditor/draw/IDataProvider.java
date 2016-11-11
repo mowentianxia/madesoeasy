@@ -337,7 +337,7 @@ public abstract class IDataProvider {
         }
         if (outfile || !TextUtils.equals(file_src, imageData.file_src)) {
             imageData.file_src = file_src;
-            imageData.setSrc(getDrawable(file_src));
+            imageData.setSrc(getDrawable(file_src, imageData.width, imageData.height));
         }
         datas.put(pInfo, imageData);
     }
@@ -407,7 +407,7 @@ public abstract class IDataProvider {
             pViewData.setBackground(null);
         } else if (!TextUtils.equals(file_background, pViewData.file_background)) {
             pViewData.file_background = file_background;
-            pViewData.setBackground(getDrawable(file_background));
+            pViewData.setBackground(getDrawable(file_background, pViewData.width, pViewData.height));
         }
     }
 
@@ -449,16 +449,16 @@ public abstract class IDataProvider {
         return bools.get(name) == Boolean.TRUE;
     }
 
-    protected Drawable getDrawable(String name) {
+    protected Drawable getDrawable(String name, float w, float h) {
         if (name == null || !isLoad()) return null;
         if (name.startsWith("#")) {
             return new ColorDrawable(toColor(name));
         }
         String zipname = dealString(name);
         File imgfile = FileUtil.file(getTempPath(zipname));
-        Bitmap bmp = ImageLoader.getBitmapFormFile(imgfile);
+        Bitmap bmp = ImageLoader.getBitmapFormFile(imgfile, (int) w, (int) h);
         if (bmp == null) {
-            bmp = ImageLoader.getBitmapFormZip(mStyle.getFile(), zipname);
+            bmp = ImageLoader.getBitmapFormZip(mStyle.getFile(), zipname, (int) w, (int) h);
         }
         return new BitmapDrawable(context.getResources(), bmp);
     }

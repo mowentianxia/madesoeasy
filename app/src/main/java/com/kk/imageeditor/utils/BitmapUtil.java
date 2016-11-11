@@ -20,15 +20,6 @@ import java.util.Locale;
 
 @SuppressWarnings("deprecation")
 public class BitmapUtil {
-    private static final BitmapFactory.Options moptions;
-
-    static {
-        moptions = new BitmapFactory.Options();
-        if (Build.VERSION.SDK_INT < 21) {
-            moptions.inPurgeable = true;
-            moptions.inInputShareable = true;
-        }
-    }
 
     public static void destroy(Drawable drawable) {
         if (drawable != null) {
@@ -99,12 +90,12 @@ public class BitmapUtil {
         }
     }
 
-    public static Bitmap getBitmap(String path) {
+    public static Bitmap getBitmap(String path, int w, int h) {
         InputStream inputStream = null;
         Bitmap bmp = null;
         try {
             inputStream = new FileInputStream(path);
-            bmp = BitmapUtil.getBitmapByStream(inputStream);
+            bmp = BitmapUtil.getBitmapByStream(inputStream, w, h);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } finally {
@@ -113,28 +104,41 @@ public class BitmapUtil {
         return bmp;
     }
 
-    public static Bitmap getBitmapByStream(InputStream drawinput) {
+    public static Bitmap getBitmapByStream(InputStream drawinput, float w, float h) {
         Bitmap b = null;
         try {
-            if (moptions != null) {
-                b = BitmapFactory.decodeStream(drawinput, null, moptions);
-            } else {
-                b = BitmapFactory.decodeStream(drawinput);
+            float maxW = Resources.getSystem().getDisplayMetrics().widthPixels;
+            float maxH = Resources.getSystem().getDisplayMetrics().heightPixels;
+            if (w > 0) {
+                maxW = Math.min(maxW, w);
             }
-        }catch(Exception e){
+            if (h > 0) {
+                maxH = Math.min(maxH, h);
+            }
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            options.inDither = false;
+
+            options.inPurgeable = true;
+            options.inInputShareable = true;
+            BitmapFactory.decodeStream(drawinput, null, options);
+            options.inSampleSize = (int) ((options.outHeight / maxH + options.outWidth / maxW) / 2.0f);
+            options.inJustDecodeBounds = false;
+            b = BitmapFactory.decodeStream(drawinput, null, options);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return b;
     }
 
-    public static Drawable getDrawableByStream(Context context, InputStream drawinput) {
+    public static Drawable getDrawableByStream(Context context, InputStream drawinput, int w, int h) {
         if (drawinput == null)
             return null;
         Resources res = context.getResources();
         Bitmap b = null;
         BitmapDrawable bd = null;
         try {
-            b = getBitmapByStream(drawinput);
+            b = getBitmapByStream(drawinput, w, h);
             bd = new BitmapDrawable(res, b);
         } catch (Exception e) {
             e.printStackTrace();
