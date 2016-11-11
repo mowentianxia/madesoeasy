@@ -2,7 +2,6 @@ package com.kk.imageeditor;
 import com.kk.imageeditor.utils.XmlUtils;
 
 import net.kk.xml.IXmlElement;
-import net.kk.xml.XmlReader;
 import net.kk.xml.annotations.XmlElement;
 import net.kk.xml.annotations.XmlElementText;
 import net.kk.xml.annotations.XmlIgnore;
@@ -13,15 +12,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 public class XmlTest {
     static class C extends IXmlElement{
         @XmlElementText
         String name;
         @Override
         public String toString() {
-            return "c["+index+":"+name+"]";
+            return "c["+ pos +":"+name+"]";
         }
     }
     static class B extends IXmlElement{
@@ -30,7 +27,7 @@ public class XmlTest {
 
         @Override
         public String toString() {
-            return "b["+index+":"+age+"]";
+            return "b["+ pos +":"+age+"]";
         }
     }
     static class A{
