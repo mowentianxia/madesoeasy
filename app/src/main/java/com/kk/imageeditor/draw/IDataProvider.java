@@ -269,7 +269,7 @@ public abstract class IDataProvider {
         return str;
     }
 
-    public SelectElement getSelectInfo(String name) {
+    public SelectElement getSelectElement(String name) {
         if (!isLoad()) return null;
         return mStyle.getDataElement(name);
     }

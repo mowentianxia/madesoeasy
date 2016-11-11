@@ -293,13 +293,19 @@ public class FileUtil {
         }
     }
 
+    public static void closeZip(ZipFile closeable) {
+        if (closeable == null) return;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            try {
+                closeable.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static void close(Closeable closeable) {
         if (closeable != null) {
-            if (closeable instanceof ZipFile) {
-                if (Build.VERSION.SDK_INT <= 18) {
-                    return;
-                }
-            }
             try {
                 closeable.close();
             } catch (IOException e) {

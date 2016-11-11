@@ -10,6 +10,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 public class XmlUtils {
 
@@ -25,11 +26,13 @@ public class XmlUtils {
 
     public static String toXml(Object object) throws Exception {
         ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
-        XmlWriter writer = new XmlWriter(XmlPullParserFactory.newInstance().newSerializer(), options);
-        writer.toXml(object, arrayOutputStream, null);
+        saveXml(object, arrayOutputStream);
         return new String(arrayOutputStream.toByteArray());
     }
-
+    public static void saveXml(Object object, OutputStream outputStream) throws Exception {
+        XmlWriter writer = new XmlWriter(XmlPullParserFactory.newInstance().newSerializer(), options);
+        writer.toXml(object, outputStream, null);
+    }
     public static <T> T getObject(Class<T> tClass, InputStream inputStream) throws Exception {
         T t = null;
         XmlReader reader = new XmlReader(XmlPullParserFactory.newInstance().newPullParser(), options);

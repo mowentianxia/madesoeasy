@@ -40,19 +40,33 @@ public class Drawer {
     public static final long Version = 3;
 
     public enum Error {
-        /**没错*/
+        /**
+         * 没错
+         */
         None,
-        /**没有样式信息*/
+        /**
+         * 没有样式信息
+         */
         InfoEmpty,
-        /**版本过低，需要更新*/
+        /**
+         * 版本过低，需要更新
+         */
         NeedUpdate,
-        /**没有数据*/
+        /**
+         * 没有数据
+         */
         NoData,
-        /**没有主布局*/
+        /**
+         * 没有主布局
+         */
         NoLayout,
-        /**未知版本*/
+        /**
+         * 未知版本
+         */
         UnknownVersion,
-        /**未知错误*/
+        /**
+         * 未知错误
+         */
         UnknownError
     }
 
@@ -239,9 +253,7 @@ public class Drawer {
             e.printStackTrace();
         } finally {
             FileUtil.close(inputStream);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                FileUtil.close(zipFile);
-            }
+            FileUtil.closeZip(zipFile);
         }
         if (style != null) {
             if (isXml) {
