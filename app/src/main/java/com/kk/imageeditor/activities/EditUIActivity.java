@@ -10,7 +10,6 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +56,7 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DisplayMetrics dm = getResources().getDisplayMetrics();
-        itemHeight = Math.round(Math.max(dm.widthPixels, dm.heightPixels) / getDefaultHeight(dm));
+        itemHeight = Math.round(Math.max(dm.widthPixels, dm.heightPixels) / 15.0f);
     }
 
     /***
@@ -67,12 +66,6 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
         mDefaultData.updateDatas(false);
     }
 
-    /***
-     * 默认元素的高度
-     */
-    protected float getDefaultHeight(DisplayMetrics dm) {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15.0f, dm);
-    }
 
     protected void onEditCompleted(String... values) {
         mDefaultData.onChanged(tmpSelectElement, values);
@@ -85,6 +78,7 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
 
     /***
      * 保存缓存
+     *
      * @return
      */
     protected boolean saveCache() {
@@ -101,6 +95,7 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
 
     /***
      * 加载缓存
+     *
      * @return
      */
     protected boolean loadCache() {
@@ -110,6 +105,7 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
 
     /***
      * 获取保存的名字
+     *
      * @return
      */
     protected String getSaveFileName() {
@@ -149,7 +145,7 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
                     }
                     String file = pIData.getTempPath(name);
                     getSelectImage().setListener(this);
-                    getSelectImage().startPhotoCut(file, (int)data.width, (int)data.height, true);
+                    getSelectImage().startPhotoCut(file, (int) data.width, (int) data.height, true);
                 }
                 break;
             case select:
@@ -319,6 +315,10 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
         showDialog(title, null, layout, 0, ok, cancel, oncancel);
     }
 
+    public void showDialog(String title, String message, final DialogInterface.OnClickListener ok) {
+        showDialog(title, message, null, 0, ok, (v,s)->{}, null);
+    }
+
     public void showDialog(String title, String message,
                            final View view,
                            int dialogTheme,
@@ -339,7 +339,7 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
             builder.setView(view);
         }
         builder.setNegativeButton(android.R.string.ok, ok);
-        if(cancel!=null) {
+        if (cancel != null) {
             builder.setPositiveButton(android.R.string.cancel, cancel);
         }
         Dialog dialog = builder.create();

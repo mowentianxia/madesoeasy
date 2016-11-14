@@ -2,7 +2,6 @@ package com.kk.imageeditor.draw;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -363,7 +362,7 @@ public class Drawer {
      */
     public Bitmap getImage() {
         if (isEmpty()) return null;
-        return BitmapUtil.getBitmap(mView);
+        return BitmapUtil.getBitmapFromFile(mView);
     }
 
     public float getScale() {

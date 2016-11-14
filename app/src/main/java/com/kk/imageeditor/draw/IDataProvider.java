@@ -27,6 +27,7 @@ import com.kk.imageeditor.bean.view.ImageInfo;
 import com.kk.imageeditor.bean.view.LayoutInfo;
 import com.kk.imageeditor.bean.view.TextInfo;
 import com.kk.imageeditor.bean.view.ViewInfo;
+import com.kk.imageeditor.utils.BitmapUtil;
 import com.kk.imageeditor.utils.Calculator;
 import com.kk.imageeditor.utils.FileUtil;
 import com.kk.imageeditor.utils.GravityUtil;
@@ -461,9 +462,9 @@ public abstract class IDataProvider {
         }
         String zipname = dealString(name);
         File imgfile = FileUtil.file(getTempPath(zipname));
-        Bitmap bmp = ImageLoader.getBitmapFormFile(imgfile, (int) w, (int) h);
+        Bitmap bmp = BitmapUtil.getBitmapFromFile(imgfile.getAbsolutePath(), (int) w, (int) h);
         if (bmp == null) {
-            bmp = ImageLoader.getBitmapFormZip(mStyle.getFile(), zipname, (int) w, (int) h);
+            bmp = BitmapUtil.getBitmapFormZip(mStyle.getFile(), zipname, (int) w, (int) h);
         }
         return new BitmapDrawable(context.getResources(), bmp);
     }

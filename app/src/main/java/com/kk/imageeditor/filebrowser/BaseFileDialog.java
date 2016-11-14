@@ -9,7 +9,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Environment;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -38,7 +37,7 @@ class BaseFileDialog extends AlertDialog {
     protected FileAdapter mFileAdapter;
     protected FileComparator mFileComparator;
     protected boolean isIniting = true;
-    static final float HEIGHT_P = 0.68f;
+    static final float HEIGHT_P = 0.60f;
 
     public static String getStoragePath() {
         try {

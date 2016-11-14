@@ -1,13 +1,11 @@
 package com.kk.imageeditor.utils;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
+import android.util.DisplayMetrics;
 import android.view.View;
 
 import java.io.File;
@@ -17,9 +15,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 @SuppressWarnings("deprecation")
 public class BitmapUtil {
+    private final static long MAX_BITMAP;
+
+    static {
+        DisplayMetrics dm = Resources.getSystem().getDisplayMetrics();
+        MAX_BITMAP = (dm.widthPixels * dm.heightPixels) / 5 * 4;
+    }
 
     public static void destroy(Drawable drawable) {
         if (drawable != null) {
@@ -66,37 +72,49 @@ public class BitmapUtil {
         return true;
     }
 
-    public static boolean saveBitmap(Bitmap bm, String file, int quality, int newWidth, int newHeight) {
-        if (bm == null)
-            return false;
-        int width = bm.getWidth();
-        int height = bm.getHeight();
-        if (newWidth == width && newHeight == height) {
-            return saveBitmap(bm, file, quality);
-        } else {
-
-            float scaleWidth = ((float) newWidth) / width;
-            float scaleHeight = ((float) newHeight) / height;
-
-            Matrix matrix = new Matrix();
-            matrix.postScale(scaleWidth, scaleHeight);
-
-            Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width,
-                    height, matrix, true);
-            boolean b = saveBitmap(resizedBitmap, file, quality);
-            if (!resizedBitmap.isRecycled())
-                resizedBitmap.recycle();
-            return b;
-        }
+    public static BitmapFactory.Options getImageInfo(InputStream inputStream) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true; // 为true里只读图片的信息，如果长宽，返回的bitmap为null
+        options.inDither = false;
+        BitmapFactory.decodeStream(inputStream, null, options);
+        return options;
     }
 
-    public static Bitmap getBitmap(String path, int w, int h) {
+    public static Bitmap getBitmapFormZip(String file, String name, int w, int h) {
+        ZipFile zipFile = null;
+        InputStream inputStream = null;
+        Bitmap bitmap = null;
+        try {
+            zipFile = new ZipFile(file);
+            ZipEntry entry = zipFile.getEntry(name);
+            if (entry != null) {
+                inputStream = zipFile.getInputStream(entry);
+                BitmapFactory.Options options = getImageInfo(inputStream);
+                inputStream.close();
+                inputStream = zipFile.getInputStream(entry);
+                bitmap = BitmapUtil.getBitmapByStream(inputStream, options.outWidth, options.outHeight, w, h);
+            }
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+
+        } finally {
+            FileUtil.close(inputStream);
+            FileUtil.closeZip(zipFile);
+        }
+        return bitmap;
+    }
+
+    public static Bitmap getBitmapFromFile(String path, int w, int h) {
         InputStream inputStream = null;
         Bitmap bmp = null;
         try {
             inputStream = new FileInputStream(path);
-            bmp = BitmapUtil.getBitmapByStream(inputStream, w, h);
-        } catch (FileNotFoundException e) {
+            BitmapFactory.Options options = getImageInfo(inputStream);
+            inputStream.close();
+            inputStream = new FileInputStream(path);
+            bmp = BitmapUtil.getBitmapByStream(inputStream, options.outWidth, options.outHeight, w, h);
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             FileUtil.close(inputStream);
@@ -104,23 +122,21 @@ public class BitmapUtil {
         return bmp;
     }
 
-    public static Bitmap getBitmapByStream(InputStream drawinput, float w, float h) {
+    /***
+     * @param drawinput
+     * @param srcW      图片的宽
+     * @param srcH      图片的高
+     * @param dstW      目标的宽
+     * @param dstH      目标的宽
+     * @return
+     */
+    public static Bitmap getBitmapByStream(InputStream drawinput, float srcW, float srcH, float dstW, float dstH) {
         Bitmap b = null;
         try {
-            float maxW = Resources.getSystem().getDisplayMetrics().widthPixels;
-            float maxH = Resources.getSystem().getDisplayMetrics().heightPixels;
-            if (w > 0) {
-                maxW = Math.min(maxW, w);
-            }
-            if (h > 0) {
-                maxH = Math.min(maxH, h);
-            }
             BitmapFactory.Options options = new BitmapFactory.Options();
-//            options.inJustDecodeBounds = true;
-//            options.inDither = false;
-//            BitmapFactory.decodeStream(drawinput, null, options);
-//            options.inSampleSize = (int) ((options.outHeight / maxH + options.outWidth / maxW) / 2.0f);
-            options.inJustDecodeBounds = false;
+            if (dstW * dstH >= MAX_BITMAP) {
+                options.inSampleSize = (int) ((srcH / dstH + srcW / dstW) / 2.0f);
+            }
             options.inPurgeable = true;
             options.inInputShareable = true;
             b = BitmapFactory.decodeStream(drawinput, null, options);
@@ -130,24 +146,7 @@ public class BitmapUtil {
         return b;
     }
 
-    public static Drawable getDrawableByStream(Context context, InputStream drawinput, int w, int h) {
-        if (drawinput == null)
-            return null;
-        Resources res = context.getResources();
-        Bitmap b = null;
-        BitmapDrawable bd = null;
-        try {
-            b = getBitmapByStream(drawinput, w, h);
-            bd = new BitmapDrawable(res, b);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            FileUtil.close(drawinput);
-        }
-        return bd;
-    }
-
-    public static Bitmap getBitmap(View view) {
+    public static Bitmap getBitmapFromFile(View view) {
         if (view == null) return null;
         view.setDrawingCacheEnabled(true);
         view.destroyDrawingCache();
@@ -161,8 +160,8 @@ public class BitmapUtil {
      * @param h           0的时候不缩放
      * @return
      */
-    public static Bitmap getBitmap(View view, boolean isAutoScale,
-                                   int rWidth, int rHeight, int w, int h) {
+    public static Bitmap getBitmapFromFile(View view, boolean isAutoScale,
+                                           int rWidth, int rHeight, int w, int h) {
         view.setDrawingCacheEnabled(true);
         view.destroyDrawingCache();
         if (w > 0 && h > 0)

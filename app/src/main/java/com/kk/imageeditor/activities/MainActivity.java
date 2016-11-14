@@ -7,8 +7,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -30,11 +30,11 @@ import com.kk.imageeditor.controllor.ControllorManager;
 import com.kk.imageeditor.controllor.PathConrollor;
 import com.kk.imageeditor.controllor.StyleControllor;
 import com.kk.imageeditor.draw.Drawer;
-import com.kk.imageeditor.draw.ImageLoader;
 import com.kk.imageeditor.filebrowser.DialogFileFilter;
 import com.kk.imageeditor.filebrowser.OpenFileDialog;
 import com.kk.imageeditor.filebrowser.SaveFileDialog;
 import com.kk.imageeditor.settings.SettingsActivity;
+import com.kk.imageeditor.utils.BitmapUtil;
 import com.kk.imageeditor.utils.SaveUtil;
 import com.kk.imageeditor.utils.VUiKit;
 
@@ -46,6 +46,7 @@ public class MainActivity extends DrawerAcitvity
     private TextView headTitleView;
     private TextView headTextView;
     private TextView headAuthorView;
+    private TextView headVerView;
     private DrawerLayout mDrawerlayout;
     private long exitLasttime;
     private PathConrollor pathConrollor;
@@ -80,6 +81,7 @@ public class MainActivity extends DrawerAcitvity
         headTitleView = (TextView) head.findViewById(R.id.titleView);
         headTextView = (TextView) head.findViewById(R.id.textView);
         headAuthorView = (TextView) head.findViewById(R.id.authorView);
+        headVerView= (TextView) head.findViewById(R.id.versionView);
         //初始化
         initDrawer((ViewGroup) findViewById(R.id.drawer));
         checkAndCopyStyle();
@@ -181,11 +183,14 @@ public class MainActivity extends DrawerAcitvity
         if (info != null) {
             Log.i("msoe", "zip=" + zip);
             if (headImageView != null) {
-                Bitmap icon = ImageLoader.getBitmapFormZip(zip, info.getIcon(), 0, 0);
+                Bitmap icon = BitmapUtil.getBitmapFormZip(zip, info.getIcon(), 0, 0);
                 headImageView.setImageBitmap(icon);
             }
+            if(headVerView!=null){
+                headVerView.setText(""+info.getVersion());
+            }
             if (headTitleView != null) {
-                headTitleView.setText(info.getName() + " " + info.getVersion());
+                headTitleView.setText(info.getName());
             }
             if (headAuthorView != null) {
                 headAuthorView.setText(info.getAuthor());
@@ -253,15 +258,22 @@ public class MainActivity extends DrawerAcitvity
             zoomOut();
             return true;
         } else if (id == R.id.action_preview) {
-            Bitmap image = getDrawBitmap();
-            if (image == null) {
-                Snackbar.make(mDrawerlayout, R.string.image_is_null, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.action_zoom_out, (v) -> {
-                            zoomOut();
-                        }).show();
-                return true;
-            }
-            PhotoViewActivity.showImage(this, image, getSaveFileName());
+            VUiKit.defer().when(()->{
+                Bitmap image = getDrawBitmap();
+                if (image == null) {
+                    Snackbar.make(mDrawerlayout, R.string.image_is_null, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.action_zoom_out, (v) -> {
+                                zoomOut();
+                            }).show();
+                    return null;
+                }
+                String file = new File(pathConrollor.getWorkPath(), "preview.png").getAbsolutePath();
+                BitmapUtil.saveBitmap(image, file, 100);
+                return file;
+            }).done((image)->{
+                PhotoViewActivity.showImage(this, image, getSaveFileName());
+            });
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -292,7 +304,11 @@ public class MainActivity extends DrawerAcitvity
         int id = item.getItemId();
         switch (id) {
             case R.id.nav_reset:
-                resetData();
+                if (checkDrawer()) return true;
+                showDialog(getString(R.string.dialog_title),
+                        getString(R.string.clear_tip), (v,s)->{
+                    resetData();
+                });
                 break;
             case R.id.nav_save_set:
                 if (checkDrawer()) return true;

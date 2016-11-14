@@ -9,13 +9,11 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.Toast;
 
 import com.kk.imageeditor.R;
-import com.kk.imageeditor.activities.EditUIActivity;
 import com.kk.imageeditor.bean.StyleInfo;
 import com.kk.imageeditor.draw.Drawer;
 import com.kk.imageeditor.utils.FileUtil;
@@ -44,7 +42,7 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
                 Manifest.permission.READ_PHONE_STATE,
                 Manifest.permission.ACCESS_NETWORK_STATE,
                 Manifest.permission.ACCESS_WIFI_STATE,
-                };
+        };
     }
 
     @Override
@@ -64,24 +62,13 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
     protected void initDrawer(ViewGroup viewGroup) {
         ViewParent vp = viewGroup.getParent();
         int w, h;
-        if (vp == null) {
-            w = viewGroup.getMeasuredWidth();
-            h = viewGroup.getMeasuredHeight();
-        } else {
-            w = ((View) vp).getMeasuredWidth();
-            h = ((View) vp).getMeasuredHeight();
+        w = getResources().getDisplayMetrics().widthPixels;
+        ActionBar actionBar = getSupportActionBar();
+        int actionBarH = 0;
+        if (actionBar != null) {
+            actionBarH = actionBar.getHeight();
         }
-        if (w == 0) {
-            w = getResources().getDisplayMetrics().widthPixels;
-        }
-        if (h == 0) {
-            ActionBar actionBar = getSupportActionBar();
-            int actionBarH = 0;
-            if (actionBar != null) {
-                actionBarH = actionBar.getHeight();
-            }
-            h = getResources().getDisplayMetrics().heightPixels - actionBarH - getStatusBarHeight();
-        }
+        h = getResources().getDisplayMetrics().heightPixels - actionBarH - getStatusBarHeight();
         mDrawer = new Drawer(this, viewGroup, w, h, getDefaultData());
     }
 
@@ -95,6 +82,7 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
      */
     protected void resetData() {
         if (mDrawer == null) return;
+        mSetFile = null;
         clearCache();
         mDrawer.reset();
     }

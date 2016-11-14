@@ -2,7 +2,7 @@ package com.kk.imageeditor.filebrowser;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,11 +29,7 @@ class FileAdapter extends ArrayAdapter<File> {
     public FileAdapter(Context context, List<File> files) {
         super(context, android.R.layout.simple_list_item_1, files);
         this.context = context;
-        if (Build.VERSION.SDK_INT >= 21) {
-            folderIcon = context.getDrawable(R.drawable.ic_folder_black);
-        } else {
-            folderIcon = context.getResources().getDrawable(R.drawable.ic_folder_black);
-        }
+        folderIcon = ContextCompat.getDrawable(context, R.drawable.ic_folder_black);
         fileIcon = null;
     }
 

@@ -10,10 +10,14 @@
     <string name="string_help_text">当前应用缺少必要权限。\n请点击设置-权限-打开所需权限。</string>
     <string name="need_select_style">you need select a style file.</string>
     <string name="quit">Quit</string>
+    <string name="unknown">unknown</string>
     <string name="select_style">Style List</string>
     <string name="menu_settings">Settings menu</string>
     <string name="preview">Preview Image</string>
+    <string name="share_image">Share image</string>
     <string name="share">Share Image</string>
+    <string name="clear_tip">Clear card info？</string>
+    <string name="no_share_app">no find share app</string>
     <string name="action_refresh">Refresh Image</string>
     <string name="action_zoom_in">Zoon In</string>
     <string name="action_zoom_out">Zoon Out</string>
@@ -32,6 +36,7 @@
     <string name="image_is_null">The size of image is too big.</string>
     <string name="file_dont_exist">File don\'t exist!</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_image">Image PreView</string>
     <string name="no_find_image_selector">no find image selector</string>
     <string name="no_find_image_cutor">no find image cutor</string>
     <string name="create_folder">New folder</string>

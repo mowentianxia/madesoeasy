@@ -33,6 +33,7 @@
         <activity
             android:name=".activities.PhotoViewActivity"
             android:screenOrientation="portrait"
+            android:label="@string/title_activity_image"
             android:theme="@style/AppTheme"/>
         <activity android:name=".activities.StyleListActivity"/>
         <activity android:name=".settings.PermissionsActivity"/>

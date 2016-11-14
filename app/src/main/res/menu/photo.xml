@@ -8,7 +8,7 @@
         app:showAsAction="always"/>
     <item
         android:id="@+id/nav_save_image"
-        android:icon="@drawable/ic_photo_white"
+        android:icon="@drawable/ic_menu_save_white"
         android:title="@string/save_image"
         app:showAsAction="always"/>
 </menu>
