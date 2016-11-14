@@ -113,6 +113,7 @@ public class Drawer {
      * 重置信息
      */
     public void reset() {
+        if(isEmpty())return;
         if (mDataProvider != null) {
             mDataProvider.reset();
             List<String> files = mDataProvider.getOutFiles();

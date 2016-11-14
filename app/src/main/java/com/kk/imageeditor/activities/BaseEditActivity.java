@@ -54,6 +54,9 @@ public abstract class BaseEditActivity extends BaseActivity implements ISelectIm
         return mDefaultData;
     }
 
+    /***
+     * 更新数据
+     */
     public void updateData() {
         mDefaultData.updateDatas(false);
     }
@@ -80,20 +83,35 @@ public abstract class BaseEditActivity extends BaseActivity implements ISelectIm
         return mDefaultData.getStyleInfo();
     }
 
+    /***
+     * 保存缓存
+     * @return
+     */
     protected boolean saveCache() {
         if (!mDefaultData.isLoad()) return false;
         return SaveUtil.saveSetCache(mDefaultData);
     }
 
+    /***
+     * 清理缓存
+     */
     protected void clearCache() {
         SaveUtil.clearTempSet(mDefaultData);
     }
 
+    /***
+     * 加载缓存
+     * @return
+     */
     protected boolean loadCache() {
         if (!mDefaultData.isLoad()) return false;
         return SaveUtil.loadSetCache(mDefaultData);
     }
 
+    /***
+     * 获取保存的名字
+     * @return
+     */
     protected String getSaveFileName() {
         return mDefaultData.getSaveFileName();
     }
