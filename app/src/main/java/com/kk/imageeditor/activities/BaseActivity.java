@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
-public class BaseActivity extends AppCompatActivity {
+import com.kk.imageeditor.settings.PermissionsActivity;
+
+class BaseActivity extends AppCompatActivity {
     protected static final int REQUEST_CODE = 1;
 
     protected String[] getPermissions() {

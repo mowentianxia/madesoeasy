@@ -258,8 +258,7 @@ public class Drawer {
         }
         if (style != null) {
             if (isXml) {
-                StyleInfo styleInfo = style.getStyleInfo();
-                style.setFile(getDataFile(style, zip));
+                style.setFile(getDataFile(style.getStyleInfo(), zip));
             } else {
                 style.setFile(zip);
             }
@@ -274,20 +273,17 @@ public class Drawer {
      * @param file  zip/xml
      * @return
      */
-    protected static String getDataFile(Style style, String file) {
-        if (TextUtils.isEmpty(file)) return "";
+    protected static String getDataFile(StyleInfo style, String xml) {
+        if (TextUtils.isEmpty(xml)) return "";
         if (style == null) {
-            return file.replace(".xml", ".zip");
+            return xml.replace(".xml", ".zip");
         } else {
-            file = style.getFile();
+            String file = style.getFilepath();
             if (!TextUtils.isEmpty(file)) {
                 if (FileUtil.exists(file)) {
                     return file;
                 } else {
-                    File f = FileUtil.file(FileUtil.getParent(file), file);
-                    if (f != null) {
-                        return f.getAbsolutePath();
-                    }
+                    return new File(FileUtil.getParent(xml), file).getAbsolutePath();
                 }
             }
         }

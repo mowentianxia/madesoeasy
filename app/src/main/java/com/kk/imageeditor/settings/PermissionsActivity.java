@@ -1,4 +1,4 @@
-package com.kk.imageeditor.activities;
+package com.kk.imageeditor.settings;
 
 import android.app.Activity;
 import android.app.Dialog;

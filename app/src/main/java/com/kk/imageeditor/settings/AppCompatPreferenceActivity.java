@@ -1,4 +1,4 @@
-package com.kk.imageeditor.activities;
+package com.kk.imageeditor.settings;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

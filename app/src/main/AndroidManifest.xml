@@ -35,9 +35,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
         <activity android:name=".activities.StyleListActivity"/>
-        <activity android:name=".activities.PermissionsActivity"/>
+        <activity android:name=".settings.PermissionsActivity"/>
         <activity
-            android:name=".activities.SettingsActivity"
+            android:name=".settings.SettingsActivity"
             android:label="@string/title_activity_settings">
         </activity>
     </application>

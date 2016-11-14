@@ -14,6 +14,11 @@
             android:icon="@drawable/ic_menu_save"
             android:title="@string/save_set"
             />
+        <item
+            android:id="@+id/nav_save_as"
+            android:icon="@drawable/ic_menu_save"
+            android:title="@string/save_as"
+            />
     </group>
 
     <item android:title="@string/menu_settings">

@@ -280,6 +280,11 @@ public abstract class IDataProvider {
     }
 
 
+    public String getDataFile() {
+        if (!isLoad()) return null;
+        return mStyle.getFile();
+    }
+
     protected void updateAllData(LayoutInfo pInfo, boolean init) {
         TextInfo[] texts = pInfo.getTexts();
         if (texts != null) {

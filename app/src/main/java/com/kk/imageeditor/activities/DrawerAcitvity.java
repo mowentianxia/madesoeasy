@@ -1,32 +1,42 @@
 package com.kk.imageeditor.activities;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.widget.Toast;
 
+import com.kk.imageeditor.R;
 import com.kk.imageeditor.activities.EditUIActivity;
 import com.kk.imageeditor.bean.StyleInfo;
 import com.kk.imageeditor.draw.Drawer;
 import com.kk.imageeditor.utils.FileUtil;
 import com.kk.imageeditor.widgets.ISelectImage;
+import com.kk.imageeditor.widgets.ISelectImageListener;
 
 import java.io.File;
 
-public class DrawerAcitvity extends EditUIActivity {
+public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
     private static final float SETP = 0.25f;
     private static final String PREF_FILE = "drawer.settings";
     private static final String KEY_SCALE = "scale";
     protected Drawer mDrawer;
-    private boolean firstRun = true;
     private String mSetFile;
     private SharedPreferences sharedPreferences;
-
+    private final static int CHOOSE_IMG = 0x20;
+    private final static int CUT_IMG = 0x10;
+    private final static int CAPTURE = 0x30;
+    private String selectFile;
+    private int selectWidth;
+    private int selectHeigth;
 
     @Override
     protected String[] getPermissions() {
@@ -97,34 +107,32 @@ public class DrawerAcitvity extends EditUIActivity {
      * @param file
      * @return
      */
-    protected boolean loadStyle(String file) {
-        if (mDrawer == null) return false;
-        if (!firstRun) {
+    protected Drawer.Error loadStyle(String file,boolean nocache) {
+        if (mDrawer == null) return Drawer.Error.UnknownError;
+        if (nocache) {
             clearCache();
         }
-        Drawer.Error error = mDrawer.loadStyle(file);
-        return error == Drawer.Error.None;
+        return mDrawer.loadStyle(file);
     }
 
     /***
      * 初始化视图在loadStyle成功后，调用
      */
-    protected void initStyle() {
+    protected void initStyle(boolean usechache) {
         if (mDrawer == null) return;
-        mScale = mDrawer.initViews(mScale);
-        setStyleInfo(getStyleInfo());
-        if (firstRun) {
+        mScale = mDrawer.initViews(0);
+        setStyleInfo(getStyleInfo(), getDefaultData().getDataFile());
+        if (usechache) {
             loadCache();
         }
         updateViews();
-        firstRun = false;
     }
 
-    protected void setStyleInfo(StyleInfo info) {
+    protected void setStyleInfo(StyleInfo info,String zip) {
 
     }
 
-    protected boolean checkDrawer(){
+    protected boolean checkDrawer() {
         return mDrawer == null;
     }
 
@@ -182,7 +190,7 @@ public class DrawerAcitvity extends EditUIActivity {
     protected void saveSet(String file) {
         if (!checkDrawer()) return;
         if (file == null) {
-            if(mSetFile==null) {
+            if (mSetFile == null) {
                 return;
             }
             file = mSetFile;
@@ -203,6 +211,101 @@ public class DrawerAcitvity extends EditUIActivity {
 
     @Override
     protected ISelectImage getSelectImage() {
-        return null;
+        return this;
+    }
+
+    private ISelectImageListener listener;
+
+    @Override
+    public void setListener(ISelectImageListener listener) {
+        if (this.listener == listener) {
+            return;
+        }
+        this.listener = listener;
+    }
+
+    @Override
+    public void startPhotoCut(String saveFile, int width, int height, boolean needSelect) {
+        if (TextUtils.isEmpty(saveFile)) return;
+        selectFile = saveFile;
+        selectWidth = width;
+        selectHeigth = height;
+        FileUtil.createDirByFile(saveFile);
+        if (needSelect) {// 浏览图片
+            Intent intent = new Intent(Intent.ACTION_PICK, null);
+            intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    "image/*");
+            this.startActivityForResult(intent, CHOOSE_IMG);
+        } else {// 拍照
+            Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            // 下面这句指定调用相机拍照后的照片存储的路径
+            File f = FileUtil.file(saveFile + ".tmp");
+            if (f != null && f.exists()) {// 删除旧文件
+                f.delete();
+            }
+            intent2.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+            try {
+                this.startActivityForResult(intent2, CAPTURE);
+            } catch (Exception e) {
+                Toast.makeText(this, R.string.no_find_image_selector, Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    protected void openPhotoCut(Uri uri, String saveFile, int width, int height) {
+        // 裁剪图片
+        if (TextUtils.isEmpty(saveFile)) return;
+        File file = FileUtil.file(saveFile);
+        if (file == null) return;
+        Uri saveimgUri = Uri.fromFile(file);
+
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        // 下面这个crop=true是设置在开启的Intent中设置显示的VIEW可裁剪
+        intent.putExtra("crop", "true");
+        // aspectX aspectY 是宽高的比例
+        intent.putExtra("aspectX", width);
+        intent.putExtra("aspectY", height);
+        // outputX outputY 是裁剪图片宽高
+        intent.putExtra("outputX", width);
+        intent.putExtra("outputY", height);
+        intent.putExtra("scale", true);// 黑边
+        intent.putExtra("scaleUpIfNeeded", true);// 黑边
+
+        intent.putExtra("return-data", false);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, saveimgUri);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
+        try {
+            startActivityForResult(intent, CUT_IMG);
+        } catch (Exception e) {
+            Toast.makeText(this, R.string.no_find_image_cutor, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CHOOSE_IMG) {// 选择图片
+            if (data != null) {
+                Uri uri = data.getData();
+                if (uri != null) {
+                    openPhotoCut(uri, selectFile, selectWidth, selectHeigth);
+                }
+            }
+            return;
+        } else if (requestCode == CUT_IMG) {// 裁剪完图片
+            if (listener != null) {
+                listener.onCurImageCompleted(selectFile);
+            }
+        } else if (requestCode == CAPTURE) {
+            File f = FileUtil.file(selectFile + ".tmp");
+            if (f != null && f.exists()) {// 拍照的临时图片
+                openPhotoCut(Uri.fromFile(f), selectFile, selectWidth, selectHeigth);
+            } else {
+                if (listener != null) {
+                    listener.onCurImageCompleted(selectFile);
+                }
+            }
+        }
     }
 }

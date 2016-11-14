@@ -42,7 +42,7 @@ import com.kk.imageeditor.widgets.ISelectImageListener;
 import java.io.File;
 import java.util.List;
 
-public abstract class EditUIActivity extends BaseActivity implements ISelectImageListener {
+abstract class EditUIActivity extends BaseActivity implements ISelectImageListener {
     protected int itemHeight;
     protected float mScale;
 
@@ -153,6 +153,7 @@ public abstract class EditUIActivity extends BaseActivity implements ISelectImag
                     String file = pIData.getTempPath(name);
                     int width = Math.round(Math.max(data.width, data.width * mScale));
                     int height = Math.round(Math.max(data.height, data.height * mScale));
+                    getSelectImage().setListener(this);
                     getSelectImage().startPhotoCut(file, width, height, true);
                 }
                 break;
@@ -339,10 +340,13 @@ public abstract class EditUIActivity extends BaseActivity implements ISelectImag
             builder.setTitle(title);
         if (!TextUtils.isEmpty(message))
             builder.setMessage(message);
-        if (view != null)
+        if (view != null) {
             builder.setView(view);
+        }
         builder.setNegativeButton(android.R.string.ok, ok);
-        builder.setPositiveButton(android.R.string.cancel, cancel);
+        if(cancel!=null) {
+            builder.setPositiveButton(android.R.string.cancel, cancel);
+        }
         Dialog dialog = builder.create();
         dialog.setCanceledOnTouchOutside(false);
         dialog.setOnCancelListener(oncancel);
