@@ -37,6 +37,7 @@ public class Drawer {
     protected View mView;
     protected int maxWidth;
     protected int maxHeight;
+    private float mScale;
     public static final long Version = 3;
 
     public enum Error {
@@ -113,6 +114,7 @@ public class Drawer {
      * 重置信息
      */
     public void reset() {
+        if (isEmpty()) return;
         if (mDataProvider != null) {
             mDataProvider.reset();
             List<String> files = mDataProvider.getOutFiles();
@@ -257,8 +259,7 @@ public class Drawer {
         }
         if (style != null) {
             if (isXml) {
-                StyleInfo styleInfo = style.getStyleInfo();
-                style.setFile(getDataFile(style, zip));
+                style.setFile(getDataFile(style.getStyleInfo(), zip));
             } else {
                 style.setFile(zip);
             }
@@ -270,23 +271,20 @@ public class Drawer {
      * 获取数据包
      *
      * @param style 样式
-     * @param file  zip/xml
+     * @param xml   zip/xml
      * @return
      */
-    protected static String getDataFile(Style style, String file) {
-        if (TextUtils.isEmpty(file)) return "";
+    protected static String getDataFile(StyleInfo style, String xml) {
+        if (TextUtils.isEmpty(xml)) return "";
         if (style == null) {
-            return file.replace(".xml", ".zip");
+            return xml.replace(".xml", ".zip");
         } else {
-            file = style.getFile();
+            String file = style.getFilepath();
             if (!TextUtils.isEmpty(file)) {
                 if (FileUtil.exists(file)) {
                     return file;
                 } else {
-                    File f = FileUtil.file(FileUtil.getParent(file), file);
-                    if (f != null) {
-                        return f.getAbsolutePath();
-                    }
+                    return new File(FileUtil.getParent(xml), file).getAbsolutePath();
                 }
             }
         }
@@ -353,9 +351,7 @@ public class Drawer {
      */
     public float getDefaultScale() {
         if (isEmpty()) return 1.0f;
-        if (DEBUG) {
-            Log.i("kk", mStyle.getWidth() + "/" + maxWidth + "," + mStyle.getHeight() + "/" + maxHeight);
-        }
+//        Log.i("msoe", mStyle.getWidth() + "/" + maxWidth + "," + mStyle.getHeight() + "/" + maxHeight);
         float s = ScaleHelper.getScale(maxWidth, maxHeight, mStyle.getWidth(), mStyle.getHeight());
         return s;
     }
@@ -370,6 +366,10 @@ public class Drawer {
         return BitmapUtil.getBitmap(mView);
     }
 
+    public float getScale() {
+        return mScale;
+    }
+
     /***
      * 缩放
      *
@@ -378,6 +378,10 @@ public class Drawer {
      */
     protected void scale(View view, float sc) {
         if (isEmpty()) return;
+        if (sc <= 0) {
+            sc = getDefaultScale();
+        }
+        mScale = sc;
         mStyle.setScale(sc);
         if (view == null) return;
         if (view instanceof ViewGroup) {

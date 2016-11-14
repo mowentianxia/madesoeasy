@@ -18,7 +18,7 @@ class ScaleHelper {
 
     public static float getScale(float srcWidth, float srcHeight, float destWidth, float destHeight) {
         float sx = srcWidth / destWidth;
-        float sy = srcHeight / destHeight;
+        float sy = srcHeight == 0 ? (sx + 1.0f) : (srcHeight / destHeight);
         return Math.min(sx, sy);
     }
 

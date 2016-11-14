@@ -116,14 +116,13 @@ public class BitmapUtil {
                 maxH = Math.min(maxH, h);
             }
             BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            options.inDither = false;
-
+//            options.inJustDecodeBounds = true;
+//            options.inDither = false;
+//            BitmapFactory.decodeStream(drawinput, null, options);
+//            options.inSampleSize = (int) ((options.outHeight / maxH + options.outWidth / maxW) / 2.0f);
+            options.inJustDecodeBounds = false;
             options.inPurgeable = true;
             options.inInputShareable = true;
-            BitmapFactory.decodeStream(drawinput, null, options);
-            options.inSampleSize = (int) ((options.outHeight / maxH + options.outWidth / maxW) / 2.0f);
-            options.inJustDecodeBounds = false;
             b = BitmapFactory.decodeStream(drawinput, null, options);
         } catch (Exception e) {
             e.printStackTrace();

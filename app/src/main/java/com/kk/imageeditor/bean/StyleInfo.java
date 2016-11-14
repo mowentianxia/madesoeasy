@@ -21,8 +21,12 @@ public class StyleInfo extends IXmlElement {
     /**
      * style file path
      */
-    @XmlElement("filepath")
-    public String filepath;
+    @XmlElement("url")
+    private String filepath;
+
+    public String getFilepath() {
+        return filepath;
+    }
 
     public StyleInfo() {
         author = "author name";

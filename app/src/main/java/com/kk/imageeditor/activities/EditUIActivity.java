@@ -40,9 +40,10 @@ import com.kk.imageeditor.widgets.ISelectImageListener;
 import java.io.File;
 import java.util.List;
 
-public abstract class BaseEditActivity extends BaseActivity implements ISelectImageListener {
+abstract class EditUIActivity extends BaseActivity implements ISelectImageListener {
     protected int itemHeight;
-    protected float mScale;
+
+    protected SelectElement tmpSelectElement;
 
     protected abstract void updateViews();
 
@@ -52,12 +53,6 @@ public abstract class BaseEditActivity extends BaseActivity implements ISelectIm
         return mDefaultData;
     }
 
-    public void updateData() {
-        mDefaultData.updateDatas(false);
-    }
-
-    protected SelectElement tmpSelectElement;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +60,16 @@ public abstract class BaseEditActivity extends BaseActivity implements ISelectIm
         itemHeight = Math.round(Math.max(dm.widthPixels, dm.heightPixels) / getDefaultHeight(dm));
     }
 
+    /***
+     * 更新数据
+     */
+    public void updateData() {
+        mDefaultData.updateDatas(false);
+    }
+
+    /***
+     * 默认元素的高度
+     */
     protected float getDefaultHeight(DisplayMetrics dm) {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15.0f, dm);
     }
@@ -78,20 +83,35 @@ public abstract class BaseEditActivity extends BaseActivity implements ISelectIm
         return mDefaultData.getStyleInfo();
     }
 
+    /***
+     * 保存缓存
+     * @return
+     */
     protected boolean saveCache() {
         if (!mDefaultData.isLoad()) return false;
         return SaveUtil.saveSetCache(mDefaultData);
     }
 
+    /***
+     * 清理缓存
+     */
     protected void clearCache() {
         SaveUtil.clearTempSet(mDefaultData);
     }
 
+    /***
+     * 加载缓存
+     * @return
+     */
     protected boolean loadCache() {
         if (!mDefaultData.isLoad()) return false;
         return SaveUtil.loadSetCache(mDefaultData);
     }
 
+    /***
+     * 获取保存的名字
+     * @return
+     */
     protected String getSaveFileName() {
         return mDefaultData.getSaveFileName();
     }
@@ -100,6 +120,17 @@ public abstract class BaseEditActivity extends BaseActivity implements ISelectIm
         return mDefaultData.getValue(name);
     }
 
+    @Override
+    public void onSelectImage(String path) {
+
+    }
+
+    @Override
+    public void onCurImageCompleted(String path) {
+        onEditCompleted(path);
+    }
+
+    //region 编辑事件处理
     protected boolean onStartEdit(IDataProvider pIData, ViewData data, SelectElement pSelectElement) {
         if (pSelectElement == null) {
             return false;
@@ -117,9 +148,8 @@ public abstract class BaseEditActivity extends BaseActivity implements ISelectIm
                         name = pIData.dealString(pSelectElement.getDefault());
                     }
                     String file = pIData.getTempPath(name);
-                    int width = Math.round(Math.max(data.width, data.width * mScale));
-                    int height = Math.round(Math.max(data.height, data.height * mScale));
-                    getSelectImage().startPhotoCut(file, width, height, true);
+                    getSelectImage().setListener(this);
+                    getSelectImage().startPhotoCut(file, (int)data.width, (int)data.height, true);
                 }
                 break;
             case select:
@@ -144,25 +174,9 @@ public abstract class BaseEditActivity extends BaseActivity implements ISelectIm
         }
         return false;
     }
+    //endregion
 
-    protected boolean onSave(IDataProvider pIData, File file) {
-        return SaveUtil.saveSet(pIData, file.getAbsolutePath());
-    }
-
-    protected boolean onLoad(IDataProvider pIData, File file) {
-        return SaveUtil.loadSet(pIData, file.getAbsolutePath());
-    }
-
-    @Override
-    public void onSelectImage(String path) {
-
-    }
-
-    @Override
-    public void onCurImageCompleted(String path) {
-        onEditCompleted(path);
-    }
-
+    //region 编辑UI
     protected ViewGroup.LayoutParams getItemLayoutParams() {
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, itemHeight);
@@ -321,16 +335,21 @@ public abstract class BaseEditActivity extends BaseActivity implements ISelectIm
             builder.setTitle(title);
         if (!TextUtils.isEmpty(message))
             builder.setMessage(message);
-        if (view != null)
+        if (view != null) {
             builder.setView(view);
+        }
         builder.setNegativeButton(android.R.string.ok, ok);
-        builder.setPositiveButton(android.R.string.cancel, cancel);
+        if(cancel!=null) {
+            builder.setPositiveButton(android.R.string.cancel, cancel);
+        }
         Dialog dialog = builder.create();
         dialog.setCanceledOnTouchOutside(false);
         dialog.setOnCancelListener(oncancel);
         dialog.show();
     }
+    //endregion
 
+    //region 内容提供
     private final IDataProvider mDefaultData = new IDataProvider(this) {
         @Override
         public boolean onEdit(IKView pIKView) {
@@ -340,13 +359,14 @@ public abstract class BaseEditActivity extends BaseActivity implements ISelectIm
 
         @Override
         public boolean save(File file) {
-            return onSave(this, file);
+            return SaveUtil.saveSet(this, file.getAbsolutePath());
         }
 
         @Override
         public boolean load(File file) {
-            return onLoad(this, file);
+            return SaveUtil.loadSet(this, file.getAbsolutePath());
         }
     };
+    //endregion
 
 }

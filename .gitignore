@@ -33,3 +33,5 @@ gradlew
 gradle/
 gradlew.bat
 
+/app/assets/*.zip
+/app/assets/style/*.zip
