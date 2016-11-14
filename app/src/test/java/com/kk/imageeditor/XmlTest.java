@@ -1,4 +1,5 @@
 package com.kk.imageeditor;
+import com.kk.imageeditor.bean.SaveInfo;
 import com.kk.imageeditor.utils.XmlUtils;
 
 import net.kk.xml.IXmlElement;
@@ -68,8 +69,19 @@ public class XmlTest {
                 "<c>a</c>"+
                 "<c>e</c>"+
                 "</a>";
-        A a = XmlUtils.getObject(A.class, xml);
+        A a = XmlUtils.getStyleUtils().getObject(A.class, xml);
         a.make();
         System.out.print(a);
+    }
+
+    @Test
+    public void testSet() throws Exception {
+        SaveInfo saveInfo=new SaveInfo();
+        saveInfo.values.put("a", "b");
+        System.out.print(saveInfo.values);
+        String xml = XmlUtils.getSetUtils().toXml(saveInfo);
+        saveInfo=XmlUtils.getSetUtils().getObject(SaveInfo.class, xml);
+        System.out.print(saveInfo.values);
+
     }
 }

@@ -13,8 +13,16 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class XmlUtils {
-
-    private static final XmlOptions options=new XmlOptions.Builder().useSpace().dontUseSetMethod()
+//    private static final XmlOptions OPTIONS2 = new XmlOptions.Builder().useSpace().dontUseSetMethod()
+//            .enableSameAsList()
+////            .registerConstructorAdapter(Location.class, new XmlConstructorAdapter() {
+////                @Override
+////                public <T> T create(Class<T> aClass, Object o) {
+////                    return (T) new Location(LocationManager.GPS_PROVIDER);
+////                }
+////            })
+//            .build();
+    private static final XmlOptions OPTIONS = new XmlOptions.Builder().useSpace().dontUseSetMethod()
             .enableSameAsList()
 //            .registerConstructorAdapter(Location.class, new XmlConstructorAdapter() {
 //                @Override
@@ -23,24 +31,40 @@ public class XmlUtils {
 //                }
 //            })
             .build();
+    XmlOptions options;
 
-    public static String toXml(Object object) throws Exception {
+    private static final XmlUtils STYLE = new XmlUtils(OPTIONS);
+//    private static final XmlUtils SET = new XmlUtils(OPTIONS2);
+
+    public static XmlUtils getStyleUtils() {
+        return STYLE;
+    }
+
+    public static XmlUtils getSetUtils() {
+        return STYLE;
+    }
+
+    private XmlUtils(XmlOptions options) {
+        this.options = options;
+    }
+
+    public void saveXml(Object object, OutputStream outputStream) throws Exception {
+        XmlWriter writer = new XmlWriter(XmlPullParserFactory.newInstance().newSerializer(), options);
+        writer.toXml(object, outputStream, null);
+    }
+
+    public String toXml(Object object) throws Exception {
         ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
         saveXml(object, arrayOutputStream);
         return new String(arrayOutputStream.toByteArray());
     }
-    public static void saveXml(Object object, OutputStream outputStream) throws Exception {
-        XmlWriter writer = new XmlWriter(XmlPullParserFactory.newInstance().newSerializer(), options);
-        writer.toXml(object, outputStream, null);
-    }
-    public static <T> T getObject(Class<T> tClass, InputStream inputStream) throws Exception {
-        T t = null;
+
+    public <T> T getObject(Class<T> tClass, InputStream inputStream) throws Exception {
         XmlReader reader = new XmlReader(XmlPullParserFactory.newInstance().newPullParser(), options);
-        t = reader.from(inputStream, tClass, null, null);
-        return t;
+        return reader.from(inputStream, tClass, null, null);
     }
 
-    public static <T> T getObject(Class<T> tClass, String xml) throws Exception {
+    public <T> T getObject(Class<T> tClass, String xml) throws Exception {
         if (xml == null) {
             return null;
         }

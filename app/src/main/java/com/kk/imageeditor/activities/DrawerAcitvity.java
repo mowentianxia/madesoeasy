@@ -2,7 +2,6 @@ package com.kk.imageeditor.activities;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,7 +25,6 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
     private static final float SETP = 0.25f;
     protected Drawer mDrawer;
     private String mSetFile;
-    private SharedPreferences sharedPreferences;
     private final static int CHOOSE_IMG = 0x20;
     private final static int CUT_IMG = 0x10;
     private final static int CAPTURE = 0x30;

@@ -34,10 +34,8 @@ import com.kk.imageeditor.utils.GravityUtil;
 import com.kk.imageeditor.utils.JudgUtils;
 import com.kk.imageeditor.view.IKView;
 
-
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -244,9 +242,6 @@ public abstract class IDataProvider {
         for (BooleanElement be : booleanInfos) {
             String name = be.getName();
             boolean value = JudgUtils.getBoolean(dealString(be.getValue()), false);
-            if (Drawer.DEBUG) {
-                Log.d("kk", "bool " + name + "=" + value);
-            }
             bools.put(name, value);
         }
     }
@@ -335,10 +330,12 @@ public abstract class IDataProvider {
             String oldfile = getTempPath(imageData.file_src);
             String newfile = getTempPath(file_src);
             if (!FileUtil.exists(newfile)) {
-                if (Drawer.DEBUG) {
-                    Log.i("kk", "rename " + oldfile + " " + newfile);
+                if(!TextUtils.equals(oldfile, newfile)) {
+                    if (Drawer.DEBUG) {
+                        Log.i("kk", "rename " + oldfile + " " + newfile);
+                    }
+                    FileUtil.rename(oldfile, newfile);
                 }
-                FileUtil.rename(oldfile, newfile);
             }
         }
         if (outfile || !TextUtils.equals(file_src, imageData.file_src)) {
@@ -359,9 +356,6 @@ public abstract class IDataProvider {
         }
         String colorStr = dealString(getValue(pInfo.getColor()));
         data.color = toColor(colorStr);
-        if (Drawer.DEBUG) {
-            Log.i("kk", "colors=" + Arrays.toString(pInfo.getColor()) + " " + colorStr + " " + String.format("0x%x", data.color));
-        }
         data.singleline = pInfo.isSingleline();
         data.keepWord = pInfo.isKeepWord();
         data.lineSpace = pInfo.getLineSpace();

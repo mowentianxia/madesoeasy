@@ -4,12 +4,9 @@ package com.kk.imageeditor.utils;
 import android.text.TextUtils;
 import android.util.Log;
 
-
 import com.kk.imageeditor.BuildConfig;
 import com.kk.imageeditor.bean.SaveInfo;
 import com.kk.imageeditor.draw.IDataProvider;
-
-import net.kk.xml.XmlReader;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -52,6 +49,7 @@ public class SaveUtil {
                     }
                     values2.put(k, e.getValue());
                 }
+                Log.i("msoe", "laod set1:"+values2);
                 pIData.updateValues(values2);
             }
 
@@ -95,15 +93,20 @@ public class SaveUtil {
             ZipUtil.unzip(file, dir);// 解压
             String setF = new File(dir, ZIP_SET).getAbsolutePath();
             SaveInfo saveInfo = null;
+            FileInputStream inputStream=null;
             try {
-                saveInfo = XmlUtils.getObject(SaveInfo.class, setF);
+                inputStream=new FileInputStream(setF);
+                saveInfo = XmlUtils.getSetUtils().getObject(SaveInfo.class, inputStream);
             } catch (Exception e) {
                 e.printStackTrace();
+            }finally {
+                FileUtil.close(inputStream);
             }
             if (saveInfo != null) {
                 if (BuildConfig.DEBUG) {
                     Log.v("kk", "" + saveInfo);
                 }
+                Log.i("msoe", "laod set2:"+saveInfo.values);
                 pIData.updateValues(saveInfo.values);
             }
             return true;
@@ -119,7 +122,7 @@ public class SaveUtil {
         InputStream inputStream = null;
         try {
             inputStream = new FileInputStream(setF);
-            saveInfo = XmlUtils.getObject(SaveInfo.class, inputStream);
+            saveInfo = XmlUtils.getSetUtils().getObject(SaveInfo.class, inputStream);
         } catch (Exception e) {
             if (BuildConfig.DEBUG) {
                 Log.e("kk", "" + e.toString() + " " + e.getCause());
@@ -154,7 +157,7 @@ public class SaveUtil {
         OutputStream outputStream = null;
         try {
             outputStream = new FileOutputStream(setFile);
-            XmlUtils.saveXml(saveInfo, outputStream);
+            XmlUtils.getSetUtils().saveXml(saveInfo, outputStream);
         } catch (Exception e) {
             if (BuildConfig.DEBUG) {
                 Log.e("kk", "" + e.toString() + " " + e.getCause());
@@ -183,7 +186,7 @@ public class SaveUtil {
         OutputStream outputStream = null;
         try {
             outputStream = new FileOutputStream(setFile);
-            XmlUtils.saveXml(saveInfo, outputStream);
+            XmlUtils.getSetUtils().saveXml(saveInfo, outputStream);
         } catch (Exception e) {
             if (BuildConfig.DEBUG) {
                 Log.e("kk", "" + e.toString() + " " + e.getCause());

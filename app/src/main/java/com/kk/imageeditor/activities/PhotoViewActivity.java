@@ -34,7 +34,7 @@ public class PhotoViewActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo);
-//        setActionBarTitle(R.string.);
+        enableBackHome();
         mPhotoView = (PhotoView) findViewById(R.id.pv_main);
         if (loadItem(getIntent())) {
             loadImage();

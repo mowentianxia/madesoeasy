@@ -216,10 +216,6 @@ public class Drawer {
             if (viewData != null) {
                 ikView.update(viewData);
             }
-        } else {
-            if (DEBUG) {
-                Log.w("kk", view + " update null");
-            }
         }
     }
 
@@ -246,7 +242,7 @@ public class Drawer {
                 }
             }
             if (inputStream != null) {
-                style = XmlUtils.getObject(Style.class, inputStream);
+                style = XmlUtils.getStyleUtils().getObject(Style.class, inputStream);
             }
         } catch (Exception e) {
             e.printStackTrace();

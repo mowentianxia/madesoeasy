@@ -10,6 +10,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ import com.kk.imageeditor.widgets.ISelectImageListener;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 abstract class EditUIActivity extends BaseActivity implements ISelectImageListener {
     protected int itemHeight;
@@ -149,10 +151,10 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
                 }
                 break;
             case select:
-                showComboox(pIData, pSelectElement);
+                showComboBox(pIData, pSelectElement);
                 break;
             case multi_select:
-                showMultiCombobox(pIData, pSelectElement);
+                showMultiComboBox(pIData, pSelectElement);
                 break;
             case text:
                 if (data instanceof TextData) {
@@ -213,22 +215,22 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
         lp.leftMargin = 10;
         lp.rightMargin = 10;
         textView.setLayoutParams(lp);
-//        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         textView.setGravity(Gravity.CENTER_VERTICAL);
         return textView;
     }
 
-    protected void showComboox(IDataProvider pIData, SelectElement pSelectElement) {
+    protected void showComboBox(IDataProvider pIData, SelectElement pSelectElement) {
         if (pSelectElement == null)
             return;
         String value = pIData.getValue(pSelectElement.getName());
         final Spinner sp = createSpinner(value, pSelectElement.getItems());
         showDialog(pSelectElement.getDesc(), (v, w) -> {
             onEditCompleted(getSpinnerValue(sp));
-        }, null, null, sp);
+        }, (v,s)->{}, null, sp);
     }
 
-    protected void showMultiCombobox(IDataProvider pIData, SelectElement pSelectElement) {
+    protected void showMultiComboBox(IDataProvider pIData, SelectElement pSelectElement) {
         if (pSelectElement == null)
             return;
         List<SubItem> items = pSelectElement.getItems();
@@ -268,7 +270,7 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
                 }
             }
             onEditCompleted(values);
-        }, null, null, views);
+        }, (v,s)->{}, null, views);
     }
 
     @SuppressWarnings("deprecation")
@@ -298,7 +300,7 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
         final EditText editText = createInputText(defalutValue, singleLine);
         showDialog(desc, (v, w) -> {
             onEditCompleted("" + editText.getText());
-        }, null, null, editText);
+        }, (v,s)->{}, null, editText);
     }
 
     private void showDialog(String title,
@@ -324,7 +326,7 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
                            int dialogTheme,
                            final DialogInterface.OnClickListener ok,
                            final DialogInterface.OnClickListener cancel,
-                           final DialogInterface.OnCancelListener oncancel) {
+                           final DialogInterface.OnCancelListener onCancel) {
         AlertDialog.Builder builder;
         if (dialogTheme != 0) {
             builder = new AlertDialog.Builder(this, dialogTheme);
@@ -338,13 +340,13 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
         if (view != null) {
             builder.setView(view);
         }
-        builder.setNegativeButton(android.R.string.ok, ok);
-        if (cancel != null) {
-            builder.setPositiveButton(android.R.string.cancel, cancel);
+        builder.setPositiveButton(android.R.string.ok, ok);
+        if(cancel!=null) {
+            builder.setNegativeButton(android.R.string.cancel, cancel);
         }
         Dialog dialog = builder.create();
         dialog.setCanceledOnTouchOutside(false);
-        dialog.setOnCancelListener(oncancel);
+        dialog.setOnCancelListener(onCancel);
         dialog.show();
     }
     //endregion
@@ -365,6 +367,11 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
         @Override
         public boolean load(File file) {
             return SaveUtil.loadSet(this, file.getAbsolutePath());
+        }
+
+        @Override
+        public void updateValues(Map<String, String> datas) {
+            super.updateValues(datas);
         }
     };
     //endregion

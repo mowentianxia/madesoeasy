@@ -333,6 +333,9 @@ public class MainActivity extends DrawerAcitvity
             case R.id.nav_about:
                 showAboutInfo();
                 break;
+            case R.id.nav_quit:
+                finish();
+                break;
         }
         mDrawerlayout.closeDrawer(GravityCompat.START);
         return true;
