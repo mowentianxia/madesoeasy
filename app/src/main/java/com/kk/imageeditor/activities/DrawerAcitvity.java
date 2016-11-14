@@ -140,7 +140,7 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
      * 最适合比例
      */
     protected void zoomFit() {
-        if (!checkDrawer()) return;
+        if (checkDrawer()) return;
         mScale = mDrawer.scaleFit();
     }
 
@@ -148,7 +148,7 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
      * 缩小视图
      */
     protected void zoomOut() {
-        if (!checkDrawer()) return;
+        if (checkDrawer()) return;
         float s = mScale - SETP;
         if (s <= SETP)
             s = SETP;
@@ -159,7 +159,7 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
      * 放大视图
      */
     protected void zoomIn() {
-        if (!checkDrawer()) return;
+        if (checkDrawer()) return;
         float s = mScale + SETP;
         scaleTo(s);
     }
@@ -176,7 +176,7 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
      * 加载存档
      */
     protected void loadSet(File file) {
-        if (!checkDrawer()) return;
+        if (checkDrawer()) return;
         if (file == null || !file.exists()) return;
         mSetFile = file.getAbsolutePath();
         mDrawer.reset();
@@ -188,7 +188,7 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
      * 保存存档
      */
     protected void saveSet(String file) {
-        if (!checkDrawer()) return;
+        if (checkDrawer()) return;
         if (file == null) {
             if (mSetFile == null) {
                 return;
@@ -205,7 +205,7 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
 
     @Override
     protected void updateViews() {
-        if (!checkDrawer()) return;
+        if (checkDrawer()) return;
         mDrawer.updateViews();
     }
 

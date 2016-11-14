@@ -175,9 +175,10 @@ public class MainActivity extends DrawerAcitvity
     }
 
     @Override
-    protected void setStyleInfo(StyleInfo info,String zip) {
+    protected void setStyleInfo(StyleInfo info, String zip) {
         super.setStyleInfo(info, zip);
         if (info != null) {
+            Log.i("msoe", "zip=" + zip);
             if (headImageView != null) {
                 Bitmap icon = ImageLoader.getBitmapFormZip(zip, info.getIcon(), 0, 0);
                 headImageView.setImageBitmap(icon);
@@ -232,7 +233,7 @@ public class MainActivity extends DrawerAcitvity
     @Override
     protected boolean checkDrawer() {
         boolean rs = super.checkDrawer();
-        if (!rs) {
+        if (rs) {
             Snackbar.make(mDrawerlayout, R.string.need_select_style, Snackbar.LENGTH_LONG)
                     .setAction(R.string.select_style, (v) -> {
                         openStyleList();
@@ -293,15 +294,15 @@ public class MainActivity extends DrawerAcitvity
                 resetData();
                 break;
             case R.id.nav_save_set:
-                if (!checkDrawer()) return true;
+                if (checkDrawer()) return true;
                 saveSetInfo(true);
                 break;
             case R.id.nav_save_as:
-                if (!checkDrawer()) return true;
+                if (checkDrawer()) return true;
                 saveSetInfo(false);
                 break;
             case R.id.nav_load_set:
-                if (!checkDrawer()) return true;
+                if (checkDrawer()) return true;
                 openFromSelect();
                 break;
             case R.id.nav_style_list:

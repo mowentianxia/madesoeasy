@@ -37,7 +37,7 @@ public class StyleControllor extends BaseControllor {
     }
 
     public boolean isChangedStyle() {
-        return mCurStyle != null && TextUtils.equals(mCurStyle, lastStyle);
+        return lastStyle!=null && mCurStyle != null && TextUtils.equals(mCurStyle, lastStyle);
     }
 
     public void setCurStyle(String file) {

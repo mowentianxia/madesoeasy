@@ -113,7 +113,7 @@ public class Drawer {
      * 重置信息
      */
     public void reset() {
-        if(isEmpty())return;
+        if (isEmpty()) return;
         if (mDataProvider != null) {
             mDataProvider.reset();
             List<String> files = mDataProvider.getOutFiles();
@@ -270,7 +270,7 @@ public class Drawer {
      * 获取数据包
      *
      * @param style 样式
-     * @param file  zip/xml
+     * @param xml  zip/xml
      * @return
      */
     protected static String getDataFile(StyleInfo style, String xml) {
@@ -375,6 +375,9 @@ public class Drawer {
      */
     protected void scale(View view, float sc) {
         if (isEmpty()) return;
+        if (sc <= 0) {
+            sc = getDefaultScale();
+        }
         mStyle.setScale(sc);
         if (view == null) return;
         if (view instanceof ViewGroup) {
