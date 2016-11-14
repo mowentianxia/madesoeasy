@@ -2,14 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group>
         <item
-            android:id="@+id/nav_share"
-            android:icon="@drawable/ic_menu_share"
-            android:title="@string/share"/>
-        <item
-            android:id="@+id/nav_send"
-            android:icon="@drawable/ic_photo"
-            android:title="@string/save_image"/>
-        <item
             android:id="@+id/nav_reset"
             android:icon="@drawable/ic_refresh"
             android:title="@string/reset_info"/>
@@ -27,7 +19,7 @@
     <item android:title="@string/menu_settings">
         <menu>
             <item
-                android:id="@+id/nav_gallery"
+                android:id="@+id/nav_style_list"
                 android:icon="@drawable/ic_menu_gallery"
                 android:title="@string/select_style"/>
 

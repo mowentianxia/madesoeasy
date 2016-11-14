@@ -13,7 +13,7 @@
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/nav_preview"
+        android:id="@+id/action_preview"
         android:icon="@drawable/ic_photo_white"
         android:title="@string/preview"
         app:showAsAction="always"

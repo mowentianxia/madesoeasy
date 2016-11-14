@@ -124,11 +124,15 @@ public class DrawerAcitvity extends EditUIActivity {
 
     }
 
+    protected boolean checkDrawer(){
+        return mDrawer == null;
+    }
+
     /***
      * 最适合比例
      */
     protected void zoomFit() {
-        if (mDrawer == null) return;
+        if (!checkDrawer()) return;
         mScale = mDrawer.scaleFit();
     }
 
@@ -136,7 +140,7 @@ public class DrawerAcitvity extends EditUIActivity {
      * 缩小视图
      */
     protected void zoomOut() {
-        if (mDrawer == null) return;
+        if (!checkDrawer()) return;
         float s = mScale - SETP;
         if (s <= SETP)
             s = SETP;
@@ -147,7 +151,7 @@ public class DrawerAcitvity extends EditUIActivity {
      * 放大视图
      */
     protected void zoomIn() {
-        if (mDrawer == null) return;
+        if (!checkDrawer()) return;
         float s = mScale + SETP;
         scaleTo(s);
     }
@@ -164,7 +168,7 @@ public class DrawerAcitvity extends EditUIActivity {
      * 加载存档
      */
     protected void loadSet(File file) {
-        if (mDrawer == null) return;
+        if (!checkDrawer()) return;
         if (file == null || !file.exists()) return;
         mSetFile = file.getAbsolutePath();
         mDrawer.reset();
@@ -176,15 +180,24 @@ public class DrawerAcitvity extends EditUIActivity {
      * 保存存档
      */
     protected void saveSet(String file) {
-        if (mDrawer == null) return;
-        if (file == null) return;
+        if (!checkDrawer()) return;
+        if (file == null) {
+            if(mSetFile==null) {
+                return;
+            }
+            file = mSetFile;
+        }
         mSetFile = file;
         mDrawer.saveSet(FileUtil.file(file));
     }
 
+    public String getSetFile() {
+        return mSetFile;
+    }
+
     @Override
     protected void updateViews() {
-        if (mDrawer == null) return;
+        if (!checkDrawer()) return;
         mDrawer.updateViews();
     }
 
