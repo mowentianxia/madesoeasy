@@ -3,9 +3,7 @@ package com.kk.imageeditor.activities;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
@@ -125,10 +123,10 @@ public abstract class BaseEditActivity extends BaseActivity implements ISelectIm
                 }
                 break;
             case select:
-                showComobox(pIData, pSelectElement);
+                showComboox(pIData, pSelectElement);
                 break;
             case multi_select:
-                showMultiComobox(pIData, pSelectElement);
+                showMultiCombobox(pIData, pSelectElement);
                 break;
             case text:
                 if (data instanceof TextData) {
@@ -210,7 +208,7 @@ public abstract class BaseEditActivity extends BaseActivity implements ISelectIm
         return textView;
     }
 
-    protected void showComobox(IDataProvider pIData, SelectElement pSelectElement) {
+    protected void showComboox(IDataProvider pIData, SelectElement pSelectElement) {
         if (pSelectElement == null)
             return;
         String value = pIData.getValue(pSelectElement.getName());
@@ -220,7 +218,7 @@ public abstract class BaseEditActivity extends BaseActivity implements ISelectIm
         }, null, null, sp);
     }
 
-    protected void showMultiComobox(IDataProvider pIData, SelectElement pSelectElement) {
+    protected void showMultiCombobox(IDataProvider pIData, SelectElement pSelectElement) {
         if (pSelectElement == null)
             return;
         List<SubItem> items = pSelectElement.getItems();
