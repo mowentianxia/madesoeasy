@@ -1,5 +1,6 @@
-package com.kk.imageeditor;
+package com.kk.imageeditor.activities;
 
+import android.Manifest;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -9,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
-import com.kk.imageeditor.activities.BaseEditActivity;
+import com.kk.imageeditor.activities.EditUIActivity;
 import com.kk.imageeditor.bean.StyleInfo;
 import com.kk.imageeditor.draw.Drawer;
 import com.kk.imageeditor.utils.FileUtil;
@@ -17,7 +18,7 @@ import com.kk.imageeditor.widgets.ISelectImage;
 
 import java.io.File;
 
-public class ImageEditorAcitvity extends BaseEditActivity {
+public class DrawerAcitvity extends EditUIActivity {
     private static final float SETP = 0.25f;
     private static final String PREF_FILE = "drawer.settings";
     private static final String KEY_SCALE = "scale";
@@ -25,6 +26,18 @@ public class ImageEditorAcitvity extends BaseEditActivity {
     private boolean firstRun = true;
     private String mSetFile;
     private SharedPreferences sharedPreferences;
+
+
+    @Override
+    protected String[] getPermissions() {
+        return new String[]{
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.INTERNET,
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.ACCESS_NETWORK_STATE,
+                Manifest.permission.ACCESS_WIFI_STATE,
+                };
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +53,11 @@ public class ImageEditorAcitvity extends BaseEditActivity {
     protected void saveScale(float scale) {
         sharedPreferences.edit().putFloat(KEY_SCALE, scale).apply();
     }
+
     @Override
     protected void onPause() {
         super.onPause();
-        if (mDrawer.isLoad()) {
+        if (mDrawer != null && mDrawer.isLoad()) {
             saveScale(mScale);
             saveCache();
         }
@@ -64,6 +78,7 @@ public class ImageEditorAcitvity extends BaseEditActivity {
     }
 
     protected Bitmap getDrawBitmap() {
+        if (mDrawer == null) return null;
         return mDrawer.getImage();
     }
 
@@ -71,17 +86,20 @@ public class ImageEditorAcitvity extends BaseEditActivity {
      * 重置数据
      */
     protected void resetData() {
+        if (mDrawer == null) return;
         clearCache();
         mDrawer.reset();
     }
 
     /***
      * 加载样式
+     *
      * @param file
      * @return
      */
     protected boolean loadStyle(String file) {
-        if(!firstRun){
+        if (mDrawer == null) return false;
+        if (!firstRun) {
             clearCache();
         }
         Drawer.Error error = mDrawer.loadStyle(file);
@@ -92,15 +110,9 @@ public class ImageEditorAcitvity extends BaseEditActivity {
      * 初始化视图在loadStyle成功后，调用
      */
     protected void initStyle() {
+        if (mDrawer == null) return;
         mScale = mDrawer.initViews(mScale);
-        StyleInfo styleInfo = getStyleInfo();
-        if (styleInfo != null && !TextUtils.isEmpty(styleInfo.getDesc())) {
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setDisplayShowHomeEnabled(false);
-                actionBar.setTitle(styleInfo.getDesc());
-            }
-        }
+        setStyleInfo(getStyleInfo());
         if (firstRun) {
             loadCache();
         }
@@ -108,10 +120,15 @@ public class ImageEditorAcitvity extends BaseEditActivity {
         firstRun = false;
     }
 
+    protected void setStyleInfo(StyleInfo info) {
+
+    }
+
     /***
      * 最适合比例
      */
     protected void zoomFit() {
+        if (mDrawer == null) return;
         mScale = mDrawer.scaleFit();
     }
 
@@ -119,6 +136,7 @@ public class ImageEditorAcitvity extends BaseEditActivity {
      * 缩小视图
      */
     protected void zoomOut() {
+        if (mDrawer == null) return;
         float s = mScale - SETP;
         if (s <= SETP)
             s = SETP;
@@ -129,6 +147,7 @@ public class ImageEditorAcitvity extends BaseEditActivity {
      * 放大视图
      */
     protected void zoomIn() {
+        if (mDrawer == null) return;
         float s = mScale + SETP;
         scaleTo(s);
     }
@@ -145,7 +164,8 @@ public class ImageEditorAcitvity extends BaseEditActivity {
      * 加载存档
      */
     protected void loadSet(File file) {
-        if (file == null) return;
+        if (mDrawer == null) return;
+        if (file == null || !file.exists()) return;
         mSetFile = file.getAbsolutePath();
         mDrawer.reset();
         mDrawer.loadSet(file);
@@ -156,6 +176,7 @@ public class ImageEditorAcitvity extends BaseEditActivity {
      * 保存存档
      */
     protected void saveSet(String file) {
+        if (mDrawer == null) return;
         if (file == null) return;
         mSetFile = file;
         mDrawer.saveSet(FileUtil.file(file));
@@ -163,6 +184,7 @@ public class ImageEditorAcitvity extends BaseEditActivity {
 
     @Override
     protected void updateViews() {
+        if (mDrawer == null) return;
         mDrawer.updateViews();
     }
 

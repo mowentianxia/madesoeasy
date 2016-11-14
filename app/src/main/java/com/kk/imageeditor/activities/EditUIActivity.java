@@ -42,9 +42,11 @@ import com.kk.imageeditor.widgets.ISelectImageListener;
 import java.io.File;
 import java.util.List;
 
-public abstract class BaseEditActivity extends BaseActivity implements ISelectImageListener {
+public abstract class EditUIActivity extends BaseActivity implements ISelectImageListener {
     protected int itemHeight;
     protected float mScale;
+
+    protected SelectElement tmpSelectElement;
 
     protected abstract void updateViews();
 
@@ -54,15 +56,6 @@ public abstract class BaseEditActivity extends BaseActivity implements ISelectIm
         return mDefaultData;
     }
 
-    /***
-     * 更新数据
-     */
-    public void updateData() {
-        mDefaultData.updateDatas(false);
-    }
-
-    protected SelectElement tmpSelectElement;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +63,16 @@ public abstract class BaseEditActivity extends BaseActivity implements ISelectIm
         itemHeight = Math.round(Math.max(dm.widthPixels, dm.heightPixels) / getDefaultHeight(dm));
     }
 
+    /***
+     * 更新数据
+     */
+    public void updateData() {
+        mDefaultData.updateDatas(false);
+    }
+
+    /***
+     * 默认元素的高度
+     */
     protected float getDefaultHeight(DisplayMetrics dm) {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15.0f, dm);
     }
@@ -120,6 +123,17 @@ public abstract class BaseEditActivity extends BaseActivity implements ISelectIm
         return mDefaultData.getValue(name);
     }
 
+    @Override
+    public void onSelectImage(String path) {
+
+    }
+
+    @Override
+    public void onCurImageCompleted(String path) {
+        onEditCompleted(path);
+    }
+
+    //region 编辑事件处理
     protected boolean onStartEdit(IDataProvider pIData, ViewData data, SelectElement pSelectElement) {
         if (pSelectElement == null) {
             return false;
@@ -164,25 +178,9 @@ public abstract class BaseEditActivity extends BaseActivity implements ISelectIm
         }
         return false;
     }
+    //endregion
 
-    protected boolean onSave(IDataProvider pIData, File file) {
-        return SaveUtil.saveSet(pIData, file.getAbsolutePath());
-    }
-
-    protected boolean onLoad(IDataProvider pIData, File file) {
-        return SaveUtil.loadSet(pIData, file.getAbsolutePath());
-    }
-
-    @Override
-    public void onSelectImage(String path) {
-
-    }
-
-    @Override
-    public void onCurImageCompleted(String path) {
-        onEditCompleted(path);
-    }
-
+    //region 编辑UI
     protected ViewGroup.LayoutParams getItemLayoutParams() {
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, itemHeight);
@@ -350,7 +348,9 @@ public abstract class BaseEditActivity extends BaseActivity implements ISelectIm
         dialog.setOnCancelListener(oncancel);
         dialog.show();
     }
+    //endregion
 
+    //region 内容提供
     private final IDataProvider mDefaultData = new IDataProvider(this) {
         @Override
         public boolean onEdit(IKView pIKView) {
@@ -360,13 +360,14 @@ public abstract class BaseEditActivity extends BaseActivity implements ISelectIm
 
         @Override
         public boolean save(File file) {
-            return onSave(this, file);
+            return SaveUtil.saveSet(this, file.getAbsolutePath());
         }
 
         @Override
         public boolean load(File file) {
-            return onLoad(this, file);
+            return SaveUtil.loadSet(this, file.getAbsolutePath());
         }
     };
+    //endregion
 
 }

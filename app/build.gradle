@@ -14,6 +14,7 @@ android {
     }
     sourceSets {
         main{
+            assets.srcDirs = ['assets','src/main/assets']
             java.srcDirs = ['src/main/java','../libxml2object/xml2object/src/main/java']
         }
     }
