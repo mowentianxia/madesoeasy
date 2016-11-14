@@ -126,6 +126,7 @@ public class MainActivity extends DrawerAcitvity
             dialog.dismiss();
             if (error == Drawer.Error.None) {
                 initStyle(!nocache);
+                zoomFit();
             } else {
                 Toast.makeText(this, getString(R.string.load_style_error) + "\n" + style + "\nerror code:" + error, Toast.LENGTH_SHORT).show();
             }

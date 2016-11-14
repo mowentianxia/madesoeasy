@@ -44,7 +44,6 @@ import java.util.List;
 
 abstract class EditUIActivity extends BaseActivity implements ISelectImageListener {
     protected int itemHeight;
-    protected float mScale;
 
     protected SelectElement tmpSelectElement;
 
@@ -151,10 +150,8 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
                         name = pIData.dealString(pSelectElement.getDefault());
                     }
                     String file = pIData.getTempPath(name);
-                    int width = Math.round(Math.max(data.width, data.width * mScale));
-                    int height = Math.round(Math.max(data.height, data.height * mScale));
                     getSelectImage().setListener(this);
-                    getSelectImage().startPhotoCut(file, width, height, true);
+                    getSelectImage().startPhotoCut(file, (int)data.width, (int)data.height, true);
                 }
                 break;
             case select:

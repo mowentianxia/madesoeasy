@@ -26,8 +26,6 @@ import java.io.File;
 
 public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
     private static final float SETP = 0.25f;
-    private static final String PREF_FILE = "drawer.settings";
-    private static final String KEY_SCALE = "scale";
     protected Drawer mDrawer;
     private String mSetFile;
     private SharedPreferences sharedPreferences;
@@ -52,23 +50,12 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedPreferences = getSharedPreferences(PREF_FILE, MODE_PRIVATE);
-        mScale = loadScale();
-    }
-
-    protected float loadScale() {
-        return sharedPreferences.getFloat(KEY_SCALE, 0f);
-    }
-
-    protected void saveScale(float scale) {
-        sharedPreferences.edit().putFloat(KEY_SCALE, scale).apply();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         if (mDrawer != null && mDrawer.isLoad()) {
-            saveScale(mScale);
             saveCache();
         }
 //        PreferenceUtils.setPrefString(this, KEY_LAST_PATH, mCutPath);
@@ -78,11 +65,22 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
         ViewParent vp = viewGroup.getParent();
         int w, h;
         if (vp == null) {
-            w = viewGroup.getWidth();
-            h = viewGroup.getHeight();
+            w = viewGroup.getMeasuredWidth();
+            h = viewGroup.getMeasuredHeight();
         } else {
-            w = ((View) vp).getWidth();
-            h = ((View) vp).getHeight();
+            w = ((View) vp).getMeasuredWidth();
+            h = ((View) vp).getMeasuredHeight();
+        }
+        if (w == 0) {
+            w = getResources().getDisplayMetrics().widthPixels;
+        }
+        if (h == 0) {
+            ActionBar actionBar = getSupportActionBar();
+            int actionBarH = 0;
+            if (actionBar != null) {
+                actionBarH = actionBar.getHeight();
+            }
+            h = getResources().getDisplayMetrics().heightPixels - actionBarH - getStatusBarHeight();
         }
         mDrawer = new Drawer(this, viewGroup, w, h, getDefaultData());
     }
@@ -107,7 +105,7 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
      * @param file
      * @return
      */
-    protected Drawer.Error loadStyle(String file,boolean nocache) {
+    protected Drawer.Error loadStyle(String file, boolean nocache) {
         if (mDrawer == null) return Drawer.Error.UnknownError;
         if (nocache) {
             clearCache();
@@ -120,7 +118,7 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
      */
     protected void initStyle(boolean usechache) {
         if (mDrawer == null) return;
-        mScale = mDrawer.initViews(0);
+        mDrawer.initViews(0);
         setStyleInfo(getStyleInfo(), getDefaultData().getDataFile());
         if (usechache) {
             loadCache();
@@ -128,7 +126,7 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
         updateViews();
     }
 
-    protected void setStyleInfo(StyleInfo info,String zip) {
+    protected void setStyleInfo(StyleInfo info, String zip) {
 
     }
 
@@ -141,7 +139,7 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
      */
     protected void zoomFit() {
         if (checkDrawer()) return;
-        mScale = mDrawer.scaleFit();
+        mDrawer.scaleFit();
     }
 
     /***
@@ -149,7 +147,7 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
      */
     protected void zoomOut() {
         if (checkDrawer()) return;
-        float s = mScale - SETP;
+        float s = mDrawer.getScale() - SETP;
         if (s <= SETP)
             s = SETP;
         scaleTo(s);
@@ -160,7 +158,7 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
      */
     protected void zoomIn() {
         if (checkDrawer()) return;
-        float s = mScale + SETP;
+        float s = mDrawer.getScale() + SETP;
         scaleTo(s);
     }
 
@@ -168,7 +166,6 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
      * 缩放视图
      */
     protected void scaleTo(float f) {
-        mScale = f;
         mDrawer.scale(f);
     }
 

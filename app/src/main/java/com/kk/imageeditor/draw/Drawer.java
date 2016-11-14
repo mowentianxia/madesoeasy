@@ -37,6 +37,7 @@ public class Drawer {
     protected View mView;
     protected int maxWidth;
     protected int maxHeight;
+    private float mScale;
     public static final long Version = 3;
 
     public enum Error {
@@ -270,7 +271,7 @@ public class Drawer {
      * 获取数据包
      *
      * @param style 样式
-     * @param xml  zip/xml
+     * @param xml   zip/xml
      * @return
      */
     protected static String getDataFile(StyleInfo style, String xml) {
@@ -350,9 +351,7 @@ public class Drawer {
      */
     public float getDefaultScale() {
         if (isEmpty()) return 1.0f;
-        if (DEBUG) {
-            Log.i("kk", mStyle.getWidth() + "/" + maxWidth + "," + mStyle.getHeight() + "/" + maxHeight);
-        }
+//        Log.i("msoe", mStyle.getWidth() + "/" + maxWidth + "," + mStyle.getHeight() + "/" + maxHeight);
         float s = ScaleHelper.getScale(maxWidth, maxHeight, mStyle.getWidth(), mStyle.getHeight());
         return s;
     }
@@ -367,6 +366,10 @@ public class Drawer {
         return BitmapUtil.getBitmap(mView);
     }
 
+    public float getScale() {
+        return mScale;
+    }
+
     /***
      * 缩放
      *
@@ -378,6 +381,7 @@ public class Drawer {
         if (sc <= 0) {
             sc = getDefaultScale();
         }
+        mScale = sc;
         mStyle.setScale(sc);
         if (view == null) return;
         if (view instanceof ViewGroup) {

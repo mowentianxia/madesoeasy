@@ -1,6 +1,7 @@
 package com.kk.imageeditor.activities;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
@@ -17,6 +18,18 @@ class BaseActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         startPermissionsActivity();
+    }
+
+    protected int getActivityHeight() {
+        Rect rect = new Rect();
+        getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
+        return rect.height();
+    }
+
+    protected int getStatusBarHeight() {
+        Rect rect = new Rect();
+        getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
+        return rect.top;
     }
 
     public void setActionBarTitle(String title) {

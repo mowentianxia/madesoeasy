@@ -43,7 +43,6 @@ public class PhotoViewActivity extends BaseActivity {
             case R.id.nav_share:
                 break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
