@@ -20,8 +20,8 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
+            android:layout_width="54dp"
+            android:layout_height="96dp"
             android:scaleType="fitCenter"
             app:srcCompat="@mipmap/icon"/>
 
@@ -29,13 +29,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical">
 
             <TextView
                 android:id="@+id/titleView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingTop="6dp"
                 android:text="@string/app_name"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
 
