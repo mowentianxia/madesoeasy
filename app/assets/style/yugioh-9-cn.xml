@@ -392,7 +392,7 @@
 		</layout>
 		<!-- ATK -->
 		<text index="2" singleline="true" click="cardatk">
-			<size left="262" top="555" width="40" height="21"/>
+			<size left="262" top="555" width="40" height="20"/>
 			<align>right|vcenter</align>
 			<color>#000000</color>
 			<font when="{{cardatk}} == 0 and '{{cardatk}}' != '0'" 
@@ -403,7 +403,7 @@
 		</text>
 		<!-- DEF -->
 		<text index="2" singleline="true" click="carddef">
-			<size left="346" top="555" width="40" height="21"/>
+			<size left="346" top="555" width="40" height="20"/>
 			<align>right|vcenter</align>
 			<color>#000000</color>
 			<font when="{{carddef}} == 0 and '{{carddef}}' != '0'" 
