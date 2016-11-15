@@ -93,7 +93,7 @@ class ScaleHelper {
             if (data.singleline)
                 tv.setMinTextSize(size);
             else
-                tv.setMinTextSize(size / 2.0f);
+                tv.setMinTextSize(size * 0.5f);
 //            tv.setTextEx(text);
         }
     }

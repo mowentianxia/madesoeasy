@@ -88,6 +88,7 @@ public class KTextView extends FitTextView implements IKView<TextData, TextInfo,
             setSingleLine(true);
             setMinTextSize(getTextSize());
             setKeepWord(true);
+            setLineSpacing(0.0f, 1.0f);
         } else {
             setKeepWord(item.keepWord);
             // setSingleLine(true);

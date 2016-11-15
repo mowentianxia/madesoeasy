@@ -68,7 +68,7 @@ public class PhotoViewActivity extends BaseActivity {
         fileDialog.setHideCreateButton(true);
         fileDialog.setEditText(mName);
         fileDialog.setDialogFileFilter(new DialogFileFilter(false, false, IMAGE_EX));
-        fileDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(android.R.string.ok),
+        fileDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(android.R.string.ok),
                 (dialog, which) -> {
                     File file = fileDialog.getSelectFile();
                     if (file != null && !file.isDirectory()) {
@@ -79,7 +79,7 @@ public class PhotoViewActivity extends BaseActivity {
                         BitmapUtil.saveBitmap(mImage, filepath, 100);
                     }
                 });
-        fileDialog.setButton(DialogInterface.BUTTON_POSITIVE,
+        fileDialog.setButton(DialogInterface.BUTTON_NEGATIVE,
                 getString(android.R.string.cancel), (DialogInterface.OnClickListener) null);
         fileDialog.show();
     }

@@ -88,7 +88,7 @@ public class MainActivity extends DrawerAcitvity
     }
 
     private void checkAndCopyStyle() {
-        ProgressDialog dialog = ProgressDialog.show(this, getString(R.string.copy_style), getString(R.string.copy_style_wait));
+        ProgressDialog dialog = ProgressDialog.show(this, null, getString(R.string.copy_style_wait));
         VUiKit.defer().when(() -> {
             styleControllor.copyStyleFromAssets();
             String style = styleControllor.getCurStyle();
@@ -100,7 +100,7 @@ public class MainActivity extends DrawerAcitvity
         }).done((style) -> {
             dialog.dismiss();
             styleControllor.setCurStyle(style);
-            checkAndLoadStyle(style, true);
+            checkAndLoadStyle(style, false);
         });
     }
 
@@ -121,7 +121,7 @@ public class MainActivity extends DrawerAcitvity
             Toast.makeText(this, R.string.load_style_error, Toast.LENGTH_SHORT).show();
             return;
         }
-        ProgressDialog dialog = ProgressDialog.show(this, getString(R.string.load_style), getString(R.string.load_style_wait));
+        ProgressDialog dialog = ProgressDialog.show(this, null, getString(R.string.load_style_wait));
         VUiKit.defer().when(() -> {
             return loadStyle(style, nocache);
         }).done((error) -> {
@@ -140,13 +140,13 @@ public class MainActivity extends DrawerAcitvity
         final OpenFileDialog fileDialog = new OpenFileDialog(this);
         fileDialog.setCurPath(pathConrollor.getCurPath());
         fileDialog.setDialogFileFilter(new DialogFileFilter(false, false, SET_EX));
-        fileDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(android.R.string.ok), (dialog, which) -> {
+        fileDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(android.R.string.ok), (dialog, which) -> {
             pathConrollor.setCurPath(fileDialog.getCurPath());
             File file = fileDialog.getSelectFile();
             loadSet(file);
         });
 
-        fileDialog.setButton(DialogInterface.BUTTON_POSITIVE,
+        fileDialog.setButton(DialogInterface.BUTTON_NEGATIVE,
                 getString(android.R.string.cancel),
                 (DialogInterface.OnClickListener) null);
         fileDialog.show();
@@ -163,14 +163,14 @@ public class MainActivity extends DrawerAcitvity
             fileDialog.setHideCreateButton(true);
             fileDialog.setEditText(getSaveFileName());
             fileDialog.setDialogFileFilter(new DialogFileFilter(false, false, SET_EX));
-            fileDialog.setButton(DialogInterface.BUTTON_NEGATIVE,
+            fileDialog.setButton(DialogInterface.BUTTON_POSITIVE,
                     getString(android.R.string.ok), (dialog, which) -> {
                         pathConrollor.setCurPath(fileDialog.getCurPath());
                         File file = fileDialog.getSelectFile();
                         if (file != null && !file.isDirectory())
                             saveSet(file.getAbsolutePath());
                     });
-            fileDialog.setButton(DialogInterface.BUTTON_POSITIVE,
+            fileDialog.setButton(DialogInterface.BUTTON_NEGATIVE,
                     getString(android.R.string.cancel),
                     (DialogInterface.OnClickListener) null);
             fileDialog.show();

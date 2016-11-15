@@ -109,6 +109,9 @@ public class BitmapUtil {
         InputStream inputStream = null;
         Bitmap bmp = null;
         try {
+            if(!new File(path).exists()){
+                return null;
+            }
             inputStream = new FileInputStream(path);
             BitmapFactory.Options options = getImageInfo(inputStream);
             inputStream.close();

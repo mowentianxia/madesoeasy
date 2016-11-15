@@ -46,8 +46,9 @@ public class FontLoader {
                 e.printStackTrace();
             }
         }
-        if (face != null)
+        if (face != null) {
             list.put(fontInfo.getTag(), new SoftReference<>(face));
+        }
         return face;
     }
 
