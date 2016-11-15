@@ -342,7 +342,11 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
         }
         builder.setPositiveButton(android.R.string.ok, ok);
         if(cancel!=null) {
-            builder.setNegativeButton(android.R.string.cancel, cancel);
+            builder.setCancelable(false);
+            builder.setNegativeButton(android.R.string.cancel, (v,s)->{
+                v.dismiss();
+                cancel.onClick(v,s);
+            });
         }
         Dialog dialog = builder.create();
         dialog.setCanceledOnTouchOutside(false);
