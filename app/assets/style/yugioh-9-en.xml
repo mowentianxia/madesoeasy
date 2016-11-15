@@ -224,7 +224,7 @@
 		<!-- 摇摆背景 -->
 		<image index="-1">
 			<size left="20" top="89" width="381" height="17"/>
-			<src>pendulum/line-{{cardtype}}.png</src>
+			<src>pendulum/maxLines-{{cardtype}}.png</src>
 			<visible>{{is_pendulum}}</visible>
 		</image>
 		<!-- P怪中间背景图白色 -->
@@ -460,7 +460,7 @@
 			<src>copyright/{{cardcopy}}0.png</src>
 		</image>
 		<!-- P怪效果 -->
-		<text index="2" line-space-scale="1.0"  singleline="false" click="cardptext" keepWord="true" >
+		<text index="2" maxLines-space-scale="1.0"  singleline="false" click="cardptext" keepWord="true" >
 			<size when="{{pendulum_is_small}}"
 				left="67" top="405" width="288" height="46"/>
 			<size when="{{pendulum_is_big}}"
@@ -473,7 +473,7 @@
 			<visible>{{is_pendulum}}</visible>
 		</text>
 		<!-- 效果-->
-		<text index="2" line-space-scale="1.0" singleline="false" click="cardtext"  keepWord="true">
+		<text index="2" maxLines-space-scale="1.0" singleline="false" click="cardtext"  keepWord="true">
 			<size when="{{pendulum_is_big}}"
 				left="34.5" top="493" width="353" height="58"/>
 			<size when="{{is_spelltrap}}"

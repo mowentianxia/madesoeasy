@@ -81,7 +81,7 @@ public class MainActivity extends DrawerAcitvity
         headTitleView = (TextView) head.findViewById(R.id.titleView);
         headTextView = (TextView) head.findViewById(R.id.textView);
         headAuthorView = (TextView) head.findViewById(R.id.authorView);
-        headVerView= (TextView) head.findViewById(R.id.versionView);
+        headVerView = (TextView) head.findViewById(R.id.versionView);
         //初始化
         initDrawer((ViewGroup) findViewById(R.id.drawer));
         checkAndCopyStyle();
@@ -186,8 +186,8 @@ public class MainActivity extends DrawerAcitvity
                 Bitmap icon = BitmapUtil.getBitmapFormZip(zip, info.getIcon(), 0, 0);
                 headImageView.setImageBitmap(icon);
             }
-            if(headVerView!=null){
-                headVerView.setText(""+info.getVersion());
+            if (headVerView != null) {
+                headVerView.setText("" + info.getVersion());
             }
             if (headTitleView != null) {
                 headTitleView.setText(info.getName());
@@ -206,14 +206,21 @@ public class MainActivity extends DrawerAcitvity
         if (mDrawerlayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerlayout.closeDrawer(GravityCompat.START);
         } else {
-            if (System.currentTimeMillis() - exitLasttime <= 3000) {
+            if (onQuit()) {
                 super.onBackPressed();
-                finish();
-            } else {
-                Toast.makeText(this, R.string.quit_info, Toast.LENGTH_SHORT).show();
-                exitLasttime = System.currentTimeMillis();
             }
         }
+    }
+
+    private boolean onQuit() {
+        if (System.currentTimeMillis() - exitLasttime <= 3000) {
+            finish();
+            return true;
+        } else {
+            Toast.makeText(this, R.string.quit_info, Toast.LENGTH_SHORT).show();
+            exitLasttime = System.currentTimeMillis();
+        }
+        return false;
     }
 
     @Override
@@ -258,7 +265,7 @@ public class MainActivity extends DrawerAcitvity
             zoomOut();
             return true;
         } else if (id == R.id.action_preview) {
-            VUiKit.defer().when(()->{
+            VUiKit.defer().when(() -> {
                 Bitmap image = getDrawBitmap();
                 if (image == null) {
                     Snackbar.make(mDrawerlayout, R.string.image_is_null, Snackbar.LENGTH_LONG)
@@ -270,7 +277,7 @@ public class MainActivity extends DrawerAcitvity
                 String file = new File(pathConrollor.getWorkPath(), "preview.png").getAbsolutePath();
                 BitmapUtil.saveBitmap(image, file, 100);
                 return file;
-            }).done((image)->{
+            }).done((image) -> {
                 PhotoViewActivity.showImage(this, image, getSaveFileName());
             });
 
@@ -306,9 +313,9 @@ public class MainActivity extends DrawerAcitvity
             case R.id.nav_reset:
                 if (checkDrawer()) return true;
                 showDialog(getString(R.string.dialog_title),
-                        getString(R.string.clear_tip), (v,s)->{
-                    resetData();
-                });
+                        getString(R.string.clear_tip), (v, s) -> {
+                            resetData();
+                        });
                 break;
             case R.id.nav_save_set:
                 if (checkDrawer()) return true;
@@ -334,7 +341,7 @@ public class MainActivity extends DrawerAcitvity
                 showAboutInfo();
                 break;
             case R.id.nav_quit:
-                finish();
+                onQuit();
                 break;
         }
         mDrawerlayout.closeDrawer(GravityCompat.START);

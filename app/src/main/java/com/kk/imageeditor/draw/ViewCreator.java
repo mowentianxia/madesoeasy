@@ -103,7 +103,7 @@ public class ViewCreator {
         return imageView;
     }
 
-    private TextView drawText(Style pStyleInfo, final IDataProvider IDataor, TextInfo pTextInfo) {
+    private View drawText(Style pStyleInfo, final IDataProvider IDataor, TextInfo pTextInfo) {
         KTextView textView = new KTextView(context);
         textView.update(IDataor.get(pTextInfo));
         textView.bind(pStyleInfo.getDataElement(pTextInfo.getClickName()), pTextInfo);

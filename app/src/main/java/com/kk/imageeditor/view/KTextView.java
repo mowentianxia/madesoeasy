@@ -1,6 +1,7 @@
 package com.kk.imageeditor.view;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -14,9 +15,9 @@ import com.kk.imageeditor.bean.data.SelectElement;
 import com.kk.imageeditor.bean.data.TextData;
 import com.kk.imageeditor.bean.view.TextInfo;
 import com.kk.imageeditor.utils.BitmapUtil;
-import com.kk.view.FitTextView;
+import com.kk.imageeditor.view.fittextview.FitTextView;
 
-public class KTextView extends FitTextView implements IKView<TextData, TextInfo, TextView> {
+public class KTextView extends FitTextView implements IKView<TextData, TextInfo, View> {
     protected SelectElement mSelectElement;
     protected TextInfo mViewElement;
     protected TextData mTextData;
@@ -31,7 +32,11 @@ public class KTextView extends FitTextView implements IKView<TextData, TextInfo,
 
     public KTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        mJustify = true;
+        setJustify(true);
+        setIncludeFontPadding(false);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+//            setTextAlignment(TextView.TEXT_ALIGNMENT_GRAVITY);
+//        }
     }
 
     @Override
@@ -51,7 +56,7 @@ public class KTextView extends FitTextView implements IKView<TextData, TextInfo,
     }
 
     @Override
-    public TextView getView() {
+    public View getView() {
         return this;
     }
 
@@ -60,6 +65,11 @@ public class KTextView extends FitTextView implements IKView<TextData, TextInfo,
         this.mTextData = item;
         initData(item);
         return true;
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
     }
 
     @Override
@@ -91,7 +101,7 @@ public class KTextView extends FitTextView implements IKView<TextData, TextInfo,
             setLineSpacing(0.0f, 1.0f);
         } else {
             setKeepWord(item.keepWord);
-            // setSingleLine(true);
+             setSingleLine(false);
             // 行间距
             float linespace = item.lineSpace;
             float linespacescale = item.lineSpaceScale;
@@ -128,7 +138,7 @@ public class KTextView extends FitTextView implements IKView<TextData, TextInfo,
         }
         setTextColor(item.color);
         setGravity(item.align);
-        if (mSingleLine && item.width > 0) {
+        if (item.singleline && item.width > 0) {
             setNeedScaleText(true);
         } else {
             setNeedScaleText(false);

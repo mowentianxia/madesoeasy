@@ -219,7 +219,7 @@
 		<!-- 摇摆背景 -->
 		<image index="-1">
 			<size left="20" top="89" width="381" height="17"/>
-			<src>pendulum/line-{{cardtype}}.png</src>
+			<src>pendulum/maxLines-{{cardtype}}.png</src>
 			<visible>{{is_pendulum}}</visible>
 		</image>
 		<!-- P怪中间背景图白色 -->
@@ -279,7 +279,7 @@
 			<visible>{{is_spelltrap}} == false and {{image_is_full}}</visible>
 		</image>
 		<!-- ATK（透明） -->
-		<text index="2">
+		<text index="2" singleline="true">
 			<size left="226" top="554" width="56" height="21"/>
 			<align>vcenter</align>
 			<color>#000000</color>
@@ -288,7 +288,7 @@
 			<visible>{{is_spelltrap}} == false and {{image_is_full}}</visible>
 		</text>
 		<!-- DEF（透明） -->
-		<text index="2">
+		<text index="2" singleline="true">
 			<size left="313" top="554" width="56" height="21"/>
 			<align>vcenter</align>
 			<color>#000000</color>
@@ -391,8 +391,8 @@
 			<visible>{{is_spelltrap}} == false</visible>
 		</layout>
 		<!-- ATK -->
-		<text index="2" click="cardatk">
-			<size left="262" top="555" width="40" height="19"/>
+		<text index="2" singleline="true" click="cardatk">
+			<size left="262" top="555" width="40" height="21"/>
 			<align>right|vcenter</align>
 			<color>#000000</color>
 			<font when="{{cardatk}} == 0 and '{{cardatk}}' != '0'" 
@@ -402,8 +402,8 @@
 			<visible>{{is_spelltrap}} == false</visible>
 		</text>
 		<!-- DEF -->
-		<text index="2" click="carddef">
-			<size left="346" top="555" width="40" height="19"/>
+		<text index="2" singleline="true" click="carddef">
+			<size left="346" top="555" width="40" height="21"/>
 			<align>right|vcenter</align>
 			<color>#000000</color>
 			<font when="{{carddef}} == 0 and '{{carddef}}' != '0'" 
@@ -455,7 +455,7 @@
 			<src>copyright/{{cardcopy}}0.png</src>
 		</image>
 		<!-- P怪效果 -->
-		<text index="2" line-space-scale="1.0"  singleline="false" click="cardptext" keepWord="false" >
+		<text index="2" maxLines-space-scale="1.0"  singleline="false" click="cardptext" keepWord="false" >
 			<size when="{{pendulum_is_small}}"
 				left="67" top="405" width="288" height="46"/>
 			<size when="{{pendulum_is_big}}"
@@ -468,7 +468,7 @@
 			<visible>{{is_pendulum}}</visible>
 		</text>
 		<!-- 效果-->
-		<text index="2" line-space-scale="1.0" singleline="false" click="cardtext"  keepWord="false">
+		<text index="2" maxLines-space-scale="1.0" singleline="false" click="cardtext"  keepWord="false">
 			<size when="{{pendulum_is_big}}"
 				left="34.5" top="493" width="353" height="58"/>
 			<size when="{{is_spelltrap}}"
