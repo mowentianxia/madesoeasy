@@ -233,7 +233,7 @@
 			<visible>{{is_pendulum}} and {{pimage_is_rect}}</visible>
 		</image>
 		<!-- 中间图-->
-		<image index="-1" click="cardcode_image" background="#000000">
+		<image index="-1" click="cardcode_image" background="#ffffff">
 			<size when="{{pimage_is_normal}} and {{pendulum_nots_big}}" 
 				left="29.5" top="105.5" width="363" height="345"/>
 			<size when="{{pimage_is_normal}} and {{pendulum_is_big}}" 

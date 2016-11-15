@@ -253,37 +253,17 @@ public class Drawer {
             FileUtil.closeZip(zipFile);
         }
         if (style != null) {
+            StyleInfo info = style.getStyleInfo();
+            if (info != null) {
+                info.setStylePath(zip);
+            }
             if (isXml) {
-                style.setFile(getDataFile(style.getStyleInfo(), zip));
+                style.setFile(info.getDataPath());
             } else {
                 style.setFile(zip);
             }
         }
         return style;
-    }
-
-    /***
-     * 获取数据包
-     *
-     * @param style 样式
-     * @param xml   zip/xml
-     * @return
-     */
-    protected static String getDataFile(StyleInfo style, String xml) {
-        if (TextUtils.isEmpty(xml)) return "";
-        if (style == null) {
-            return xml.replace(".xml", ".zip");
-        } else {
-            String file = style.getFilepath();
-            if (!TextUtils.isEmpty(file)) {
-                if (FileUtil.exists(file)) {
-                    return file;
-                } else {
-                    return new File(FileUtil.getParent(xml), file).getAbsolutePath();
-                }
-            }
-        }
-        return "";
     }
 
     /***
@@ -299,7 +279,6 @@ public class Drawer {
         File[] files = FileUtil.listFiles(dir, filters);
         if (files != null) {
             for (File f : files) {
-                Log.d("xml", "file=" + f.getAbsolutePath());
                 Style style = parseStyle(f.getAbsolutePath());
                 if (style != null) {
                     Error error = check(style);

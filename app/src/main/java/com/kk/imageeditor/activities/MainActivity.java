@@ -42,6 +42,7 @@ import java.io.File;
 
 public class MainActivity extends DrawerAcitvity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private static final int REQUEST_STYLE = 2;
     private ImageView headImageView;
     private TextView headTitleView;
     private TextView headTextView;
@@ -51,8 +52,9 @@ public class MainActivity extends DrawerAcitvity
     private long exitLasttime;
     private PathConrollor pathConrollor;
     private StyleControllor styleControllor;
-    private boolean firstResume = true;
+    //    private boolean firstResume = true;
     final static String[] SET_EX = new String[]{SaveUtil.SET_EX1, SaveUtil.SET_EX2};
+    final static String[] STYLE_EX = new String[]{".xml", ".zip"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +101,7 @@ public class MainActivity extends DrawerAcitvity
             return style;
         }).done((style) -> {
             dialog.dismiss();
-            styleControllor.setCurStyle(style);
+//            styleControllor.setCurStyle(style);
             checkAndLoadStyle(style, false);
         });
     }
@@ -107,13 +109,13 @@ public class MainActivity extends DrawerAcitvity
     @Override
     protected void onResume() {
         super.onResume();
-        if (!firstResume) {
-            //非第一次启动，如果是没加载，或者样式不一样的情况，加载style
-            if (styleControllor.isChangedStyle()) {
-                checkAndLoadStyle(styleControllor.getCurStyle(), false);
-            }
-        }
-        firstResume = false;
+//        if (!firstResume) {
+//            //非第一次启动，如果是没加载，或者样式不一样的情况，加载style
+//            if (styleControllor.isChangedStyle()) {
+//                checkAndLoadStyle(styleControllor.getCurStyle(), false);
+//            }
+//        }
+//        firstResume = false;
     }
 
     private void checkAndLoadStyle(String style, boolean nocache) {
@@ -127,6 +129,7 @@ public class MainActivity extends DrawerAcitvity
         }).done((error) -> {
             dialog.dismiss();
             if (error == Drawer.Error.None) {
+                styleControllor.setCurStyle(style);
                 initStyle(!nocache);
                 zoomFit();
             } else {
@@ -178,12 +181,11 @@ public class MainActivity extends DrawerAcitvity
     }
 
     @Override
-    protected void setStyleInfo(StyleInfo info, String zip) {
-        super.setStyleInfo(info, zip);
+    protected void setStyleInfo(StyleInfo info) {
+        super.setStyleInfo(info);
         if (info != null) {
-            Log.i("msoe", "zip=" + zip);
             if (headImageView != null) {
-                Bitmap icon = BitmapUtil.getBitmapFormZip(zip, info.getIcon(), 0, 0);
+                Bitmap icon = BitmapUtil.getBitmapFormZip(info.getDataPath(), info.getIcon(), 0, 0);
                 headImageView.setImageBitmap(icon);
             }
             if (headVerView != null) {
@@ -286,10 +288,27 @@ public class MainActivity extends DrawerAcitvity
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i("msoe", "requestCode="+requestCode+",resultCode="+resultCode+",data="+data);
+        if (requestCode == REQUEST_STYLE) {
+            if (data != null) {
+                String file = data.getStringExtra(Intent.EXTRA_TEXT);
+                if (!TextUtils.isEmpty(file)) {
+                    if (TextUtils.equals(styleControllor.getCurStyle(), file)) {
+                        return;
+                    }
+                    checkAndLoadStyle(file, true);
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     private void openStyleList() {
         Intent intent = new Intent(this, StyleListActivity.class);
-        intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+//        intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivityForResult(intent, REQUEST_STYLE);
     }
 
     private void showAboutInfo() {

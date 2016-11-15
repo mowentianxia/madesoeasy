@@ -18,6 +18,7 @@
     <string name="share">Share Image</string>
     <string name="clear_tip">Clear card info？</string>
     <string name="no_share_app">no find share app</string>
+    <string name="load_style_list">find all styles</string>
     <string name="action_refresh">Refresh Image</string>
     <string name="action_zoom_in">Zoon In</string>
     <string name="action_zoom_out">Zoon Out</string>

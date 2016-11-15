@@ -105,14 +105,14 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
     protected void initStyle(boolean usechache) {
         if (mDrawer == null) return;
         mDrawer.initViews(0);
-        setStyleInfo(getStyleInfo(), getDefaultData().getDataFile());
+        setStyleInfo(getStyleInfo());
         if (usechache) {
             loadCache();
         }
         updateViews();
     }
 
-    protected void setStyleInfo(StyleInfo info, String zip) {
+    protected void setStyleInfo(StyleInfo info) {
 
     }
 
