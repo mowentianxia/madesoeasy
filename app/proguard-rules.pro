@@ -12,9 +12,20 @@
 # If your project uses WebView with JS, uncomment the following
 # and specify the fully qualified class name to the JavaScript interface
 # class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+-keepattributes Signature
+-keepattributes EnclosingMethod
+-keepattributes InnerClasses
+-keepattributes Annotation
+-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+   public *;
+}
 -keepclassmembers class * extends net.kk.xml.IXmlElement{
     *;
 }
+# jdk8
+-dontwarn java.lang.invoke.*
+-dontwarn org.slf4j.impl.*
+# design
+-keep class android.support.design.widget.** { *; }
+-keep interface android.support.design.widget.** { *; }
+-dontwarn android.support.design.**
