@@ -42,6 +42,7 @@
     <string name="no_find_image_selector">no find image selector</string>
     <string name="no_find_image_cutor">no find image cutor</string>
     <string name="create_folder">New folder</string>
+    <string name="apply">Apply</string>
     <string name="dialog_title">Info</string>
         <string name="about_info" formatted="false">\n
 Name:\t\t%s\n

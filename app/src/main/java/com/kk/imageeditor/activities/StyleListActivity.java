@@ -38,7 +38,7 @@ public class StyleListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stylelist);
         mRecyclerView = (RecyclerView) findViewById(R.id.list_style);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mStyleAdapter = new StyleAdapter();
         mRecyclerView.setAdapter(mStyleAdapter);
         enableBackHome();
@@ -98,6 +98,7 @@ public class StyleListActivity extends BaseActivity {
         private TextView headTitleView;
         private TextView headAuthorView;
         private TextView headVerView;
+        private View mApply;
         private View mParent;
 
         MyViewHolder(View view) {
@@ -107,6 +108,7 @@ public class StyleListActivity extends BaseActivity {
             headTitleView = (TextView) view.findViewById(R.id.titleView);
             headAuthorView = (TextView) view.findViewById(R.id.authorView);
             headVerView = (TextView) view.findViewById(R.id.versionView);
+            mApply = view.findViewById(R.id.btn_apply);
         }
 
         void refresh(StyleInfo info) {
@@ -121,12 +123,12 @@ public class StyleListActivity extends BaseActivity {
                 headVerView.setText("" + info.getVersion());
             }
             if (headTitleView != null) {
-                headTitleView.setText(info.getName());
+                headTitleView.setText(info.getDesc());
             }
             if (headAuthorView != null) {
                 headAuthorView.setText(info.getAuthor());
             }
-            mParent.setOnClickListener((v) -> {
+            mApply.setOnClickListener((v) -> {
                 setResult(STYLE_BACK, new Intent().putExtra(Intent.EXTRA_TEXT, info.getStylePath()));
                 finish();
             });

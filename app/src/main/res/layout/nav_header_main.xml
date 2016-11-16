@@ -16,6 +16,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="@dimen/activity_vertical_margin"
         android:orientation="horizontal">
 
         <ImageView
@@ -52,17 +53,4 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
         </LinearLayout>
     </LinearLayout>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none">
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minLines="2"
-            android:text="@string/need_select_style"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
-    </ScrollView>
 </LinearLayout>

@@ -45,7 +45,6 @@ public class MainActivity extends DrawerAcitvity
     private static final int REQUEST_STYLE = 2;
     private ImageView headImageView;
     private TextView headTitleView;
-    private TextView headTextView;
     private TextView headAuthorView;
     private TextView headVerView;
     private DrawerLayout mDrawerlayout;
@@ -81,7 +80,6 @@ public class MainActivity extends DrawerAcitvity
         View head = navigationView.getHeaderView(0);
         headImageView = (ImageView) head.findViewById(R.id.imageView);
         headTitleView = (TextView) head.findViewById(R.id.titleView);
-        headTextView = (TextView) head.findViewById(R.id.textView);
         headAuthorView = (TextView) head.findViewById(R.id.authorView);
         headVerView = (TextView) head.findViewById(R.id.versionView);
         //初始化
@@ -195,13 +193,10 @@ public class MainActivity extends DrawerAcitvity
                 headVerView.setText("" + info.getVersion());
             }
             if (headTitleView != null) {
-                headTitleView.setText(info.getName());
+                headTitleView.setText(info.getDesc());
             }
             if (headAuthorView != null) {
                 headAuthorView.setText(info.getAuthor());
-            }
-            if (headTextView != null) {
-                headTextView.setText(info.getDesc());
             }
         }
     }
@@ -293,7 +288,7 @@ public class MainActivity extends DrawerAcitvity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.i("msoe", "requestCode="+requestCode+",resultCode="+resultCode+",data="+data);
+//        Log.i("msoe", "requestCode="+requestCode+",resultCode="+resultCode+",data="+data);
         if (requestCode == REQUEST_STYLE) {
             if (data != null) {
                 String file = data.getStringExtra(Intent.EXTRA_TEXT);
