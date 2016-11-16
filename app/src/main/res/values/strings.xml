@@ -10,6 +10,7 @@
     <string name="string_help_text">当前应用缺少必要权限。\n请点击设置-权限-打开所需权限。</string>
     <string name="need_select_style">you need select a style file.</string>
     <string name="quit">Quit</string>
+    <string name="quit_tip">Quit app?</string>
     <string name="unknown">unknown</string>
     <string name="select_style">Style List</string>
     <string name="menu_settings">Settings menu</string>
@@ -22,7 +23,7 @@
     <string name="action_refresh">Refresh Image</string>
     <string name="action_zoom_in">Zoon In</string>
     <string name="action_zoom_out">Zoon Out</string>
-    <string name="quit_info">Press back key again to exit.</string>
+    <string name="back_tip">Press back key again to exit.</string>
     <string name="reset_info">Reset info</string>
     <string name="open_set">Open set</string>
     <string name="save_set">Save set</string>

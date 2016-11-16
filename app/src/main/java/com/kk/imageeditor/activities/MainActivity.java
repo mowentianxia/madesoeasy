@@ -14,7 +14,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -90,7 +89,7 @@ public class MainActivity extends DrawerAcitvity
     private void checkAndCopyStyle() {
         ProgressDialog dialog = ProgressDialog.show(this, null, getString(R.string.copy_style_wait));
         VUiKit.defer().when(() -> {
-            if(styleControllor.copyStyleFromAssets()){
+            if (styleControllor.copyStyleFromAssets()) {
                 resetData();
                 getDefaultData().cleanCache();
             }
@@ -217,7 +216,7 @@ public class MainActivity extends DrawerAcitvity
             finish();
             return true;
         } else {
-            Toast.makeText(this, R.string.quit_info, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.back_tip, Toast.LENGTH_SHORT).show();
             exitLasttime = System.currentTimeMillis();
         }
         return false;
@@ -358,7 +357,9 @@ public class MainActivity extends DrawerAcitvity
                 showAboutInfo();
                 break;
             case R.id.nav_quit:
-                onQuit();
+                showDialog(getString(R.string.about_info), getString(R.string.quit_tip), (v, s) -> {
+                    finish();
+                });
                 break;
         }
         mDrawerlayout.closeDrawer(GravityCompat.START);
