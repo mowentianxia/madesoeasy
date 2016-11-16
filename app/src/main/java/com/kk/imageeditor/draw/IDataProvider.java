@@ -544,6 +544,18 @@ public abstract class IDataProvider {
         return new LayoutData();
     }
 
+    public void cleanCache(){
+        String dir =  getCachePath("");
+        File f=new File(dir);
+        if(f.exists()){
+            if(f.isDirectory()){
+                FileUtil.delete(f);
+            }
+        }
+    }
+
+
+
     public boolean copyFonts() {
         if (!isLoad()) return false;
         ArrayList<String> list = new ArrayList<>();

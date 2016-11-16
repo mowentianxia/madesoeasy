@@ -92,7 +92,10 @@ public class MainActivity extends DrawerAcitvity
     private void checkAndCopyStyle() {
         ProgressDialog dialog = ProgressDialog.show(this, null, getString(R.string.copy_style_wait));
         VUiKit.defer().when(() -> {
-            styleControllor.copyStyleFromAssets();
+            if(styleControllor.copyStyleFromAssets()){
+                resetData();
+                getDefaultData().cleanCache();
+            }
             String style = styleControllor.getCurStyle();
             if (TextUtils.isEmpty(style)) {
                 //加载默认style
