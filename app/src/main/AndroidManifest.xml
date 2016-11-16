@@ -38,7 +38,7 @@
         <activity
             android:name=".activities.StyleListActivity"
             android:label="@string/title_activity_style_list"/>
-        <activity android:name=".settings.PermissionsActivity"/>
+        <activity android:name=".activities.PermissionsActivity"/>
         <activity
             android:name=".settings.SettingsActivity"
             android:label="@string/title_activity_settings">

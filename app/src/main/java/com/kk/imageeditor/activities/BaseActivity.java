@@ -6,8 +6,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.kk.imageeditor.settings.PermissionsActivity;
-
 class BaseActivity extends AppCompatActivity {
     protected static final int REQUEST_CODE = 1;
 
