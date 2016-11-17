@@ -2,8 +2,8 @@ package com.kk.imageeditor.utils;
 
 
 import net.kk.xml.XmlOptions;
-import net.kk.xml.XmlReader;
-import net.kk.xml.XmlWriter;
+import net.kk.xml.core.XmlReader;
+import net.kk.xml.core.XmlWriter;
 
 import org.xmlpull.v1.XmlPullParserFactory;
 
@@ -13,15 +13,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class XmlUtils {
-//    private static final XmlOptions OPTIONS2 = new XmlOptions.Builder().useSpace().dontUseSetMethod()
-//            .enableSameAsList()
-////            .registerConstructorAdapter(Location.class, new XmlConstructorAdapter() {
-////                @Override
-////                public <T> T create(Class<T> aClass, Object o) {
-////                    return (T) new Location(LocationManager.GPS_PROVIDER);
-////                }
-////            })
-//            .build();
+    public static boolean DEBUG = false;
     private static final XmlOptions OPTIONS = new XmlOptions.Builder().useSpace().dontUseSetMethod()
             .enableSameAsList()
 //            .registerConstructorAdapter(Location.class, new XmlConstructorAdapter() {
@@ -33,15 +25,12 @@ public class XmlUtils {
             .build();
     XmlOptions options;
 
-    private static final XmlUtils STYLE = new XmlUtils(OPTIONS);
-//    private static final XmlUtils SET = new XmlUtils(OPTIONS2);
 
     public static XmlUtils getStyleUtils() {
-        return STYLE;
+        return new XmlUtils(OPTIONS);
     }
-
     public static XmlUtils getSetUtils() {
-        return STYLE;
+        return getStyleUtils();
     }
 
     private XmlUtils(XmlOptions options) {

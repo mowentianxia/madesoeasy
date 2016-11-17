@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,8 @@ import com.kk.imageeditor.utils.VUiKit;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.kk.imageeditor.Constants.DEBUG;
 
 public class StyleListActivity extends BaseActivity {
     private StyleAdapter mStyleAdapter;
@@ -47,6 +50,11 @@ public class StyleListActivity extends BaseActivity {
         ProgressDialog dialog = ProgressDialog.show(this, null, getString(R.string.load_style_list));
         VUiKit.defer().when(() -> {
             return Drawer.getStyleList(pathConrollor.getStylePath(), Constants.STYLE_EX);
+        }).fail((e) -> {
+            if (DEBUG) {
+                Log.e("msoe", "list", e);
+            }
+            dialog.dismiss();
         }).done((list) -> {
             mStyleAdapter.attach(list);
             dialog.dismiss();

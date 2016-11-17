@@ -62,6 +62,6 @@ public class SelectElement extends IName {
                 ", type=" + type +
                 ", hide=" + hide +
                 ", items=" + items +
-                '}';
+                "}\n";
     }
 }

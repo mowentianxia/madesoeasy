@@ -258,6 +258,8 @@ public class Drawer {
             StyleInfo info = style.getStyleInfo();
             if (info != null) {
                 info.setStylePath(zip);
+            }else{
+                return null;
             }
             if (isXml) {
                 style.setFile(info.getDataPath());
@@ -281,7 +283,11 @@ public class Drawer {
         File[] files = FileUtil.listFiles(dir, filters);
         if (files != null) {
             for (File f : files) {
+                long start = System.currentTimeMillis();
                 Style style = parseStyle(f.getAbsolutePath());
+                if (DEBUG) {
+                    Log.i("msoe", "time=" + (System.currentTimeMillis() - start));
+                }
                 if (style != null) {
                     Error error = check(style);
                     if (error == Error.None && style.getStyleInfo() != null) {
