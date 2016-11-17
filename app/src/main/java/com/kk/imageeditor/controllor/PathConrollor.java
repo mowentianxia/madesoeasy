@@ -7,9 +7,11 @@ import android.text.TextUtils;
 
 import java.io.File;
 
+import static com.kk.imageeditor.Constants.DEFAULT_NAME;
+import static com.kk.imageeditor.Constants.PREF_WORKPATH;
+
 public class PathConrollor extends BaseControllor {
-    private static final String NAME = "MadeSoEasy";
-    private static final String WORKPATH = "workpath";
+
     private String workPath;
     private String cachePath;
     private String stylePath;
@@ -21,11 +23,11 @@ public class PathConrollor extends BaseControllor {
         super(context, sharedPreferences);
         String defPath = null;
         try {
-            defPath = new File(Environment.getExternalStorageDirectory(), NAME).getAbsolutePath();
+            defPath = new File(Environment.getExternalStorageDirectory(), DEFAULT_NAME).getAbsolutePath();
         } catch (Exception e) {
-            defPath = new File(context.getFilesDir(), NAME).getAbsolutePath();
+            defPath = new File(context.getFilesDir(), DEFAULT_NAME).getAbsolutePath();
         }
-        workPath = sharedPreferences.getString(WORKPATH, defPath);
+        workPath = sharedPreferences.getString(PREF_WORKPATH, defPath);
         initPath(workPath);
     }
 
@@ -59,7 +61,7 @@ public class PathConrollor extends BaseControllor {
 
     private void initPath(String workPath) {
         if(!TextUtils.equals(this.workPath, workPath)){
-            sharedPreferences.edit().putString(WORKPATH, workPath).apply();
+            sharedPreferences.edit().putString(PREF_WORKPATH, workPath).apply();
         }
         this.workPath = workPath;
         cachePath = new File(workPath, "cache").getAbsolutePath();

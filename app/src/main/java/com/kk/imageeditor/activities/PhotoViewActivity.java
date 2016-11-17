@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.kk.imageeditor.Constants;
 import com.kk.imageeditor.R;
 import com.kk.imageeditor.controllor.ControllorManager;
 import com.kk.imageeditor.filebrowser.DialogFileFilter;
@@ -23,8 +24,6 @@ import uk.co.senab.photoview.PhotoView;
 
 public class PhotoViewActivity extends BaseActivity {
 
-    final static String[] IMAGE_EX = new String[]{".jpg", ".png"};
-    private static final String EXTRA_FILE = "filepath";
     PhotoView mPhotoView;
     private String mPath;
     String mName;
@@ -67,7 +66,7 @@ public class PhotoViewActivity extends BaseActivity {
         fileDialog.setCurPath(ControllorManager.get().getPathConrollor().getCurPath());
         fileDialog.setHideCreateButton(true);
         fileDialog.setEditText(mName);
-        fileDialog.setDialogFileFilter(new DialogFileFilter(false, false, IMAGE_EX));
+        fileDialog.setDialogFileFilter(new DialogFileFilter(false, false, Constants.IMAGE_EX));
         fileDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(android.R.string.ok),
                 (dialog, which) -> {
                     File file = fileDialog.getSelectFile();
@@ -103,7 +102,7 @@ public class PhotoViewActivity extends BaseActivity {
 
     public static void showImage(Context context, String bmp, String name) {
         Intent intent = new Intent(context, PhotoViewActivity.class);
-        intent.putExtra(EXTRA_FILE, bmp);
+        intent.putExtra(Constants.EXTRA_FILE, bmp);
         intent.putExtra(Intent.EXTRA_TEXT, name);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
@@ -114,8 +113,8 @@ public class PhotoViewActivity extends BaseActivity {
             if (intent.hasExtra(Intent.EXTRA_TEXT)) {
                 mName = intent.getStringExtra(Intent.EXTRA_TEXT);
             }
-            if (intent.hasExtra(EXTRA_FILE)) {
-                mPath = intent.getStringExtra(EXTRA_FILE);
+            if (intent.hasExtra(Constants.EXTRA_FILE)) {
+                mPath = intent.getStringExtra(Constants.EXTRA_FILE);
             }
         } catch (Exception e) {
 

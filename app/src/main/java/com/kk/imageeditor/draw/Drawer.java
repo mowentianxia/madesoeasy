@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import com.kk.imageeditor.BuildConfig;
+import com.kk.imageeditor.Constants;
 import com.kk.imageeditor.bean.Style;
 import com.kk.imageeditor.bean.StyleInfo;
 import com.kk.imageeditor.bean.data.ViewData;
@@ -26,8 +27,9 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import static com.kk.imageeditor.Constants.DEBUG;
+
 public class Drawer {
-    public static final boolean DEBUG = BuildConfig.DEBUG;
     public static final String XML_STYLE_NAME = "style.xml";
     protected Context context;
     protected IDataProvider mDataProvider;
@@ -176,7 +178,7 @@ public class Drawer {
         if (mDataProvider == null) {
             mDataProvider = new DefaultData(context);
             mDataProvider.bind(mStyle);
-            if (Drawer.DEBUG)
+            if (DEBUG)
                 Log.i("kk", "create default dataor");
         }
         ViewCreator creator = new ViewCreator(context);

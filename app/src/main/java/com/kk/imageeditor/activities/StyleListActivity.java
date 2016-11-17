@@ -5,17 +5,15 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kk.imageeditor.Constants;
 import com.kk.imageeditor.R;
 import com.kk.imageeditor.bean.StyleInfo;
 import com.kk.imageeditor.controllor.ControllorManager;
@@ -28,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StyleListActivity extends BaseActivity {
-    public static final int STYLE_BACK = 0x1000 + 4;
     private StyleAdapter mStyleAdapter;
     private PathConrollor pathConrollor;
     private RecyclerView mRecyclerView;
@@ -49,7 +46,7 @@ public class StyleListActivity extends BaseActivity {
     private void load() {
         ProgressDialog dialog = ProgressDialog.show(this, null, getString(R.string.load_style_list));
         VUiKit.defer().when(() -> {
-            return Drawer.getStyleList(pathConrollor.getStylePath(), ".xml", ".zip");
+            return Drawer.getStyleList(pathConrollor.getStylePath(), Constants.STYLE_EX);
         }).done((list) -> {
             mStyleAdapter.attach(list);
             dialog.dismiss();
@@ -129,7 +126,7 @@ public class StyleListActivity extends BaseActivity {
                 headAuthorView.setText(info.getAuthor());
             }
             mApply.setOnClickListener((v) -> {
-                setResult(STYLE_BACK, new Intent().putExtra(Intent.EXTRA_TEXT, info.getStylePath()));
+                setResult(Constants.RESULT_STYLE, new Intent().putExtra(Intent.EXTRA_TEXT, info.getStylePath()));
                 finish();
             });
         }

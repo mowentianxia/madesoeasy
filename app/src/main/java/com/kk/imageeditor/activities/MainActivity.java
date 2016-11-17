@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kk.imageeditor.Constants;
 import com.kk.imageeditor.R;
 import com.kk.imageeditor.bean.StyleInfo;
 import com.kk.imageeditor.controllor.ControllorManager;
@@ -41,7 +42,7 @@ import java.io.File;
 
 public class MainActivity extends DrawerAcitvity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private static final int REQUEST_STYLE = 2;
+
     private ImageView headImageView;
     private TextView headTitleView;
     private TextView headAuthorView;
@@ -51,8 +52,6 @@ public class MainActivity extends DrawerAcitvity
     private PathConrollor pathConrollor;
     private StyleControllor styleControllor;
     //    private boolean firstResume = true;
-    final static String[] SET_EX = new String[]{SaveUtil.SET_EX1, SaveUtil.SET_EX2};
-    final static String[] STYLE_EX = new String[]{".xml", ".zip"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,7 +141,7 @@ public class MainActivity extends DrawerAcitvity
         //选择一个存档打开
         final OpenFileDialog fileDialog = new OpenFileDialog(this);
         fileDialog.setCurPath(pathConrollor.getCurPath());
-        fileDialog.setDialogFileFilter(new DialogFileFilter(false, false, SET_EX));
+        fileDialog.setDialogFileFilter(new DialogFileFilter(false, false, Constants.SET_EX));
         fileDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(android.R.string.ok), (dialog, which) -> {
             pathConrollor.setCurPath(fileDialog.getCurPath());
             File file = fileDialog.getSelectFile();
@@ -165,7 +164,7 @@ public class MainActivity extends DrawerAcitvity
             fileDialog.setCurPath(pathConrollor.getCurPath());
             fileDialog.setHideCreateButton(true);
             fileDialog.setEditText(getSaveFileName());
-            fileDialog.setDialogFileFilter(new DialogFileFilter(false, false, SET_EX));
+            fileDialog.setDialogFileFilter(new DialogFileFilter(false, false, Constants.SET_EX));
             fileDialog.setButton(DialogInterface.BUTTON_POSITIVE,
                     getString(android.R.string.ok), (dialog, which) -> {
                         pathConrollor.setCurPath(fileDialog.getCurPath());
@@ -273,7 +272,7 @@ public class MainActivity extends DrawerAcitvity
                             }).show();
                     return null;
                 }
-                String file = new File(pathConrollor.getWorkPath(), "preview.png").getAbsolutePath();
+                String file = new File(pathConrollor.getWorkPath(), Constants.PREVIEW_NAME).getAbsolutePath();
                 BitmapUtil.saveBitmap(image, file, 100);
                 return file;
             }).done((image) -> {
@@ -288,7 +287,7 @@ public class MainActivity extends DrawerAcitvity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        Log.i("msoe", "requestCode="+requestCode+",resultCode="+resultCode+",data="+data);
-        if (requestCode == REQUEST_STYLE) {
+        if (requestCode == Constants.REQUEST_STYLE) {
             if (data != null) {
                 String file = data.getStringExtra(Intent.EXTRA_TEXT);
                 if (!TextUtils.isEmpty(file)) {
@@ -303,9 +302,7 @@ public class MainActivity extends DrawerAcitvity
     }
 
     private void openStyleList() {
-        Intent intent = new Intent(this, StyleListActivity.class);
-//        intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivityForResult(intent, REQUEST_STYLE);
+        startActivityForResult(new Intent(this, StyleListActivity.class), Constants.REQUEST_STYLE);
     }
 
     private void showAboutInfo() {

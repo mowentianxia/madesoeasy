@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.Toast;
 
+import com.kk.imageeditor.Constants;
 import com.kk.imageeditor.R;
 import com.kk.imageeditor.bean.StyleInfo;
 import com.kk.imageeditor.draw.Drawer;
@@ -21,13 +22,13 @@ import com.kk.imageeditor.widgets.ISelectImageListener;
 
 import java.io.File;
 
+import static com.kk.imageeditor.Constants.SCALE_SETP;
+
 public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
-    private static final float SETP = 0.25f;
+
     protected Drawer mDrawer;
     private String mSetFile;
-    private final static int CHOOSE_IMG = 0x20;
-    private final static int CUT_IMG = 0x10;
-    private final static int CAPTURE = 0x30;
+
     private String selectFile;
     private int selectWidth;
     private int selectHeigth;
@@ -133,9 +134,9 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
      */
     protected void zoomOut() {
         if (checkDrawer()) return;
-        float s = mDrawer.getScale() - SETP;
-        if (s <= SETP)
-            s = SETP;
+        float s = mDrawer.getScale() - SCALE_SETP;
+        if (s <= SCALE_SETP)
+            s = SCALE_SETP;
         scaleTo(s);
     }
 
@@ -144,7 +145,7 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
      */
     protected void zoomIn() {
         if (checkDrawer()) return;
-        float s = mDrawer.getScale() + SETP;
+        float s = mDrawer.getScale() + SCALE_SETP;
         scaleTo(s);
     }
 
@@ -218,7 +219,7 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
             Intent intent = new Intent(Intent.ACTION_PICK, null);
             intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                     "image/*");
-            this.startActivityForResult(intent, CHOOSE_IMG);
+            this.startActivityForResult(intent, Constants.REQUEST_CHOOSE_IMG);
         } else {// 拍照
             Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             // 下面这句指定调用相机拍照后的照片存储的路径
@@ -228,7 +229,7 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
             }
             intent2.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
             try {
-                this.startActivityForResult(intent2, CAPTURE);
+                this.startActivityForResult(intent2, Constants.REQUEST_CAPTURE);
             } catch (Exception e) {
                 Toast.makeText(this, R.string.no_find_image_selector, Toast.LENGTH_SHORT).show();
             }
@@ -259,7 +260,7 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
         intent.putExtra(MediaStore.EXTRA_OUTPUT, saveimgUri);
         intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
         try {
-            startActivityForResult(intent, CUT_IMG);
+            startActivityForResult(intent, Constants.REQUEST_CUT_IMG);
         } catch (Exception e) {
             Toast.makeText(this, R.string.no_find_image_cutor, Toast.LENGTH_SHORT).show();
         }
@@ -268,7 +269,7 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CHOOSE_IMG) {// 选择图片
+        if (requestCode == Constants.REQUEST_CHOOSE_IMG) {// 选择图片
             if (data != null) {
                 Uri uri = data.getData();
                 if (uri != null) {
@@ -276,11 +277,11 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
                 }
             }
             return;
-        } else if (requestCode == CUT_IMG) {// 裁剪完图片
+        } else if (requestCode == Constants.REQUEST_CUT_IMG) {// 裁剪完图片
             if (listener != null) {
                 listener.onCurImageCompleted(selectFile);
             }
-        } else if (requestCode == CAPTURE) {
+        } else if (requestCode == Constants.REQUEST_CAPTURE) {
             File f = FileUtil.file(selectFile + ".tmp");
             if (f != null && f.exists()) {// 拍照的临时图片
                 openPhotoCut(Uri.fromFile(f), selectFile, selectWidth, selectHeigth);

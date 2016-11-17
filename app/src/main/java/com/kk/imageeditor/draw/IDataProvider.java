@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.kk.imageeditor.Constants;
 import com.kk.imageeditor.bean.Style;
 import com.kk.imageeditor.bean.StyleInfo;
 import com.kk.imageeditor.bean.data.BooleanElement;
@@ -90,7 +91,7 @@ public abstract class IDataProvider {
             for (int i = 0; i < count; i++) {
                 names[i] = items.get(i).getName();
                 values.put(names[i], value[i]);
-                if (Drawer.DEBUG) {
+                if (Constants.DEBUG) {
                     Log.d("kk", "update " + names[i] + "=" + value[i]);
                 }
             }
@@ -257,7 +258,7 @@ public abstract class IDataProvider {
             if (value == null) {
                 value = "" + bools.get(name);
             }
-            if (Drawer.DEBUG) {
+            if (Constants.DEBUG) {
                 Log.v("kk", "deal " + name + "=" + value);
             }
             str = str.replace(key, value == null ? "" : value);
@@ -331,7 +332,7 @@ public abstract class IDataProvider {
             String newfile = getTempPath(file_src);
             if (!FileUtil.exists(newfile)) {
                 if(!TextUtils.equals(oldfile, newfile)) {
-                    if (Drawer.DEBUG) {
+                    if (Constants.DEBUG) {
                         Log.i("kk", "rename " + oldfile + " " + newfile);
                     }
                     FileUtil.rename(oldfile, newfile);
@@ -398,7 +399,7 @@ public abstract class IDataProvider {
         String vl = dealString(pInfo.getVisible());
         pViewData.visible = JudgUtils.getBoolean(vl, true);
 
-        if (Drawer.DEBUG) {
+        if (Constants.DEBUG) {
             Log.v("kk", "visable=" + pInfo.getVisible() + "    " + vl + "     " + pViewData.visible);
         }
         String file_background = dealString(pInfo.getBackground());

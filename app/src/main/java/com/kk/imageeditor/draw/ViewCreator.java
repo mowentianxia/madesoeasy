@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kk.imageeditor.Constants;
 import com.kk.imageeditor.bean.Style;
 import com.kk.imageeditor.bean.enums.LayoutType;
 import com.kk.imageeditor.bean.view.ImageInfo;
@@ -31,12 +32,12 @@ public class ViewCreator {
     }
 
     public View draw(Style pStyleInfo, ViewGroup viewGroup, IDataProvider IDataor) {
-        if(Drawer.DEBUG){
+        if(Constants.DEBUG){
             Log.i("kk","scale="+pStyleInfo.getScale());
         }
         View view = drawViewGroup(pStyleInfo, IDataor, pStyleInfo.getLayoutInfo());
         ViewGroup.LayoutParams params = ScaleHelper.getLayoutParams((IKView) view, viewGroup, pStyleInfo.getScale());
-        if (Drawer.DEBUG)
+        if (Constants.DEBUG)
             Log.v("kk", "params="+ params.getClass()+" "+params.width+"/"+params.height);
         viewGroup.addView(view, params);
         return view;
@@ -57,20 +58,20 @@ public class ViewCreator {
             View view = null;
             if (Info instanceof LayoutInfo) {
                 view = drawViewGroup(pStyleInfo, IDataor, (LayoutInfo) Info);
-                if (Drawer.DEBUG)
+                if (Constants.DEBUG)
                     Log.v("kk", "create layout "+view.getClass());
             } else if (Info instanceof ImageInfo) {
                 view = drawImage(pStyleInfo, IDataor, (ImageInfo) Info);
-                if (Drawer.DEBUG)
+                if (Constants.DEBUG)
                     Log.v("kk", "create imageview");
             } else if (Info instanceof TextInfo) {
                 view = drawText(pStyleInfo, IDataor, (TextInfo) Info);
-                if (Drawer.DEBUG)
+                if (Constants.DEBUG)
                     Log.v("kk", "create textview");
             }
             if (view != null) {
                 ViewGroup.LayoutParams params = ScaleHelper.getLayoutParams((IKView) view, viewGroup, pStyleInfo.getScale());
-                if (Drawer.DEBUG)
+                if (Constants.DEBUG)
                     Log.v("kk", "params="+ params.getClass()+" "+params.width+"/"+params.height);
                 viewGroup.addView(view, params);
                 view.invalidate();

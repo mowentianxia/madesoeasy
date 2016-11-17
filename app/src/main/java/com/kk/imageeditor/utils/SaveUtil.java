@@ -4,7 +4,8 @@ package com.kk.imageeditor.utils;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.kk.imageeditor.BuildConfig;
+import com.kk.imageeditor.Constants;
+import com.kk.imageeditor.Constants;
 import com.kk.imageeditor.bean.SaveInfo;
 import com.kk.imageeditor.draw.IDataProvider;
 
@@ -17,11 +18,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SaveUtil {
-    public static final String SET_EX1 = ".dex-set";
-    public static final String SET_EX2 = ".msoe-set";
-    public static final String ZIP_SET = "set";
+import static com.kk.imageeditor.Constants.SET_EX1;
+import static com.kk.imageeditor.Constants.SET_EX2;
+import static com.kk.imageeditor.Constants.ZIP_SET;
 
+public class SaveUtil {
 
     @SuppressWarnings("unchecked")
     private static boolean loadSet1(IDataProvider pIData, String file) {
@@ -38,7 +39,7 @@ public class SaveUtil {
                 Log.w("kk", "load set fail " + file);
                 return false;
             } else {
-                if (BuildConfig.DEBUG) {
+                if (Constants.DEBUG) {
                     Log.i("kk", "load set ok " + values.entrySet());
                 }
                 HashMap<String, String> values2 = new HashMap<>();
@@ -103,7 +104,7 @@ public class SaveUtil {
                 FileUtil.close(inputStream);
             }
             if (saveInfo != null) {
-                if (BuildConfig.DEBUG) {
+                if (Constants.DEBUG) {
                     Log.v("kk", "" + saveInfo);
                 }
                 Log.i("msoe", "laod set2:"+saveInfo.values);
@@ -124,7 +125,7 @@ public class SaveUtil {
             inputStream = new FileInputStream(setF);
             saveInfo = XmlUtils.getSetUtils().getObject(SaveInfo.class, inputStream);
         } catch (Exception e) {
-            if (BuildConfig.DEBUG) {
+            if (Constants.DEBUG) {
                 Log.e("kk", "" + e.toString() + " " + e.getCause());
             }
             e.printStackTrace();
@@ -132,7 +133,7 @@ public class SaveUtil {
             FileUtil.close(inputStream);
         }
         if (saveInfo != null && saveInfo.values.size() > 0) {
-            if (BuildConfig.DEBUG) {
+            if (Constants.DEBUG) {
                 Log.d("kk", "" + saveInfo);
             }
             pIData.updateValues(saveInfo.values);
@@ -159,7 +160,7 @@ public class SaveUtil {
             outputStream = new FileOutputStream(setFile);
             XmlUtils.getSetUtils().saveXml(saveInfo, outputStream);
         } catch (Exception e) {
-            if (BuildConfig.DEBUG) {
+            if (Constants.DEBUG) {
                 Log.e("kk", "" + e.toString() + " " + e.getCause());
             }
             e.printStackTrace();
@@ -188,7 +189,7 @@ public class SaveUtil {
             outputStream = new FileOutputStream(setFile);
             XmlUtils.getSetUtils().saveXml(saveInfo, outputStream);
         } catch (Exception e) {
-            if (BuildConfig.DEBUG) {
+            if (Constants.DEBUG) {
                 Log.e("kk", "" + e.toString() + " " + e.getCause());
             }
             e.printStackTrace();
@@ -206,7 +207,7 @@ public class SaveUtil {
             return false;
         String dir = pIData.getTempPath("");
         FileUtil.delete(dir);
-        if (BuildConfig.DEBUG) {
+        if (Constants.DEBUG) {
             Log.i("kk", "load set " + file);
         }
         if (file.endsWith(SET_EX1)) {

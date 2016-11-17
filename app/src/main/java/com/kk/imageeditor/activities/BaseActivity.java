@@ -6,8 +6,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import static com.kk.imageeditor.Constants.REQUEST_PERMISSIONS;
+
 class BaseActivity extends AppCompatActivity {
-    protected static final int REQUEST_CODE = 1;
 
     protected String[] getPermissions() {
         return null;
@@ -51,7 +52,7 @@ class BaseActivity extends AppCompatActivity {
     protected void startPermissionsActivity() {
         String[] PERMISSIONS = getPermissions();
         if (PERMISSIONS == null || PERMISSIONS.length == 0) return;
-        PermissionsActivity.startActivityForResult(this, REQUEST_CODE, PERMISSIONS);
+        PermissionsActivity.startActivityForResult(this, REQUEST_PERMISSIONS, PERMISSIONS);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -65,7 +66,7 @@ class BaseActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // 拒绝时, 关闭页面, 缺少主要权限, 无法运行
-        if (requestCode == REQUEST_CODE && resultCode == PermissionsActivity.PERMISSIONS_DENIED) {
+        if (requestCode == REQUEST_PERMISSIONS && resultCode == PermissionsActivity.PERMISSIONS_DENIED) {
             finish();
         }
     }

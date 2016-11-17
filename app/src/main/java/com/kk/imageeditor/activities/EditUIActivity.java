@@ -21,6 +21,7 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.kk.imageeditor.BuildConfig;
+import com.kk.imageeditor.Constants;
 import com.kk.imageeditor.bean.StyleInfo;
 import com.kk.imageeditor.bean.data.ImageData;
 import com.kk.imageeditor.bean.data.SelectElement;
@@ -134,7 +135,7 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
             return false;
         }
         tmpSelectElement = pSelectElement;
-        if (BuildConfig.DEBUG) {
+        if (Constants.DEBUG) {
             Log.i("kk", "name=" + pSelectElement.getName());
         }
         switch (pSelectElement.getType()) {
@@ -242,7 +243,7 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
             String value = getDataValue(item.getName());
             SelectElement selectElement = pIData.getSelectElement(item.getValue());
             if (selectElement == null) {
-                if (Drawer.DEBUG) {
+                if (Constants.DEBUG) {
                     Log.w("kk", "no find sub " + item.getValue());
                 }
                 continue;
