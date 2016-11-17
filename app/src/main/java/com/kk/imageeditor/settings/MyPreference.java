@@ -32,7 +32,7 @@ class MyPreference implements Preference.OnPreferenceChangeListener {
             // using RingtoneManager.
             if (TextUtils.isEmpty(stringValue)) {
                 // Empty values correspond to 'silent' (no ringtone).
-                preference.setSummary(R.string.pref_ringtone_silent);
+                preference.setSummary(null);
 
             } else {
                 Ringtone ringtone = RingtoneManager.getRingtone(

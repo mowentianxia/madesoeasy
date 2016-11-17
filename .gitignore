@@ -35,3 +35,4 @@ gradlew.bat
 
 /app/assets/*.zip
 /app/assets/style/*.zip
+/app/*.key

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">K卡牌制作器</string>
+
+    <string name="navigation_drawer_open">打开导航栏</string>
+    <string name="navigation_drawer_close">关闭导航栏</string>
+
+    <string name="help">帮助</string>
+    <string name="settings">设置</string>
+    <string name="author">没有样式</string>
+    <string name="string_help_text">当前应用缺少必要权限。\n请点击设置-权限-打开所需权限。</string>
+    <string name="need_select_style">你需要选择一个样式</string>
+    <string name="quit">退出</string>
+    <string name="quit_tip">退出应用？</string>
+    <string name="unknown">未知</string>
+    <string name="select_style">样式列表</string>
+    <string name="menu_settings">设置菜单</string>
+    <string name="preview">图片预览</string>
+    <string name="share_image">分享图片</string>
+    <string name="share">分享</string>
+    <string name="clear_tip">是否清除卡片信息？</string>
+    <string name="no_share_app">没有找到分享应用</string>
+    <string name="load_style_list">读取样式列表中</string>
+    <string name="action_zoom_in">放大</string>
+    <string name="action_zoom_out">缩小</string>
+    <string name="back_tip">再按一次返回键退出</string>
+    <string name="reset_info">重置信息</string>
+    <string name="open_set">打开存档</string>
+    <string name="save_set">保存存档</string>
+    <string name="save_as">存档另存为</string>
+    <string name="copy_style_wait">复制样式。。。</string>
+    <string name="load_style_wait">加载样式中。。。</string>
+    <string name="load_style_error">加载样式失败</string>
+    <string name="about">关于</string>
+    <string name="save_image">保存图片</string>
+    <string name="image_is_null">这个图片尺寸太大，无法显示图片</string>
+    <string name="file_dont_exist">文件不存在！</string>
+    <string name="title_activity_settings">设置</string>
+    <string name="title_activity_image">图片预览</string>
+    <string name="title_activity_style_list">样式列表</string>
+    <string name="no_find_image_selector">没有找到图片选择器</string>
+    <string name="no_find_image_cutor">没有找到裁剪工具</string>
+    <string name="create_folder">新建文件夹</string>
+    <string name="apply">应用</string>
+    <string name="dialog_title">提示</string>
+        <string name="about_info" formatted="false">\n
+应用:\t\t%s\n
+版本:\t%s\n
+作者:\t247321453\n
+邮箱:\t\t247321453@qq.com\n
+</string>
+</resources>

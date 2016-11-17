@@ -51,7 +51,7 @@
 	<data name="carddef"  desc="防御力" type="text" default="0"  />
 	<data name="cardlevel" desc="卡片等级/阶级" type="text" default="0" />
 	<data name="cardcode_image" desc="中间图" type="image"  default="{{cardcode}}.png" />
-	
+
 	<data name="pimagetype" default=""  desc="摇摆怪图片类型">
 		<item name="默认" value="" />
 		<item name="长方形" value="rect" />
@@ -188,16 +188,16 @@
 	<bool name="pendulum_is_big" 	value="'{{pendulum}}' == 'big'"/>
 	<bool name="pendulum_is_small" 	value="'{{pendulum}}' == 'small'"/>
 	<bool name="pendulum_nots_big" 	value="{{pendulum_is_small}} or {{pendulum_is_normal}}"/>
-	<bool name="pendulum_nots_small"value="{{pendulum_is_normal}} or {{pendulum_is_big}}"/>
+	<bool name="pendulum_nots_small" value="{{pendulum_is_normal}} or {{pendulum_is_big}}"/>
 	<bool name="is_spelltrap" 		value="'{{cardtype}}' == 'spell' or '{{cardtype}}' == 'trap'" />
-	<bool name="rare_type_is_normal"value="'{{rare_type}}' == ''"/>
-	<bool name="rare_type_is_middle"value="'{{rare_type}}' == 'middle'"/>
+	<bool name="rare_type_is_normal" value="'{{rare_type}}' == ''"/>
+	<bool name="rare_type_is_middle" value="'{{rare_type}}' == 'middle'"/>
 	<bool name="rare_type_is_full" 	value="'{{rare_type}}' == 'full'"/>
 	<bool name="card_is_syz" 		value="'{{cardtype}}' == 'xyz'"/>
 	<bool name="card_name_is_white" value="{{is_spelltrap}} or {{card_is_syz}}"/>
 	<bool name="card_is_black" 		value="{{card_is_syz}}"/>
 	<bool name="has_name_color" 	value="'{{namecolor}}' != ''"/>
-	
+
 	<layout>
 		<size left="0" top="0" width="421" height="610"/>
 		<image index="-1" click="cardbg">
@@ -229,17 +229,17 @@
 		</image>
 		<!-- 中间图-->
 		<image index="-1" click="cardcode_image" background="#ffffff">
-			<size when="{{pimage_is_normal}} and {{pendulum_nots_big}}" 
+			<size when="{{pimage_is_normal}} and {{pendulum_nots_big}}"
 				left="29.5" top="105.5" width="363" height="345"/>
-			<size when="{{pimage_is_normal}} and {{pendulum_is_big}}" 
+			<size when="{{pimage_is_normal}} and {{pendulum_is_big}}"
 				left="29.5" top="105.5" width="363" height="360"/>
-			<size when="{{pimage_is_rect}} and {{pendulum_nots_small}}" 
+			<size when="{{pimage_is_rect}} and {{pendulum_nots_small}}"
 				left="29.5" top="105.5" width="363" height="275"/>
-			<size when="{{pimage_is_rect}} and {{pendulum_is_small}}" 
+			<size when="{{pimage_is_rect}} and {{pendulum_is_small}}"
 				left="29.5" top="105.5" width="363" height="298"/>
-			<size when="{{image_is_noframe}}" 
+			<size when="{{image_is_noframe}}"
 				left="41" top="103" width="339" height="334"/>
-			<size when="{{image_is_full}}" 
+			<size when="{{image_is_full}}"
 				left="14" top="14" width="393" height="582"/>
 			<size left="51.5" top="112" width="319.5" height="319"/>
 			<src>{{cardcode_image}}</src>
@@ -248,13 +248,13 @@
 		<image index="3">
 			<size when="{{rare_type_is_full}}"
 				left="0" top ="0" width="421" height="610" />
-			<size when="{{image_is_full}}" 
+			<size when="{{image_is_full}}"
 				left="14" top="14" width="393" height="582"/>
-			<size when="{{pendulum_nots_small}}" 
+			<size when="{{pendulum_nots_small}}"
 				left="29.5" top="105.5" width="363" height="275" />
-			<size when="{{pendulum_is_small}}" 
+			<size when="{{pendulum_is_small}}"
 				left="29.5" top="105.5" width="363" height="294" />
-			<size when="{{image_is_noframe}}" 
+			<size when="{{image_is_noframe}}"
 				left="41" top="103" width="339" height="334" />
 			<size left="51.5" top="112" width="319.5" height="318" />
 			<src>foil/{{cardrare}}.png</src>
@@ -395,7 +395,7 @@
 			<size left="262" top="555" width="40" height="20"/>
 			<align>right|vcenter</align>
 			<color>#000000</color>
-			<font when="{{cardatk}} == 0 and '{{cardatk}}' != '0'" 
+			<font when="{{cardatk}} == 0 and '{{cardatk}}' != '0'"
 				name="font/ITCStoneSerif.ttf" style="bold" size="15"/>
 			<font name="font/MatrixBoldSmallCaps.ttf" style="normal" size="18.5"/>
 			<text>{{cardatk}}</text>
@@ -406,7 +406,7 @@
 			<size left="346" top="555" width="40" height="20"/>
 			<align>right|vcenter</align>
 			<color>#000000</color>
-			<font when="{{carddef}} == 0 and '{{carddef}}' != '0'" 
+			<font when="{{carddef}} == 0 and '{{carddef}}' != '0'"
 				name="font/ITCStoneSerif.ttf" style="bold" size="15"/>
 			<font name="font/MatrixBoldSmallCaps.ttf" style="normal" size="18.5"/>
 			<text>{{carddef}}</text>
@@ -414,11 +414,11 @@
 		</text>
 		<!-- P怪 左刻度 -->
 		<text index="2" click="cardpleft">
-			<size when="{{pendulum_is_big}}" 
+			<size when="{{pendulum_is_big}}"
 				left="31" top="422" width="30" height="36"/>
-			<size when="{{pendulum_is_small}}" 
+			<size when="{{pendulum_is_small}}"
 				left="31" top="420" width="30" height="36"/>
-			<size 
+			<size
 				left="31" top="413" width="30" height="36"/>
 			<align>center</align>
 			<color>#000000</color>
@@ -428,9 +428,9 @@
 		</text>
 		<!-- P怪 右刻度 -->
 		<text index="2" click="cardpright">
-			<size when="{{pendulum_is_big}}" 
+			<size when="{{pendulum_is_big}}"
 				left="362" top="422" width="30" height="36"/>
-			<size when="{{pendulum_is_small}}" 
+			<size when="{{pendulum_is_small}}"
 				left="362" top="420" width="30" height="36"/>
 			<size left="362" top="413" width="30" height="36"/>
 			<align>center</align>
@@ -476,7 +476,7 @@
 			<size left="34.5" top="480" width="353" height="73"/>
 			<align>left</align>
 			<color>#000000</color>
-			<font when="{{is_spelltrap}}" 
+			<font when="{{is_spelltrap}}"
 				  name="font/YGODIY_Chinese.ttf" style="normal" size="14"/>
 			<font name="font/YGODIY_Chinese.ttf" style="normal" size="13"/>
 			<text>{{cardtext}}</text>
