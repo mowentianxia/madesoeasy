@@ -6,6 +6,7 @@ import com.kk.imageeditor.bean.enums.LayoutType;
 import net.kk.xml.annotations.XmlAttribute;
 import net.kk.xml.annotations.XmlElement;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -71,6 +72,9 @@ public class LayoutInfo extends ViewInfo {
                 ", visible='" + visible + "'" +
                 ", index=" + index +
                 ", click=" + clickName +
+                ", text=" + Arrays.toString(mTextElements)+
+                ", image=" + Arrays.toString(mImageElements)+
+                ", layout="+ Arrays.toString(mLayoutInfos)+
                 ", background=" + background +
                 '}';
     }

@@ -1,7 +1,6 @@
 package com.kk.imageeditor.bean;
 
 import net.kk.xml.annotations.XmlElement;
-import net.kk.xml.annotations.XmlElementMap;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,5 +1,6 @@
 package com.kk.imageeditor.bean.data;
 
+
 import net.kk.xml.annotations.XmlElementText;
 
 public class Value extends When<String> {

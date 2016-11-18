@@ -14,12 +14,12 @@ import java.util.Collections;
 import java.util.List;
 
 public class XmlTest {
-    static class C extends IXmlElement{
+    static class C extends IXmlElement {
         @XmlElementText
         String name;
         @Override
         public String toString() {
-            return "c["+ pos +":"+name+"]";
+            return "c["+ index +":"+name+"]";
         }
     }
     static class B extends IXmlElement{
@@ -28,7 +28,7 @@ public class XmlTest {
 
         @Override
         public String toString() {
-            return "b["+ pos +":"+age+"]";
+            return "b["+ index +":"+age+"]";
         }
     }
     static class A{

@@ -4,9 +4,9 @@ import android.text.TextUtils;
 
 import com.kk.imageeditor.utils.FileUtil;
 
-import net.kk.xml.IXmlElement;
 import net.kk.xml.annotations.XmlElement;
 import net.kk.xml.annotations.XmlIgnore;
+import net.kk.xml.IXmlElement;
 
 import java.io.File;
 
@@ -106,6 +106,8 @@ public class StyleInfo extends IXmlElement {
                 ", appversion=" + appversion +
                 ", icon='" + icon + '\'' +
                 ", filepath='" + filepath + '\'' +
+                ", stylePath='" + stylePath + '\'' +
+                ", dataPath='" + dataPath + '\'' +
                 '}';
     }
 }

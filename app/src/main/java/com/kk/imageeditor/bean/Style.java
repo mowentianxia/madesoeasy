@@ -111,11 +111,16 @@ public class Style extends IXmlElement {
 
     @Override
     public String toString() {
-        return "StyleElement{" +
-                "mStyle=" + mStyleInfo +
+        return "Style{" +
+                "mStyleInfo=" + mStyleInfo +
                 ", mLayoutInfo=" + mLayoutInfo +
+                ", mSelectElements=" + mSelectElements +
+                ", mBooleanElements=" + mBooleanElements +
                 ", width=" + width +
                 ", height=" + height +
+                ", savename='" + savename + '\'' +
+                ", file='" + file + '\'' +
+                ", scale=" + scale +
                 '}';
     }
 }

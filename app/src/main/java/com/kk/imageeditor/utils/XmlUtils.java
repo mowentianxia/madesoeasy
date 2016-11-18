@@ -2,8 +2,8 @@ package com.kk.imageeditor.utils;
 
 
 import net.kk.xml.XmlOptions;
-import net.kk.xml.core.XmlReader;
-import net.kk.xml.core.XmlWriter;
+import net.kk.xml.XmlReader;
+import net.kk.xml.XmlWriter;
 
 import org.xmlpull.v1.XmlPullParserFactory;
 
@@ -29,6 +29,7 @@ public class XmlUtils {
     public static XmlUtils getStyleUtils() {
         return new XmlUtils(OPTIONS);
     }
+
     public static XmlUtils getSetUtils() {
         return getStyleUtils();
     }

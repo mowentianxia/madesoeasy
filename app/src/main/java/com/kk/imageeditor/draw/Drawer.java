@@ -246,8 +246,6 @@ public class Drawer {
             if (inputStream != null) {
                 style = XmlUtils.getStyleUtils().getObject(Style.class, inputStream);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         } catch (Throwable e) {
             e.printStackTrace();
         } finally {

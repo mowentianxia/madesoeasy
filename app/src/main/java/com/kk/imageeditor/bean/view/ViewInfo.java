@@ -71,10 +71,7 @@ public class ViewInfo extends IName {
     public static final Comparator<ViewInfo> DESC = new Comparator<ViewInfo>() {
         @Override
         public int compare(ViewInfo lhs, ViewInfo rhs) {
-            if(lhs.getPos() == rhs.getPos()){
-                return rhs.getIndex() - lhs.getIndex();
-            }
-            return rhs.getPos() - lhs.getPos();
+            return rhs.getIndex() - lhs.getIndex();
         }
     };
     /***
@@ -83,10 +80,7 @@ public class ViewInfo extends IName {
     public static final Comparator<ViewInfo> ACS = new Comparator<ViewInfo>() {
         @Override
         public int compare(ViewInfo lhs, ViewInfo rhs) {
-            if(lhs.getPos() == rhs.getPos()){
-                return lhs.getIndex() - rhs.getIndex();
-            }
-            return lhs.getPos() - rhs.getPos();
+            return lhs.getIndex() - rhs.getIndex();
         }
     };
 }
