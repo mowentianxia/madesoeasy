@@ -40,7 +40,7 @@ public class XmlUtils {
 
     public void saveXml(Object object, OutputStream outputStream) throws Exception {
         XmlWriter writer = new XmlWriter(XmlPullParserFactory.newInstance().newSerializer(), options);
-        writer.toXml(object, outputStream, null);
+        writer.write(object, outputStream, null);
     }
 
     public String toXml(Object object) throws Exception {
@@ -51,7 +51,7 @@ public class XmlUtils {
 
     public <T> T getObject(Class<T> tClass, InputStream inputStream) throws Exception {
         XmlReader reader = new XmlReader(XmlPullParserFactory.newInstance().newPullParser(), options);
-        return reader.from(inputStream, tClass, null, null);
+        return reader.fromInputStream(tClass, inputStream, null);
     }
 
     public <T> T getObject(Class<T> tClass, String xml) throws Exception {

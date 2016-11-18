@@ -19,7 +19,7 @@ public class XmlTest {
         String name;
         @Override
         public String toString() {
-            return "c["+ index +":"+name+"]";
+            return "c["+ pos +":"+name+"]";
         }
     }
     static class B extends IXmlElement{
@@ -28,7 +28,7 @@ public class XmlTest {
 
         @Override
         public String toString() {
-            return "b["+ index +":"+age+"]";
+            return "b["+ pos +":"+age+"]";
         }
     }
     static class A{
