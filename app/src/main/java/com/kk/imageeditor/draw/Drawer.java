@@ -8,8 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
-import com.kk.imageeditor.BuildConfig;
-import com.kk.imageeditor.Constants;
 import com.kk.imageeditor.bean.Style;
 import com.kk.imageeditor.bean.StyleInfo;
 import com.kk.imageeditor.bean.data.ViewData;
@@ -22,7 +20,6 @@ import com.kk.imageeditor.view.IKView;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -266,37 +263,6 @@ public class Drawer {
             }
         }
         return style;
-    }
-
-    /***
-     * 获取样式
-     *
-     * @param dir     样式的目录
-     * @param filters 格式过滤
-     * @return
-     */
-    public static ArrayList<StyleInfo> getStyleList(String dir, String... filters) {
-        ArrayList<StyleInfo> list = new ArrayList<>();
-        if (TextUtils.isEmpty(dir)) return list;
-        File[] files = FileUtil.listFiles(dir, filters);
-        if (files != null) {
-            for (File f : files) {
-                long start = System.currentTimeMillis();
-                Style style = parseStyle(f.getAbsolutePath());
-                if (DEBUG) {
-                    Log.i("msoe", "time=" + (System.currentTimeMillis() - start));
-                }
-                if (style != null) {
-                    Error error = check(style);
-                    if (error == Error.None && style.getStyleInfo() != null) {
-                        StyleInfo styleInfo = style.getStyleInfo();
-                        styleInfo.setFilepath(f.getAbsolutePath());
-                        list.add(styleInfo);
-                    }
-                }
-            }
-        }
-        return list;
     }
 
     public boolean isEmpty() {

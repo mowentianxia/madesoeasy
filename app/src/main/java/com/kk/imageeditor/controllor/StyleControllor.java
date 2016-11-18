@@ -8,13 +8,22 @@ import android.content.res.AssetManager;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.kk.imageeditor.BuildConfig;
 import com.kk.imageeditor.bean.Style;
+import com.kk.imageeditor.bean.StyleInfo;
+import com.kk.imageeditor.bean.StyleInfoEx;
 import com.kk.imageeditor.draw.Drawer;
 import com.kk.imageeditor.utils.FileUtil;
+import com.kk.imageeditor.utils.MD5Util;
+import com.kk.imageeditor.utils.XmlUtils;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.Locale;
+
+import static com.kk.imageeditor.Constants.DEBUG;
+import static com.kk.imageeditor.draw.Drawer.check;
+import static com.kk.imageeditor.draw.Drawer.parseStyle;
 
 public class StyleControllor extends BaseControllor {
     private static final String VERCODE = "vercode";
@@ -37,7 +46,7 @@ public class StyleControllor extends BaseControllor {
     }
 
     public boolean isChangedStyle() {
-        return lastStyle!=null && mCurStyle != null && !TextUtils.equals(mCurStyle, lastStyle);
+        return lastStyle != null && mCurStyle != null && !TextUtils.equals(mCurStyle, lastStyle);
     }
 
     public void setCurStyle(String file) {
@@ -67,7 +76,7 @@ public class StyleControllor extends BaseControllor {
         if (zips != null) {
             for (File f : zips) {
                 if (f.isFile()) {
-                    Style style = Drawer.parseStyle(f.getAbsolutePath());
+                    Style style = parseStyle(f.getAbsolutePath());
                     if (style != null) {
                         return f.getAbsolutePath();
                     }
@@ -81,7 +90,7 @@ public class StyleControllor extends BaseControllor {
         if (xmls != null) {
             for (File f : xmls) {
                 if (f.isFile()) {
-                    Style style = Drawer.parseStyle(f.getAbsolutePath());
+                    Style style = parseStyle(f.getAbsolutePath());
                     if (style != null) {
                         return f.getAbsolutePath();
                     }
@@ -98,7 +107,6 @@ public class StyleControllor extends BaseControllor {
         boolean update = false;
         if (mCurVerCode != verCode) {
             update = true;
-            sharedPreferences.edit().putInt(VERCODE, mCurVerCode).apply();
         }
         AssetManager assetManager = context.getAssets();
         String[] files = null;
@@ -120,7 +128,72 @@ public class StyleControllor extends BaseControllor {
                 }
             }
         }
+        if (update) {
+            sharedPreferences.edit().putInt(VERCODE, mCurVerCode).apply();
+        }
         return update;
+    }
+
+
+    /***
+     * 获取样式
+     *
+     * @param dir     样式的目录
+     * @param filters 格式过滤
+     * @return
+     */
+    public ArrayList<StyleInfo> getStyleList(String dir, String... filters) {
+        ArrayList<StyleInfo> list = new ArrayList<>();
+        if (TextUtils.isEmpty(dir)) return list;
+        File[] files = FileUtil.listFiles(dir, filters);
+        if (files != null) {
+            for (File f : files) {
+                File cache = new File(context.getFilesDir(), f.getName());
+                if (cache.exists()) {
+                    try {
+                        StyleInfoEx styleInfoEx = XmlUtils.getStyleUtils().getObject(StyleInfoEx.class, cache);
+                        if (styleInfoEx != null) {
+                            if (TextUtils.equals(styleInfoEx.getMd5(), MD5Util.getFileMD5(f.getAbsolutePath()))) {
+                                //一样
+                                StyleInfo info = styleInfoEx.getInfo();
+                                info.setStylePath(f.getAbsolutePath());
+                                Log.i("kk", "info="+info);
+                                list.add(info);
+                                continue;
+                            } else {
+                                cache.delete();
+                            }
+                        }
+                    } catch (Exception e) {
+                    }
+                }
+                long start = System.currentTimeMillis();
+                Style style = parseStyle(f.getAbsolutePath());
+                if (DEBUG) {
+                    Log.i("msoe", "time=" + (System.currentTimeMillis() - start));
+                }
+                if (style != null) {
+                    Drawer.Error error = check(style);
+                    if (error == Drawer.Error.None && style.getStyleInfo() != null) {
+                        StyleInfo styleInfo = style.getStyleInfo();
+                        styleInfo.setStylePath(f.getAbsolutePath());
+                        StyleInfoEx styleInfoEx = new StyleInfoEx(styleInfo);
+                        FileOutputStream outputStream = null;
+                        try {
+                            outputStream = new FileOutputStream(cache);
+                            XmlUtils.getStyleUtils().saveXml(styleInfoEx, outputStream);
+                            outputStream.close();
+                        } catch (Exception e) {
+
+                        } finally {
+                            FileUtil.close(outputStream);
+                        }
+                        list.add(styleInfo);
+                    }
+                }
+            }
+        }
+        return list;
     }
     //
 //    public static StyleControllor get(Context context) {
