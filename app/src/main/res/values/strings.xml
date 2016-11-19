@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Made So Easy</string>
+    <string name="app_name">MadeSoEasy</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -44,9 +44,9 @@
     <string name="apply">Apply</string>
     <string name="dialog_title">Info</string>
         <string name="about_info" formatted="false">\n
-Name:\t\t%s\n
+Name:   \t%s\n
 Version:\t%s\n
-Author:\t247321453\n
-E-mail:\t\t247321453@qq.com\n
+Author: \t247321453\n
+E-mail: \t247321453@qq.com\n
 </string>
 </resources>

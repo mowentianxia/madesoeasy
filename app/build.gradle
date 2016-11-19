@@ -15,7 +15,7 @@ android {
         applicationId "com.kk.mse"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 2001119
+        versionCode 3001119
         versionName "3.0.11.19"
         buildConfigField "String","DEFAULT_STYLE",'"yugioh-9-cn.xml"'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
