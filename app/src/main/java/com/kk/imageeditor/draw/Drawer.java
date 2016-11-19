@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import com.kk.imageeditor.Constants;
 import com.kk.imageeditor.bean.Style;
 import com.kk.imageeditor.bean.StyleData;
 import com.kk.imageeditor.bean.StyleInfo;
@@ -22,6 +23,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -175,15 +177,27 @@ public class Drawer {
 
     public static StyleInfo getStyleInfo(File f) {
         StyleInfo styleInfo = null;
-        FileInputStream inputStream = null;
+        InputStream inputStream = null;
+        ZipFile zipFile = null;
         try {
-            inputStream = new FileInputStream(f);
-            styleInfo = XmlUtils.getStyleUtils().getObject(StyleInfo.class, inputStream);
+            if (f.getName().toLowerCase(Locale.US).endsWith(".zip")) {
+                zipFile = new ZipFile(f);
+                ZipEntry zipEntry = zipFile.getEntry(Constants.STYLE_XMl);
+                if (zipEntry != null) {
+                    inputStream = zipFile.getInputStream(zipEntry);
+                }
+            } else {
+                inputStream = new FileInputStream(f);
+            }
+            if (inputStream != null) {
+                styleInfo = XmlUtils.getStyleUtils().getObject(StyleInfo.class, inputStream);
+            }
         } catch (Exception e) {
             if (DEBUG)
                 Log.e("msoe", "get style", e);
         } finally {
             FileUtil.close(inputStream);
+            FileUtil.closeZip(zipFile);
         }
         if (styleInfo != null) {
             styleInfo.setStylePath(f.getAbsolutePath());

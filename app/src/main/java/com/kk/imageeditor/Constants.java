@@ -2,7 +2,9 @@ package com.kk.imageeditor;
 
 
 public interface Constants {
+    String DEFAULT_STYLE = BuildConfig.DEFAULT_STYLE;
     String ASSET_STYLE = "style";
+    String STYLE_XMl = "style.xml";
     float SCALE_SETP = 0.25f;
     boolean DEBUG = BuildConfig.DEBUG;
     int REQUEST_PERMISSIONS = 0x1000 + 1;

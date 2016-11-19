@@ -67,9 +67,16 @@ public class StyleControllor extends BaseControllor {
         if (dir.isFile()) {
             return path;
         }
-        File[] file = FileUtil.listFiles(path, Constants.STYLE_EX);
-        if (file != null) {
-            for (File f : file) {
+        File file=new File(path, Constants.DEFAULT_STYLE);
+        if(file.exists()){
+            StyleInfo style = getStyleInfo(file);
+            if (style != null) {
+                return file.getAbsolutePath();
+            }
+        }
+        File[] files = FileUtil.listFiles(path, Constants.STYLE_EX);
+        if (files != null) {
+            for (File f : files) {
                 if (Constants.DEBUG)
                     Log.i("msoe", "try " + f);
                 if (f.isFile()) {
