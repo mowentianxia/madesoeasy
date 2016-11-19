@@ -6,208 +6,22 @@
 		<author>CaiCai</author>
 		<version>20160309</version>
 		<app-version>2</app-version>
-		<icon>icon_en.png</icon>
+		<icon>icon/en.png</icon>
 		<url>yugioh-9.zip</url>
+		<data>data/yugioh-9-en-data.xml</data>
 	</styleinfo>
-
-	<data name="image_type" default=""  desc="Image Type" >
-		<item name="default" value="" />
-		<item name="no frame" value="noframe" />
-		<item name="full image" value="full" />
-	</data>
-	<data name="cardattr" default="none" desc="Attribute" >
-		<item name="none" value="none" />
-		<item name="dark" value="dark" />
-		<item name="divine" value="divine" />
-		<item name="earth" value="earth" />
-		<item name="fire" value="fire" />
-		<item name="light" value="light" />
-		<item name="water" value="water" />
-		<item name="wind" value="wind" />
-		<item name="spell" value="spell" />
-		<item name="trap" value="trap" />
-	</data>
-	<data name="cardtype" default="normal" desc="Card Type" >
-		<item name="none" value="none" />
-		<item name="normal" value="normal" />
-		<item name="effect" value="effect" />
-		<item name="fusion" value="fusion" />
-		<item name="ritual" value="ritual" />
-		<item name="synchro" value="synchro" />
-		<item name="token" value="token" />
-		<item name="xyz" value="xyz" />
-		<item name="spell" value="spell" />
-		<item name="trap" value="trap" />
-	</data>
-	<data name="cardname" desc="Card Name" type="text" default="Click here to enter card name" />
-	<data name="cardcode" desc="Card Code" type="text"  default="00000000" />
-	<data name="cardtext" desc="Text" type="text"  default="Click here to enter card text" />
-	<data name="cardptext" desc="Pendulum Text" type="text" default="click this input pendulum text" />
-	<data name="cardpleft" desc="Pendulum Left"  type="text" default="0"  />
-	<data name="cardpright" desc="Pendulum Right" type="text"  default="0"  />
-	<data name="edition" desc="Edition"  type="text" default="" />
-	<data name="cardnum" desc="Number"  type="text" default="DT01-CN001" />
-	<data name="cardatk"  desc="Atk" type="text" default="0"  />
-	<data name="carddef"  desc="Def" type="text" default="0"  />
-	<data name="cardlevel" desc="Level/Rank" type="text" default="0" />
-	<data name="cardcode_image" desc="Image" type="image"  default="{{cardcode}}.png" />
-	
-	<data name="pimagetype" default=""  desc="pendulum image type">
-		<item name="default" value="" />
-		<item name="rect" value="rect" />
-	</data>
-
-	<data name="cardcopy" default=""  desc="copyright image">
-		<item name="default" value="" />
-		<item name="english" value="enCopyriht" />
-		<item name="japan" value="jpCopyriht" />
-	</data>
-	<data name="cardborder" default=""  desc="border color">
-		<item name="default" value="" />
-		<item name="gold" value="gold" />
-	</data>
-	<data name="namecolor" default=""  desc="card name color">
-		<item name="default" value="" />
-		<item name="silvery" value="#E6E6E6" />
-		<item name="gold" value="#D8C735" />
-		<item name="red" value="#3C0000" />
-		<item name="white" value="#ffffff" />
-		<item name="black" value="#000000" />
-	</data>
-		
-	<data name="cardrare" default="none" desc="rare type">
-		<item name="default" value="none" />
-		<item name="super foil" value="superfoil" />
-		<item name="secret foil" value="secretfoil" />
-		<item name="parallel foil" value="parallelfoil" />
-		<item name="mosaic foil" value="mosaicfoil" />
-		<item name="star foil" value="starfoil" />
-		<item name="ultimate foil" value="ultimatefoil" />
-	</data>
-	<data name="rare_type" default=""  desc="rare size">
-		<item name="default" value="" />
-		<item name="middle" value="middle" />
-		<item name="full" value="full" />
-	</data>
-	<data name="corner" default="none"  desc="corner" >
-		<item name="default" value="none" />
-		<item name="cornerdefault" value="cornerdefault" />
-		<item name="cornerfirst" value="cornerfirst" />
-		<item name="cornerunlimited" value="cornerunlimited" />
-	</data>
-	
-	<data name="pendulum" default="none"  desc="pendulum type">
-		<item name="none" value="none" />
-		<item name="big" value="big" />
-		<item name="normal" value="normal" />
-		<item name="small" value="small" />
-	</data>
-	<data name="stmark" default=""  desc="spell/trap" >
-		<item name="none" value="" />
-		<item name="normal spell" value="normalspell" />
-		<item name="normal trap" value="normaltrap" />
-		<item name="quick spell" value="quickspell" />
-		<item name="ritual spell" value="ritualspell" />
-		<item name="continuouss spell" value="continuousspell" />
-		<item name="equip spell" value="equipspell" />
-		<item name="field spell" value="fieldspell" />
-		<item name="counter trap" value="countertrap" />
-		<item name="continuouess trap" value="continuoustrap" />
-	</data>
-	
-	<data name="race" desc="Race" default="" hide="true">
-		<item value=""/>
-		<item value="Warrior"/>
-		<item value="Spellcaster"/>
-		<item value="Fairy"/>
-		<item value="Fiend"/>
-		<item value="Zombie"/>
-		<item value="Machine"/>
-		<item value="Aqua"/>
-		<item value="Pyro"/>
-		<item value="Rock"/>
-		<item value="Winged Beast"/>
-		<item value="Plant"/>
-		<item value="Insect"/>
-		<item value="Thunder"/>
-		<item value="Dragon"/>
-		<item value="Beast"/>
-		<item value="Beast-Warrior"/>
-		<item value="Dinosaur"/>
-		<item value="Fish"/>
-		<item value="Sea Serpent"/>
-		<item value="Reptile"/>
-		<item value="Psychic"/>
-		<item value="Divine-Beast"/>
-		<item value="Created-Divine"/>
-		<item value="Wyrm"/>
-	</data>
-	<data name="effect" desc="effect" default="" hide="true">
-		<item value=""/>
-		<item value="Synchro"/>
-		<item value="Xyz"/>
-		<item value="Fusion"/>
-		<item value="Ritual"/>
-		<item value="Effect"/>
-		<item value="Tuner"/>
-		<item value="Spirit"/>
-		<item value="Toon"/>
-		<item value="Gemini"/>
-		<item value="Union"/>
-		<item value="Pendulum"/>
-		<item value="Filp"/>
-		<item value="Dark Synchro"/>
-		<item value="Dark Tuner"/>
-		<item value="Special Summon"/>
-		<item value="Token"/>
-	</data>
-	<data name="cardmonster" desc="Race/Effedt" type="multi_select" >
-		<item name="race" 		value="race"   />
-		<item name="effect1"	value="effect" />
-		<item name="effect2" 	value="effect" />
-		<item name="effect3" 	value="effect" />
-	</data>
-	<data name="cardfoil" desc="Foil" type="multi_select" >
-		<item name="cardrare" 	value="cardrare"	/>
-		<item name="rare_type" 	value="rare_type"	/>
-		<item name="cardborder" value="cardborder"	/>
-		<item name="corner" 	value="corner"		/>
-		<item name="cardcopy" 	value="cardcopy" />
-	</data>
-	<data name="cardbg" desc="Style settings" type="multi_select" >
-		<item name="cardtype" 	value="cardtype"	/>
-		<item name="image_type" value="image_type"	/>
-		<item name="pendulum" 	value="pendulum"	/>
-		<item name="pimagetype" value="pimagetype"	/>
-		<item name="namecolor" 	value="namecolor"	 />
-	</data>
-		
-	<bool name="cardborder_is_gold" value="'{{cardborder}}' == 'gold'"/>
-	<bool name="is_pendulum" 		value="'{{pendulum}}' == 'big' or '{{pendulum}}' == 'normal' or '{{pendulum}}' == 'small'"/>
-	<bool name="image_is_normal" 	value="'{{image_type}}' != 'noframe' and 'image_type}}' != 'full'"/>
-	<bool name="image_is_noframe" 	value="'{{image_type}}' == 'noframe'"/>
-	<bool name="image_is_full" 		value="'{{image_type}}' == 'full'"/>
-	<bool name="pimage_is_normal" 	value="'{{pimagetype}}' != 'rect'"/>
-	<bool name="pimage_is_rect" 	value="'{{pimagetype}}' == 'rect'"/>
-	<bool name="pendulum_is_normal" value="'{{pendulum}}' == 'normal'"/>
-	<bool name="pendulum_is_big" 	value="'{{pendulum}}' == 'big'"/>
-	<bool name="pendulum_is_small" 	value="'{{pendulum}}' == 'small'"/>
-	<bool name="pendulum_nots_big" 	value="{{pendulum_is_small}} or {{pendulum_is_normal}}"/>
-	<bool name="pendulum_nots_small"value="{{pendulum_is_normal}} or {{pendulum_is_big}}"/>
-	<bool name="is_spelltrap" 		value="'{{cardtype}}' == 'spell' or '{{cardtype}}' == 'trap'" />
-	<bool name="rare_type_is_normal"value="'{{rare_type}}' == ''"/>
-	<bool name="rare_type_is_middle"value="'{{rare_type}}' == 'middle'"/>
-	<bool name="rare_type_is_full" 	value="'{{rare_type}}' == 'full'"/>
-	<bool name="card_is_syz" 		value="'{{cardtype}}' == 'xyz'"/>
-	<bool name="card_name_is_white" value="{{is_spelltrap}} or {{card_is_syz}}"/>
-	<bool name="card_is_black" 		value="{{card_is_syz}}"/>
-	<bool name="has_name_color" 	value="'{{namecolor}}' != ''"/>
-
 	<layout>
 		<size left="0" top="0" width="421" height="610"/>
 		<image index="-1" click="cardbg">
 			<size left="0" top="0" width="421" height="610"/>
 			<src>bg/card-{{cardtype}}.png</src>
+			<visible>{{image_not_full}}</visible>
+		</image>
+		<!-- 卡名背景（透明） -->
+		<image index="1" click="cardbg">
+			<size left="0" top="0" width="421" height="610"/>
+			<src>trant/bg.png</src>
+			<visible>{{image_is_full}}</visible>
 		</image>
 		<!-- 黄金边框 -->
 		<image index="2">
@@ -233,7 +47,7 @@
 			<visible>{{is_pendulum}} and {{pimage_is_rect}}</visible>
 		</image>
 		<!-- 中间图-->
-		<image index="-1" click="cardcode_image" background="#ffffff">
+		<image index="-1" click="cardcode_image">
 			<size when="{{pimage_is_normal}} and {{pendulum_nots_big}}" 
 				left="29.5" top="105.5" width="363" height="345"/>
 			<size when="{{pimage_is_normal}} and {{pendulum_is_big}}" 
@@ -268,19 +82,19 @@
 		<!-- 卡名背景（透明） -->
 		<image index="1">
 			<size left="18" top ="25" width="382" height="50"/>
-			<src>name.png</src>
+			<src>trant/name.png</src>
 			<visible>{{image_is_full}}</visible>
 		</image>
 		<!-- 效果背景（透明） -->
 		<image index="1">
 			<size left="23" top ="451" width="373" height="128"/>
-			<src>desc.png</src>
+			<src>trant/desc.png</src>
 			<visible>{{image_is_full}}</visible>
 		</image>
 		<!-- 分割线（透明） -->
 		<image index="1">
 			<size left="35" top ="553" width="350" height="1" />
-			<src>bar.png</src>
+			<src>trant/bar.png</src>
 			<visible>{{is_spelltrap}} == false and {{image_is_full}}</visible>
 		</image>
 		<!-- ATK（透明） -->
@@ -511,7 +325,7 @@
 		<!-- 防伪 -->
 		<image index="2" click="cardfoil">
 			<size left="389" top="576" width="21" height="21"/>
-			<src>{{corner}}.png</src>
+			<src>foil/{{corner}}.png</src>
 		</image>
 	</layout>
 </style>
