@@ -351,7 +351,7 @@ public class MainActivity extends DrawerAcitvity
                 showAboutInfo();
                 break;
             case R.id.nav_quit:
-                showDialog(getString(R.string.about_info), getString(R.string.quit_tip), (v, s) -> {
+                showDialog(getString(R.string.dialog_title), getString(R.string.quit_tip), (v, s) -> {
                     finish();
                 });
                 break;
