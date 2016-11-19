@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import com.kk.imageeditor.bean.Style;
+import com.kk.imageeditor.bean.StyleData;
 import com.kk.imageeditor.bean.StyleInfo;
 import com.kk.imageeditor.bean.data.ViewData;
 import com.kk.imageeditor.bean.view.ViewInfo;
@@ -130,9 +131,28 @@ public class Drawer {
     public Error loadStyle(String zipFile) {
         if (TextUtils.isEmpty(zipFile))
             return Error.UnknownError;
-        mStyle = parseStyle(zipFile);
-        Error e = check(mStyle);
-        if (e != Error.None) return e;
+        StyleInfo styleInfo = getStyleInfo(new File(zipFile));
+        Error e = check(styleInfo);
+        if (e != Error.None) {
+            if (DEBUG)
+                Log.e("msoe", "check style fail");
+            return e;
+        }
+        StyleData data = getStyleData(styleInfo);
+        if (data == null) {
+            if (DEBUG)
+                Log.e("msoe", "get data fail");
+            return Error.NoData;
+        }
+        Style style = getStyle(styleInfo);
+        if (style == null) {
+            if (DEBUG)
+                Log.e("msoe", "get layout fail");
+            return Error.NoLayout;
+        }
+        style.setInfo(styleInfo);
+        style.setData(data);
+        mStyle = style;
         if (mDataProvider != null) {
             mDataProvider.bind(mStyle);
         }
@@ -142,18 +162,111 @@ public class Drawer {
     /***
      * 检查错误
      *
-     * @param pStyleInfo
      * @return
      */
-    public static Error check(Style pStyleInfo) {
-        if (pStyleInfo == null) return Error.UnknownError;
-        StyleInfo styleInfo = pStyleInfo.getStyleInfo();
+    public static Error check(StyleInfo styleInfo) {
         if (styleInfo == null) return Error.InfoEmpty;
         if (styleInfo.getAppversion() < 0) return Error.UnknownVersion;
         if (styleInfo.getAppversion() > Version) return Error.NeedUpdate;
-        if (!FileUtil.exists(pStyleInfo.getFile())) return Error.NoData;
-        if (pStyleInfo.isEmpty()) return Error.NoLayout;
+        if (TextUtils.isEmpty(styleInfo.getDataXml())) return Error.NoData;
+        if (TextUtils.isEmpty(styleInfo.getLayoutXml())) return Error.NoLayout;
         return Error.None;
+    }
+
+    public static StyleInfo getStyleInfo(File f) {
+        StyleInfo styleInfo = null;
+        FileInputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(f);
+            styleInfo = XmlUtils.getStyleUtils().getObject(StyleInfo.class, inputStream);
+        } catch (Exception e) {
+            if (DEBUG)
+                Log.e("msoe", "get style", e);
+        } finally {
+            FileUtil.close(inputStream);
+        }
+        if (styleInfo != null) {
+            styleInfo.setStylePath(f.getAbsolutePath());
+            Error error = check(styleInfo);
+            if (error == Drawer.Error.None) {
+                return styleInfo;
+            }
+            if (DEBUG)
+                Log.e("msoe", "get style:" + styleInfo);
+        }
+        return null;
+    }
+
+    public static Style getStyle(StyleInfo styleInfo) {
+        Style info = null;
+        InputStream inputStream = null;
+        ZipFile zipFile = null;
+        try {
+            if (styleInfo.isFolder()) {
+                File f = new File(styleInfo.getDataPath(), styleInfo.getLayoutXml());
+                if (f.exists()) {
+                    inputStream = new FileInputStream(f);
+                }
+            } else {
+                zipFile = new ZipFile(styleInfo.getDataPath());
+                if (zipFile != null) {
+                    ZipEntry zipEntry = zipFile.getEntry(styleInfo.getLayoutXml());
+                    if (zipEntry != null) {
+                        inputStream = zipFile.getInputStream(zipEntry);
+                    }
+                }
+            }
+            if (inputStream != null) {
+                info = XmlUtils.getStyleUtils().getObject(Style.class, inputStream);
+            }
+        } catch (Exception e) {
+        } finally {
+            FileUtil.close(inputStream);
+            FileUtil.closeZip(zipFile);
+        }
+        return info;
+    }
+
+    public static StyleData getStyleData(StyleInfo styleInfo) {
+        StyleData info = null;
+        InputStream inputStream = null;
+        ZipFile zipFile = null;
+        try {
+            if (styleInfo.isFolder()) {
+                File f = new File(styleInfo.getDataPath(), styleInfo.getDataXml());
+                if (f.exists()) {
+                    inputStream = new FileInputStream(f);
+                }
+            } else {
+                zipFile = new ZipFile(styleInfo.getDataPath());
+                ZipEntry zipEntry = zipFile.getEntry(styleInfo.getDataXml());
+                if (zipEntry != null) {
+                    inputStream = zipFile.getInputStream(zipEntry);
+                }
+            }
+            if (inputStream != null) {
+                info = XmlUtils.getStyleUtils().getObject(StyleData.class, inputStream);
+            }
+        } catch (Exception e) {
+            if (DEBUG) {
+                Log.e("msoe", "load data", e);
+            }
+        } finally {
+            FileUtil.close(inputStream);
+            FileUtil.closeZip(zipFile);
+        }
+        return info;
+    }
+
+    public static Bitmap readImage(StyleInfo styleInfo, String zipname, int w, int h) {
+        Bitmap bmp = null;
+        if (styleInfo.isFolder()) {
+            File imgfile = FileUtil.file(styleInfo.getDataPath(), zipname);
+            bmp = BitmapUtil.getBitmapFromFile(imgfile.getAbsolutePath(), w, h);
+        } else {
+            bmp = BitmapUtil.getBitmapFormZip(styleInfo.getDataPath(), zipname, w, h);
+        }
+        return bmp;
     }
 
     /***
@@ -216,53 +329,6 @@ public class Drawer {
                 ikView.update(viewData);
             }
         }
-    }
-
-    /***
-     * xml,zip/style
-     *
-     * @param zip
-     * @return
-     */
-    public static Style parseStyle(String zip) {
-        if (TextUtils.isEmpty(zip)) return null;
-        ZipFile zipFile = null;
-        InputStream inputStream = null;
-        Style style = null;
-        boolean isXml = zip.endsWith(".xml");
-        try {
-            if (isXml) {
-                inputStream = new FileInputStream(zip);
-            } else {
-                zipFile = new ZipFile(zip);
-                ZipEntry entry = zipFile.getEntry(XML_STYLE_NAME);
-                if (entry != null) {
-                    inputStream = zipFile.getInputStream(entry);
-                }
-            }
-            if (inputStream != null) {
-                style = XmlUtils.getStyleUtils().getObject(Style.class, inputStream);
-            }
-        } catch (Throwable e) {
-            e.printStackTrace();
-        } finally {
-            FileUtil.close(inputStream);
-            FileUtil.closeZip(zipFile);
-        }
-        if (style != null) {
-            StyleInfo info = style.getStyleInfo();
-            if (info != null) {
-                info.setStylePath(zip);
-            }else{
-                return null;
-            }
-            if (isXml) {
-                style.setFile(info.getDataPath());
-            } else {
-                style.setFile(zip);
-            }
-        }
-        return style;
     }
 
     public boolean isEmpty() {

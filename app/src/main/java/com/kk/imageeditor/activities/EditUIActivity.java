@@ -29,6 +29,9 @@ import com.kk.imageeditor.bean.data.SubItem;
 import com.kk.imageeditor.bean.data.TextData;
 import com.kk.imageeditor.bean.data.ViewData;
 import com.kk.imageeditor.bean.enums.DataType;
+import com.kk.imageeditor.controllor.ControllorManager;
+import com.kk.imageeditor.controllor.PathConrollor;
+import com.kk.imageeditor.controllor.StyleControllor;
 import com.kk.imageeditor.draw.Drawer;
 import com.kk.imageeditor.draw.IDataProvider;
 import com.kk.imageeditor.utils.SaveUtil;
@@ -44,7 +47,8 @@ import java.util.Map;
 
 abstract class EditUIActivity extends BaseActivity implements ISelectImageListener {
     protected int itemHeight;
-
+    protected PathConrollor pathConrollor;
+    protected StyleControllor styleControllor;
     protected SelectElement tmpSelectElement;
 
     protected abstract void updateViews();
@@ -60,6 +64,8 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
         super.onCreate(savedInstanceState);
         DisplayMetrics dm = getResources().getDisplayMetrics();
         itemHeight = Math.round(Math.max(dm.widthPixels, dm.heightPixels) / 15.0f);
+        pathConrollor = ControllorManager.get().getPathConrollor();
+        styleControllor = ControllorManager.get().getStyleControllor();
     }
 
     /***
@@ -377,6 +383,22 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
         @Override
         public void updateValues(Map<String, String> datas) {
             super.updateValues(datas);
+        }
+
+        @Override
+        public String getCachePath(String name) {
+            if(TextUtils.isEmpty(name)){
+                return pathConrollor.getCachePath();
+            }
+            return new File(pathConrollor.getCachePath(), name).getAbsolutePath();
+        }
+
+        @Override
+        public String getTempPath(String name) {
+            if(TextUtils.isEmpty(name)){
+                return pathConrollor.getTempPath();
+            }
+            return new File(pathConrollor.getTempPath(), name).getAbsolutePath();
         }
     };
     //endregion

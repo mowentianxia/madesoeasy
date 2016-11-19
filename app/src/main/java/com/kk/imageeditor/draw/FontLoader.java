@@ -4,6 +4,7 @@ package com.kk.imageeditor.draw;
 import android.graphics.Typeface;
 
 
+import com.kk.imageeditor.bean.StyleInfo;
 import com.kk.imageeditor.bean.data.FontInfo;
 import com.kk.imageeditor.utils.FileUtil;
 
@@ -29,13 +30,19 @@ public class FontLoader {
         return null;
     }
 
-    public Typeface getFont(FontInfo fontInfo, String zip, File fontFile) {
+    public Typeface getFont(FontInfo fontInfo, StyleInfo styleInfo,String tempPath) {
         if (fontInfo == null) return null;
         Typeface face = get(fontInfo.getTag());
         if (face != null)
             return face;
-        if (!fontFile.exists()) {
-            FileUtil.copyFromZip(zip, fontInfo.getFont(), fontFile.getAbsolutePath());
+        File fontFile = null;
+        if(styleInfo.isFolder()){
+            fontFile = new File(styleInfo.getDataPath(), fontInfo.getFont());
+        }else{
+            fontFile = new File(tempPath,  fontInfo.getFont());
+            if(!fontFile.exists()){
+                FileUtil.copyFromZip(styleInfo.getDataPath(), fontInfo.getFont(), fontFile.getAbsolutePath());
+            }
         }
         if (fontFile.exists()) {
             try {

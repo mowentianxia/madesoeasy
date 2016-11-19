@@ -16,16 +16,8 @@ import java.util.List;
 
 @XmlElement("style")
 public class Style extends IXmlElement {
-    @XmlElement("styleinfo")
-    private StyleInfo mStyleInfo;
     @XmlElement("layout")
     private LayoutInfo mLayoutInfo;
-
-    @XmlElement("data")
-    private final List<SelectElement> mSelectElements;
-
-    @XmlElement("bool")
-    private final List<BooleanElement> mBooleanElements;
 
     @XmlAttribute("width")
     private int width;
@@ -37,13 +29,15 @@ public class Style extends IXmlElement {
     private String savename;
 
     @XmlIgnore
-    private String file;
+    private StyleInfo info;
+
     @XmlIgnore
-    private float scale = 1.0f;
+    private StyleData data;
+
+    @XmlIgnore
+    private float scale;
 
     public Style() {
-        mSelectElements = new ArrayList<>();
-        mBooleanElements = new ArrayList<>();
     }
 
     public boolean isEmpty() {
@@ -54,45 +48,46 @@ public class Style extends IXmlElement {
         return savename;
     }
 
-    public StyleInfo getStyleInfo() {
-        return mStyleInfo;
+    public StyleInfo getInfo() {
+        return info;
+    }
+
+    public StyleInfo getStyleInfo(){
+        return info;
+    }
+
+    public String getDataFile(){
+        return info.getDataPath();
     }
 
     public List<BooleanElement> getBooleanElements() {
-        return mBooleanElements;
+        return data.getBooleanElements();
     }
 
     public List<SelectElement> getSelectElements() {
-        return mSelectElements;
-    }
-    public SelectElement getDataElement(int i) {
-        if (i >= 0 && i < mSelectElements.size()) {
-            return mSelectElements.get(i);
-        }
-        return null;
+        return data.getSelectElements();
     }
 
     public SelectElement getDataElement(String name) {
-        for (SelectElement element : mSelectElements) {
-            if (TextUtils.equals(element.getName(), name))
-                return element;
+        List<SelectElement> selectElements = getSelectElements();
+        for (SelectElement selectElement : selectElements) {
+            if (TextUtils.equals(name, selectElement.getName())) {
+                return selectElement;
+            }
         }
         return null;
     }
-    public int getWidth() {
-        return width;
+
+    public void setInfo(StyleInfo info) {
+        this.info = info;
     }
 
-    public int getHeight() {
-        return height;
+    public StyleData getData() {
+        return data;
     }
 
-    public String getFile() {
-        return file;
-    }
-
-    public void setFile(String zipfile) {
-        file = zipfile;
+    public void setData(StyleData data) {
+        this.data = data;
     }
 
     public float getScale() {
@@ -101,8 +96,15 @@ public class Style extends IXmlElement {
 
     public void setScale(float pScale) {
         pScale = (int) (pScale * 10) / 10.0f;
-//        pScale = ((int) (pScale / 0.05f)) * 0.05f;
         scale = pScale;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     public LayoutInfo getLayoutInfo() {
@@ -112,15 +114,10 @@ public class Style extends IXmlElement {
     @Override
     public String toString() {
         return "Style{" +
-                "mStyleInfo=" + mStyleInfo +
-                ", mLayoutInfo=" + mLayoutInfo +
-                ", mSelectElements=" + mSelectElements +
-                ", mBooleanElements=" + mBooleanElements +
+                "mLayoutInfo=" + mLayoutInfo +
                 ", width=" + width +
                 ", height=" + height +
                 ", savename='" + savename + '\'' +
-                ", file='" + file + '\'' +
-                ", scale=" + scale +
                 '}';
     }
 }

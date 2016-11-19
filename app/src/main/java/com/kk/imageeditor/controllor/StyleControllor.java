@@ -8,22 +8,20 @@ import android.content.res.AssetManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.kk.imageeditor.Constants;
 import com.kk.imageeditor.bean.Style;
 import com.kk.imageeditor.bean.StyleInfo;
-import com.kk.imageeditor.bean.StyleInfoEx;
 import com.kk.imageeditor.draw.Drawer;
 import com.kk.imageeditor.utils.FileUtil;
-import com.kk.imageeditor.utils.MD5Util;
 import com.kk.imageeditor.utils.XmlUtils;
 
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import static com.kk.imageeditor.Constants.DEBUG;
-import static com.kk.imageeditor.draw.Drawer.check;
-import static com.kk.imageeditor.draw.Drawer.parseStyle;
+import static com.kk.imageeditor.draw.Drawer.getStyleInfo;
 
 public class StyleControllor extends BaseControllor {
     private static final String VERCODE = "vercode";
@@ -69,28 +67,13 @@ public class StyleControllor extends BaseControllor {
         if (dir.isFile()) {
             return path;
         }
-        File[] zips = dir.listFiles((pathname) -> {
-            String name = pathname.getName().toLowerCase(Locale.US);
-            return name.endsWith(".zip");
-        });
-        if (zips != null) {
-            for (File f : zips) {
+        File[] file = FileUtil.listFiles(path, Constants.STYLE_EX);
+        if (file != null) {
+            for (File f : file) {
+                if (Constants.DEBUG)
+                    Log.i("msoe", "try " + f);
                 if (f.isFile()) {
-                    Style style = parseStyle(f.getAbsolutePath());
-                    if (style != null) {
-                        return f.getAbsolutePath();
-                    }
-                }
-            }
-        }
-        File[] xmls = dir.listFiles((pathname) -> {
-            String name = pathname.getName().toLowerCase(Locale.US);
-            return name.endsWith(".xml");
-        });
-        if (xmls != null) {
-            for (File f : xmls) {
-                if (f.isFile()) {
-                    Style style = parseStyle(f.getAbsolutePath());
+                    StyleInfo style = getStyleInfo(f);
                     if (style != null) {
                         return f.getAbsolutePath();
                     }
@@ -107,29 +90,12 @@ public class StyleControllor extends BaseControllor {
         boolean update = false;
         if (mCurVerCode != verCode) {
             update = true;
-        }
-        AssetManager assetManager = context.getAssets();
-        String[] files = null;
-        String StylePath = ControllorManager.get().getPathConrollor().getStylePath();
-        try {
-            files = assetManager.list("style");
-        } catch (Exception e) {
-            Log.e("msoe", "AssetManager", e);
-        }
-        if (files != null) {
-            for (String file : files) {
-                if (!file.contains("style/")) {
-                    file = "style/" + file;
-                }
-                File tofile = new File(StylePath, file.replace("/style/", "").replace("style/", ""));
-                if (update || !tofile.exists()) {
-//                    Log.i("msoe", "file:" + file + ",to=" + tofile);
-                    FileUtil.copyFromAsset(context, file, tofile.getAbsolutePath());
-                }
+            String StylePath = ControllorManager.get().getPathConrollor().getStylePath();
+            try {
+                FileUtil.copyFilesFromAssets(context, Constants.ASSET_STYLE, StylePath, update);
+                sharedPreferences.edit().putInt(VERCODE, mCurVerCode).apply();
+            } catch (IOException e) {
             }
-        }
-        if (update) {
-            sharedPreferences.edit().putInt(VERCODE, mCurVerCode).apply();
         }
         return update;
     }
@@ -147,49 +113,11 @@ public class StyleControllor extends BaseControllor {
         if (TextUtils.isEmpty(dir)) return list;
         File[] files = FileUtil.listFiles(dir, filters);
         if (files != null) {
+            FileInputStream inputStream = null;
             for (File f : files) {
-                File cache = new File(context.getFilesDir(), f.getName());
-                if (cache.exists()) {
-                    try {
-                        StyleInfoEx styleInfoEx = XmlUtils.getStyleUtils().getObject(StyleInfoEx.class, cache);
-                        if (styleInfoEx != null) {
-                            if (TextUtils.equals(styleInfoEx.getMd5(), MD5Util.getFileMD5(f.getAbsolutePath()))) {
-                                //一样
-                                StyleInfo info = styleInfoEx.getInfo();
-                                info.setStylePath(f.getAbsolutePath());
-                                Log.i("kk", "info="+info);
-                                list.add(info);
-                                continue;
-                            } else {
-                                cache.delete();
-                            }
-                        }
-                    } catch (Exception e) {
-                    }
-                }
-                long start = System.currentTimeMillis();
-                Style style = parseStyle(f.getAbsolutePath());
-                if (DEBUG) {
-                    Log.i("msoe", "time=" + (System.currentTimeMillis() - start));
-                }
-                if (style != null) {
-                    Drawer.Error error = check(style);
-                    if (error == Drawer.Error.None && style.getStyleInfo() != null) {
-                        StyleInfo styleInfo = style.getStyleInfo();
-                        styleInfo.setStylePath(f.getAbsolutePath());
-                        StyleInfoEx styleInfoEx = new StyleInfoEx(styleInfo);
-                        FileOutputStream outputStream = null;
-                        try {
-                            outputStream = new FileOutputStream(cache);
-                            XmlUtils.getStyleUtils().saveXml(styleInfoEx, outputStream);
-                            outputStream.close();
-                        } catch (Exception e) {
-
-                        } finally {
-                            FileUtil.close(outputStream);
-                        }
-                        list.add(styleInfo);
-                    }
+                StyleInfo styleInfo = getStyleInfo(f);
+                if (styleInfo != null) {
+                    list.add(styleInfo);
                 }
             }
         }

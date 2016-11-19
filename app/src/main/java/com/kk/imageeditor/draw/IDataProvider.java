@@ -114,6 +114,8 @@ public abstract class IDataProvider {
         //     updateAllBools();
         updateDatas(false);
     }
+    public abstract String getCachePath(String name);
+    public abstract String getTempPath(String name);
 
     public String getSaveFileName() {
         if (!isLoad()) return "";
@@ -170,18 +172,6 @@ public abstract class IDataProvider {
             }
         }
         return tmp;
-    }
-
-    protected String getCachePath(String name) {
-        if (!isLoad()) return name;
-        String dir = FileUtil.getParent(mStyle.getFile());
-        return new File(dir, CACHE + "/" + name).getAbsolutePath();
-    }
-
-    public String getTempPath(String name) {
-        if (!isLoad()) return name;
-        String dir = FileUtil.getParent(mStyle.getFile());
-        return new File(dir, TEMP + "/" + name).getAbsolutePath();
     }
 
     public ArrayList<String> getOutFiles() {
@@ -276,12 +266,6 @@ public abstract class IDataProvider {
         return mStyle.getStyleInfo();
     }
 
-
-    public String getDataFile() {
-        if (!isLoad()) return null;
-        return mStyle.getFile();
-    }
-
     protected void updateAllData(LayoutInfo pInfo, boolean init) {
         TextInfo[] texts = pInfo.getTexts();
         if (texts != null) {
@@ -331,7 +315,7 @@ public abstract class IDataProvider {
             String oldfile = getTempPath(imageData.file_src);
             String newfile = getTempPath(file_src);
             if (!FileUtil.exists(newfile)) {
-                if(!TextUtils.equals(oldfile, newfile)) {
+                if (!TextUtils.equals(oldfile, newfile)) {
                     if (Constants.DEBUG) {
                         Log.i("kk", "rename " + oldfile + " " + newfile);
                     }
@@ -351,7 +335,7 @@ public abstract class IDataProvider {
         update(data, pInfo);
         FontInfo fontInfo = getValue(pInfo.getFont());
         if (fontInfo != null) {
-            data.font = mFontLoader.getFont(fontInfo, mStyle.getFile(), new File(getCachePath(fontInfo.getFont())));
+            data.font = mFontLoader.getFont(fontInfo, mStyle.getStyleInfo(), getCachePath(""));
             data.font_size = fontInfo.getSize();// * mStyle.getScale();
             data.fontstyle = fontInfo.getFontstyle().ordinal();
         }
@@ -459,7 +443,7 @@ public abstract class IDataProvider {
         File imgfile = FileUtil.file(getTempPath(zipname));
         Bitmap bmp = BitmapUtil.getBitmapFromFile(imgfile.getAbsolutePath(), (int) w, (int) h);
         if (bmp == null) {
-            bmp = BitmapUtil.getBitmapFormZip(mStyle.getFile(), zipname, (int) w, (int) h);
+            bmp = Drawer.readImage(mStyle.getStyleInfo(), zipname, (int)w, (int)h);
         }
         return new BitmapDrawable(context.getResources(), bmp);
     }
@@ -545,27 +529,29 @@ public abstract class IDataProvider {
         return new LayoutData();
     }
 
-    public void cleanCache(){
-        String dir =  getCachePath("");
-        File f=new File(dir);
-        if(f.exists()){
-            if(f.isDirectory()){
+    public void cleanCache() {
+        String dir = getCachePath("");
+        File f = new File(dir);
+        if (f.exists()) {
+            if (f.isDirectory()) {
                 FileUtil.delete(f);
             }
         }
     }
 
 
-
     public boolean copyFonts() {
         if (!isLoad()) return false;
+        if (mStyle.getInfo().isFolder()) {
+            return true;
+        }
         ArrayList<String> list = new ArrayList<>();
         getFonts(list, mStyle.getLayoutInfo());
-        if (!FileUtil.exists(mStyle.getFile())) {
+        if (!FileUtil.exists(mStyle.getDataFile())) {
             return false;
         }
         for (String file : list) {
-            FileUtil.copyFromZip(mStyle.getFile(), file, getCachePath(file));
+            FileUtil.copyFromZip(mStyle.getDataFile(), file, getCachePath(file));
         }
         return true;
     }

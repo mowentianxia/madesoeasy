@@ -1,10 +1,12 @@
 package com.kk.imageeditor.utils;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -172,28 +174,8 @@ public class FileUtil {
         try {
             inputstream = new FileInputStream(file);
             outputStream = new FileOutputStream(toFile);
-            isOK = write(inputstream, outputStream);
-        } catch (IOException e) {
-            e.printStackTrace();
-            isOK = false;
-        } finally {
-            close(outputStream);
-            close(inputstream);
-        }
-        return isOK;
-    }
-
-    public static boolean copyFromAsset(Context context, String FileName, String destName) {
-        if (TextUtils.isEmpty(FileName) || TextUtils.isEmpty(destName)) return false;
-        boolean isOK = false;
-        if (!createDirByFile(destName))
-            return isOK;
-        InputStream inputstream = null;
-        OutputStream outputStream = null;
-        try {
-            inputstream = context.getAssets().open(FileName);
-            outputStream = new FileOutputStream(destName);
-            isOK = write(inputstream, outputStream);
+            copy(inputstream, outputStream);
+            isOK = true;
         } catch (IOException e) {
             e.printStackTrace();
             isOK = false;
@@ -243,7 +225,8 @@ public class FileUtil {
             if (ZEpng != null) {
                 is = zf.getInputStream(ZEpng);
                 outputStream = new FileOutputStream(destName);
-                isOK = write(is, outputStream);
+                copy(is, outputStream);
+                isOK = true;
             }
         } catch (IOException e1) {
             e1.printStackTrace();
@@ -252,9 +235,7 @@ public class FileUtil {
         } finally {
             close(outputStream);
             close(is);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                close(zf);
-            }
+            closeZip(zf);
         }
         return isOK;
     }
@@ -325,7 +306,7 @@ public class FileUtil {
         try {
             inputStream = new FileInputStream(file);
             outputStream = new ByteArrayOutputStream();
-            write(inputStream, outputStream);
+            copy(inputStream, outputStream);
             result = outputStream.toByteArray();
         } catch (Exception e) {
             e.printStackTrace();
@@ -343,7 +324,7 @@ public class FileUtil {
         try {
             inputStream = new ByteArrayInputStream(data);
             outputStream = new FileOutputStream(file);
-            write(inputStream, outputStream);
+            copy(inputStream, outputStream);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -351,19 +332,6 @@ public class FileUtil {
             close(outputStream);
         }
         return exists(file);
-    }
-
-    private static boolean write(InputStream inputStream, OutputStream outputStream)
-            throws IOException {
-        if (inputStream == null || outputStream == null) {
-            return false;
-        }
-        byte[] readBytes = new byte[4096];
-        int i = -1;
-        while ((i = inputStream.read(readBytes)) > 0) {
-            outputStream.write(readBytes, 0, i);
-        }
-        return true;
     }
 
     public static File[] listFiles(String dir, final String... filters) {
@@ -383,5 +351,115 @@ public class FileUtil {
             }
         });
         return files;
+    }
+
+    public static String getName(String path) {
+        return new File(path).getName();
+    }
+
+    public static String join(String path1, String path2) {
+        if (TextUtils.isEmpty(path1)) {
+            return path2;
+        }
+        if (TextUtils.isEmpty(path2)) {
+            return path1;
+        }
+        if (!path1.endsWith("/")) {
+            path1 += "/";
+        }
+        if (path2.startsWith("/")) {
+            path2 = path2.substring(1);
+        }
+        return path1 + path2;
+    }
+
+    public static boolean isDirectory(Context context, String assets) {
+        String[] files = new String[0];
+        try {
+            files = context.getAssets().list(assets);
+        } catch (IOException e) {
+
+        }
+        if (files != null && files.length > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public static void copy(InputStream in, OutputStream out) throws IOException {
+        byte[] cache = new byte[1024 * 8];
+        int len;
+        while ((len = in.read(cache)) != -1) {
+            out.write(cache, 0, len);
+        }
+    }
+
+    public static void copyToFile(InputStream in, String file) {
+        FileOutputStream outputStream = null;
+        try {
+            File dir = new File(file).getParentFile();
+            if (dir != null && !dir.exists()) {
+                dir.mkdirs();
+            }
+            outputStream = new FileOutputStream(file);
+            copy(in, outputStream);
+        } catch (Exception e) {
+
+        } finally {
+            close(outputStream);
+            close(in);
+        }
+    }
+
+    public static int copyFilesFromAssets(Context context, String assets, String toPath, boolean update) throws IOException {
+        AssetManager am = context.getAssets();
+        String[] files = am.list(assets);
+        if (files == null) {
+            return 0;
+        }
+        if (files.length == 0) {
+            //is file
+            String file = getName(assets);
+            String tofile = join(toPath, file);
+            if (update || !new File(tofile).exists()) {
+                copyToFile(am.open(assets), tofile);
+            }
+            return 1;
+        } else {
+            int count = 0;
+            for (String file : files) {
+                String path = join(assets, file);
+                if (isDirectory(context, path)) {
+                    count += copyFilesFromAssets(context, path, join(toPath, file), update);
+                } else {
+                    File f = new File(join(toPath, file));
+                    if (update || !f.exists()) {
+                        copyToFile(am.open(path), f.getAbsolutePath());
+                    }
+                    count++;
+                }
+            }
+            return count;
+        }
+    }
+
+    public static boolean createNoMedia(String path) {
+        File file = new File(path);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        if (file.isDirectory()) {
+            //
+            File n = new File(file, ".nomedia");
+            if (n.exists()) {
+                return true;
+            }
+            try {
+                n.createNewFile();
+                return true;
+            } catch (IOException e) {
+            }
+        }
+        return false;
     }
 }

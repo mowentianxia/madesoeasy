@@ -49,8 +49,7 @@ public class MainActivity extends DrawerAcitvity
     private TextView headVerView;
     private DrawerLayout mDrawerlayout;
     private long exitLasttime;
-    private PathConrollor pathConrollor;
-    private StyleControllor styleControllor;
+
     //    private boolean firstResume = true;
 
     @Override
@@ -59,8 +58,6 @@ public class MainActivity extends DrawerAcitvity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        pathConrollor = ControllorManager.get().getPathConrollor();
-        styleControllor = ControllorManager.get().getStyleControllor();
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener((v) -> {
 //            Snackbar.make(v, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -184,7 +181,7 @@ public class MainActivity extends DrawerAcitvity
         super.setStyleInfo(info);
         if (info != null) {
             if (headImageView != null) {
-                Bitmap icon = BitmapUtil.getBitmapFormZip(info.getDataPath(), info.getIcon(), 0, 0);
+                Bitmap icon = Drawer.readImage(info, info.getIcon(), 0,0);
                 headImageView.setImageBitmap(icon);
             }
             if (headVerView != null) {

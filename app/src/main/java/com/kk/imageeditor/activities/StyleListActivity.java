@@ -20,6 +20,7 @@ import com.kk.imageeditor.bean.StyleInfo;
 import com.kk.imageeditor.controllor.ControllorManager;
 import com.kk.imageeditor.controllor.PathConrollor;
 import com.kk.imageeditor.controllor.StyleControllor;
+import com.kk.imageeditor.draw.Drawer;
 import com.kk.imageeditor.utils.BitmapUtil;
 import com.kk.imageeditor.utils.VUiKit;
 
@@ -123,7 +124,7 @@ public class StyleListActivity extends BaseActivity {
                 return;
             }
             if (headImageView != null) {
-                Bitmap icon = BitmapUtil.getBitmapFormZip(info.getDataPath(), info.getIcon(), 0, 0);
+                Bitmap icon =  Drawer.readImage(info, info.getIcon(), 0,0);
                 headImageView.setImageBitmap(icon);
             }
             if (headVerView != null) {

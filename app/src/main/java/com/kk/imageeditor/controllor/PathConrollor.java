@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Environment;
 import android.text.TextUtils;
 
+import com.kk.imageeditor.utils.FileUtil;
+
 import java.io.File;
 
 import static com.kk.imageeditor.Constants.DEFAULT_NAME;
@@ -14,6 +16,7 @@ public class PathConrollor extends BaseControllor {
 
     private String workPath;
     private String cachePath;
+    private String tempPath;
     private String stylePath;
     private String setPath;
     private String imagePath;
@@ -47,6 +50,10 @@ public class PathConrollor extends BaseControllor {
         return setPath;
     }
 
+    public String getTempPath() {
+        return tempPath;
+    }
+
     public String getCurPath() {
         return mCurPath;
     }
@@ -60,11 +67,15 @@ public class PathConrollor extends BaseControllor {
     }
 
     private void initPath(String workPath) {
-        if(!TextUtils.equals(this.workPath, workPath)){
+        if (!TextUtils.equals(this.workPath, workPath)) {
             sharedPreferences.edit().putString(PREF_WORKPATH, workPath).apply();
         }
         this.workPath = workPath;
+
         cachePath = new File(workPath, "cache").getAbsolutePath();
+        FileUtil.createNoMedia(cachePath);
+        tempPath = new File(workPath, "temp").getAbsolutePath();
+        FileUtil.createNoMedia(tempPath);
         imagePath = new File(workPath, "images").getAbsolutePath();
         setPath = new File(workPath, "saves").getAbsolutePath();
         stylePath = new File(workPath, "styles").getAbsolutePath();

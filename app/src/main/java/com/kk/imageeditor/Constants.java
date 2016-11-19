@@ -2,6 +2,7 @@ package com.kk.imageeditor;
 
 
 public interface Constants {
+    String ASSET_STYLE = "style";
     float SCALE_SETP = 0.25f;
     boolean DEBUG = BuildConfig.DEBUG;
     int REQUEST_PERMISSIONS = 0x1000 + 1;
