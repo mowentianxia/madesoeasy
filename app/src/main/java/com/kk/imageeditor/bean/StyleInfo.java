@@ -55,8 +55,6 @@ public class StyleInfo extends IXmlElement {
     }
 
     public String getDataPath() {
-        if (!TextUtils.isEmpty(dataPath)) return dataPath;
-
         if (stylePath.endsWith(".zip")) {
             return stylePath;
         }

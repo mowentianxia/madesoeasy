@@ -9,6 +9,8 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -52,6 +54,15 @@ public class XmlUtils {
     public <T> T getObject(Class<T> tClass, InputStream inputStream) throws Exception {
         XmlReader reader = new XmlReader(XmlPullParserFactory.newInstance().newPullParser(), options);
         return reader.fromInputStream(tClass, inputStream, null);
+    }
+
+    public <T> T getObject(Class<T> tClass, File f) throws Exception {
+        XmlReader reader = new XmlReader(XmlPullParserFactory.newInstance().newPullParser(), options);
+        FileInputStream inputStream = new FileInputStream(f);
+        T t = reader.fromInputStream(tClass, inputStream, null);
+        inputStream.close();
+        return t;
+
     }
 
     public <T> T getObject(Class<T> tClass, String xml) throws Exception {

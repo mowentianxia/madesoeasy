@@ -19,7 +19,7 @@ import com.kk.imageeditor.R;
 import com.kk.imageeditor.bean.StyleInfo;
 import com.kk.imageeditor.controllor.ControllorManager;
 import com.kk.imageeditor.controllor.PathConrollor;
-import com.kk.imageeditor.draw.Drawer;
+import com.kk.imageeditor.controllor.StyleControllor;
 import com.kk.imageeditor.utils.BitmapUtil;
 import com.kk.imageeditor.utils.VUiKit;
 
@@ -31,6 +31,7 @@ import static com.kk.imageeditor.Constants.DEBUG;
 public class StyleListActivity extends BaseActivity {
     private StyleAdapter mStyleAdapter;
     private PathConrollor pathConrollor;
+    private StyleControllor mStyleControllor;
     private RecyclerView mRecyclerView;
 
     @Override
@@ -43,13 +44,14 @@ public class StyleListActivity extends BaseActivity {
         mRecyclerView.setAdapter(mStyleAdapter);
         enableBackHome();
         pathConrollor = ControllorManager.get().getPathConrollor();
+        mStyleControllor=ControllorManager.get().getStyleControllor();
         load();
     }
 
     private void load() {
         ProgressDialog dialog = ProgressDialog.show(this, null, getString(R.string.load_style_list));
         VUiKit.defer().when(() -> {
-            return Drawer.getStyleList(pathConrollor.getStylePath(), Constants.STYLE_EX);
+            return mStyleControllor.getStyleList(pathConrollor.getStylePath(), Constants.STYLE_EX);
         }).fail((e) -> {
             if (DEBUG) {
                 Log.e("msoe", "list", e);
