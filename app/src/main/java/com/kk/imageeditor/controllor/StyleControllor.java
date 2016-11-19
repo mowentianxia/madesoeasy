@@ -27,20 +27,21 @@ public class StyleControllor extends BaseControllor {
     private static final String VERCODE = "vercode";
     private static final String CURSTYLE = "curstyle";
     private String mCurStyle;
-    private int verCode;
+    private volatile int verCode;
     private int mCurVerCode;
     private String lastStyle;
+    private PathConrollor mPathConrollor;
 
     StyleControllor(Context context, SharedPreferences sharedPreferences) {
         super(context, sharedPreferences);
+        mPathConrollor = ControllorManager.get().getPathConrollor();
         try {
             PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
             mCurVerCode = packageInfo.versionCode;
-            verCode = sharedPreferences.getInt(VERCODE, 0);
-            mCurStyle = sharedPreferences.getString(CURSTYLE, null);
         } catch (PackageManager.NameNotFoundException e) {
         }
-
+        verCode = sharedPreferences.getInt(VERCODE, 0);
+        mCurStyle = sharedPreferences.getString(CURSTYLE, null);
     }
 
     public boolean isChangedStyle() {
@@ -96,11 +97,13 @@ public class StyleControllor extends BaseControllor {
     public boolean copyStyleFromAssets() {
         boolean update = false;
         if (mCurVerCode != verCode) {
+            Log.i("msoe", "copy styles:"+verCode+"/"+mCurVerCode);
+            verCode = mCurVerCode;
             update = true;
-            String StylePath = ControllorManager.get().getPathConrollor().getStylePath();
+            sharedPreferences.edit().putInt(VERCODE, mCurVerCode).commit();
+            String StylePath = mPathConrollor.getStylePath();
             try {
                 FileUtil.copyFilesFromAssets(context, Constants.ASSET_STYLE, StylePath, update);
-                sharedPreferences.edit().putInt(VERCODE, mCurVerCode).apply();
             } catch (IOException e) {
             }
         }

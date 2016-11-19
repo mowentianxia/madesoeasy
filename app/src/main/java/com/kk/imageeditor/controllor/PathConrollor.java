@@ -14,7 +14,7 @@ import static com.kk.imageeditor.Constants.PREF_WORKPATH;
 
 public class PathConrollor extends BaseControllor {
 
-    private String workPath;
+    private volatile String workPath;
     private String cachePath;
     private String tempPath;
     private String stylePath;
