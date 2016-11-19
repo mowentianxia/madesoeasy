@@ -343,9 +343,11 @@ public class MainActivity extends DrawerAcitvity
                 openStyleList();
                 break;
             case R.id.nav_manage:
-                Intent intent = new Intent(this, SettingsActivity.class);
-                intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                if(Constants.DEBUG) {
+                    Intent intent = new Intent(this, SettingsActivity.class);
+                    intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
                 break;
             case R.id.nav_about:
                 showAboutInfo();

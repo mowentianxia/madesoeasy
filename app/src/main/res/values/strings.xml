@@ -49,4 +49,6 @@ Version:\t%s\n
 Author: \t247321453\n
 E-mail: \t247321453@qq.com\n
 </string>
+    <string name="pref_header_imageeditor">Image Editor</string>
+    <string name="pref_header_dataditor">Data Editor</string>
 </resources>

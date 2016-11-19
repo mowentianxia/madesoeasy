@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="路径设置">
+        <Preference
+            android:dialogTitle="请输入一个SDcard目录名字"
+            android:key="imageeditor_workpath"
+            android:summary="/mnt/sdcard/MadeSoEasy"
+            android:title="SDcard目录"/>
+    </PreferenceCategory>
+</PreferenceScreen>

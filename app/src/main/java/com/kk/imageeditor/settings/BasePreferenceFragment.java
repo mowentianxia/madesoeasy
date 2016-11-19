@@ -9,7 +9,7 @@ import android.view.MenuItem;
 
 import com.kk.imageeditor.R;
 
-abstract class BasePreferenceFragment extends PreferenceFragment {
+abstract class BasePreferenceFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener {
     /**
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.
@@ -25,9 +25,10 @@ abstract class BasePreferenceFragment extends PreferenceFragment {
      *
      * @see #sBindPreferenceSummaryToValueListener
      */
-    static void bindPreferenceSummaryToValue(Preference preference) {
+    void bindPreferenceSummaryToValue(Preference preference) {
         // Set the listener to watch for value changes.
         preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
+        preference.setOnPreferenceClickListener(this);
 
         // Trigger the listener immediately with the preference's
         // current value.
@@ -40,6 +41,7 @@ abstract class BasePreferenceFragment extends PreferenceFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -50,5 +52,10 @@ abstract class BasePreferenceFragment extends PreferenceFragment {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onPreferenceClick(Preference preference) {
+        return false;
     }
 }

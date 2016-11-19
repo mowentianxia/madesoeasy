@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="路径设置">
+        <Preference
+            android:dialogTitle="请输入一个脚本目录名字"
+            android:key="dataeditor_scriptpath"
+            android:summary="/mnt/sdcard/ygocore/script"
+            android:title="脚本目录"/>
+        <Preference
+            android:dialogTitle="请输入一个图片目录名字"
+            android:key="dataeditor_imagetpath"
+            android:summary="/mnt/sdcard/ygocore/pics"
+            android:title="图片目录"/>
+        <Preference
+            android:dialogTitle="请输入一个数据库路径"
+            android:key="dataeditor_databasepath"
+            android:summary="/mnt/sdcard/ygocore/cards.cdb"
+            android:title="数据库路径"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>

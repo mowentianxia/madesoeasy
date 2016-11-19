@@ -8,8 +8,6 @@ import android.preference.Preference;
 import android.preference.RingtonePreference;
 import android.text.TextUtils;
 
-import com.kk.imageeditor.R;
-
 class MyPreference implements Preference.OnPreferenceChangeListener {
     @Override
     public boolean onPreferenceChange(Preference preference, Object value) {
