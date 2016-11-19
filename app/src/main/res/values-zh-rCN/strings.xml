@@ -49,4 +49,6 @@
 作者:\t247321453\n
 邮箱:\t247321453@qq.com\n
 </string>
+    <string name="pref_header_imageeditor">图片相关设置</string>
+    <string name="pref_header_dataditor">数据库相关设置</string>
 </resources>

@@ -342,13 +342,13 @@ public class MainActivity extends DrawerAcitvity
             case R.id.nav_style_list:
                 openStyleList();
                 break;
-            case R.id.nav_manage:
-                if(Constants.DEBUG) {
-                    Intent intent = new Intent(this, SettingsActivity.class);
-                    intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                }
-                break;
+//            case R.id.nav_manage:
+//                if(Constants.DEBUG) {
+//                    Intent intent = new Intent(this, SettingsActivity.class);
+//                    intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+//                    startActivity(intent);
+//                }
+//                break;
             case R.id.nav_about:
                 showAboutInfo();
                 break;
