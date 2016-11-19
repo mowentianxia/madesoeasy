@@ -1,12 +1,13 @@
 package com.kk.imageeditor.bean;
 
+import net.kk.xml.IXmlElement;
 import net.kk.xml.annotations.XmlElement;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @XmlElement("save")
-public class SaveInfo {
+public class SaveInfo extends IXmlElement{
     @XmlElement("style")
     public StyleInfo style;
     @XmlElement("data")

@@ -3,13 +3,14 @@ package com.kk.imageeditor.bean;
 import com.kk.imageeditor.bean.data.BooleanElement;
 import com.kk.imageeditor.bean.data.SelectElement;
 
+import net.kk.xml.IXmlElement;
 import net.kk.xml.annotations.XmlElement;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @XmlElement("datas")
-public class StyleData {
+public class StyleData extends IXmlElement{
     @XmlElement("data")
     private final List<SelectElement> mSelectElements;
 

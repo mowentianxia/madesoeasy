@@ -19,9 +19,6 @@
 -keepclassmembers class fqcn.of.javascript.interface.for.webview {
    public *;
 }
--keepclassmembers class * extends net.kk.xml.IXmlElement{
-    *;
-}
 # jdk8
 -dontwarn java.lang.invoke.*
 -dontwarn org.slf4j.impl.*
@@ -29,3 +26,11 @@
 -keep class android.support.design.widget.** { *; }
 -keep interface android.support.design.widget.** { *; }
 -dontwarn android.support.design.**
+#app
+-keep class net.kk.xml.**{*;}
+-keep class com.kk.imageeditor.bean.**{
+*;
+}
+-keepclassmembers class * extends net.kk.xml.IXmlElement{
+    *;
+}
