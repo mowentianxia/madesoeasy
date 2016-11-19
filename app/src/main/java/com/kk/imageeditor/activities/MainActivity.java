@@ -309,7 +309,7 @@ public class MainActivity extends DrawerAcitvity
             showDialog(getString(R.string.about), String.format(getString(R.string.about_info),
                     getString(R.string.app_name),
                     packageInfo.versionName),
-                    null, 0, null, null, null);
+                    null, null, null, null);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }

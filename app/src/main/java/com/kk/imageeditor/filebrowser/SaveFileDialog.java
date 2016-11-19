@@ -22,7 +22,7 @@ public class SaveFileDialog extends BaseFileDialog {
 
     public SaveFileDialog(Context context) {
         super(context);
-        setHighHint(true);
+        setHighHint(false);
     }
 
     public boolean isHideCreateButton() {
@@ -38,11 +38,6 @@ public class SaveFileDialog extends BaseFileDialog {
                 mNewBtn.setVisibility(View.VISIBLE);
             }
         }
-    }
-
-    public SaveFileDialog(Context context, int themeResId) {
-        super(context, themeResId);
-        setHighHint(false);
     }
 
     @Override

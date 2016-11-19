@@ -52,11 +52,7 @@ class BaseFileDialog extends AlertDialog {
     protected DialogFileFilter mDialogFileFilter;
 
     public BaseFileDialog(Context context) {
-        this(context, R.style.FileDialog_NoFrame);
-    }
-
-    public BaseFileDialog(Context context, int themeResId) {
-        super(context, themeResId);
+        super(context);
         this.context = context;
         mFileComparator = new FileComparator();
         metrics = context.getResources().getDisplayMetrics();

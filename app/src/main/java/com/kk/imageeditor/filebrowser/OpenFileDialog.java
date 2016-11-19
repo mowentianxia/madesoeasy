@@ -8,9 +8,4 @@ public class OpenFileDialog extends BaseFileDialog {
         super(context);
         setHighHint(true);
     }
-
-    public OpenFileDialog(Context context, int themeResId) {
-        super(context, themeResId);
-        setHighHint(true);
-    }
 }

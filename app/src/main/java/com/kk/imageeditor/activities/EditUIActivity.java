@@ -321,25 +321,19 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
             if (view != null)
                 layout.addView(view);
         }
-        showDialog(title, null, layout, 0, ok, cancel, oncancel);
+        showDialog(title, null, layout, ok, cancel, oncancel);
     }
 
     public void showDialog(String title, String message, final DialogInterface.OnClickListener ok) {
-        showDialog(title, message, null, 0, ok, (v,s)->{}, null);
+        showDialog(title, message, null, ok, (v,s)->{}, null);
     }
 
     public void showDialog(String title, String message,
                            final View view,
-                           int dialogTheme,
                            final DialogInterface.OnClickListener ok,
                            final DialogInterface.OnClickListener cancel,
                            final DialogInterface.OnCancelListener onCancel) {
-        AlertDialog.Builder builder;
-        if (dialogTheme != 0) {
-            builder = new AlertDialog.Builder(this, dialogTheme);
-        } else {
-            builder = new AlertDialog.Builder(this);
-        }
+        AlertDialog.Builder builder= new AlertDialog.Builder(this);
         if (!TextUtils.isEmpty(title))
             builder.setTitle(title);
         if (!TextUtils.isEmpty(message))
