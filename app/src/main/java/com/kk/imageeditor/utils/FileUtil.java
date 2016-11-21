@@ -18,6 +18,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
@@ -52,6 +53,18 @@ public class FileUtil {
 
         }
         return f;
+    }
+
+    public static boolean isExtension(String path, String ex) {
+        if (ex == null || TextUtils.isEmpty(path)) {
+            return false;
+        }
+        ex = ex.toLowerCase(Locale.US);
+        if (!ex.startsWith(".")) {
+            ex = "." + ex;
+        }
+        File file = new File(path);
+        return file.getName().toLowerCase(Locale.US).endsWith(ex);
     }
 
     public static File file(String path) {

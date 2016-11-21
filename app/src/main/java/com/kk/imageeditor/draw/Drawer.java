@@ -175,30 +175,9 @@ public class Drawer {
         return Error.None;
     }
 
+
     public static StyleInfo getStyleInfo(File f) {
-        StyleInfo styleInfo = null;
-        InputStream inputStream = null;
-        ZipFile zipFile = null;
-        try {
-            if (f.getName().toLowerCase(Locale.US).endsWith(".zip")) {
-                zipFile = new ZipFile(f);
-                ZipEntry zipEntry = zipFile.getEntry(Constants.STYLE_XMl);
-                if (zipEntry != null) {
-                    inputStream = zipFile.getInputStream(zipEntry);
-                }
-            } else {
-                inputStream = new FileInputStream(f);
-            }
-            if (inputStream != null) {
-                styleInfo = XmlUtils.getStyleUtils().getObject(StyleInfo.class, inputStream);
-            }
-        } catch (Exception e) {
-            if (DEBUG)
-                Log.e("msoe", "get style", e);
-        } finally {
-            FileUtil.close(inputStream);
-            FileUtil.closeZip(zipFile);
-        }
+        StyleInfo styleInfo = XmlUtils.getStyleUtils().parseXml(StyleInfo.class, f, Constants.STYLE_XMl);
         if (styleInfo != null) {
             styleInfo.setStylePath(f.getAbsolutePath());
             Error error = check(styleInfo);
@@ -207,67 +186,37 @@ public class Drawer {
             }
             if (DEBUG)
                 Log.e("msoe", "get style:" + styleInfo);
+        }else{
+            if (DEBUG)
+                Log.e("msoe", "get style:" + f);
         }
         return null;
     }
 
-    public static Style getStyle(StyleInfo styleInfo) {
-        Style info = null;
-        InputStream inputStream = null;
-        ZipFile zipFile = null;
-        try {
-            if (styleInfo.isFolder()) {
-                File f = new File(styleInfo.getDataPath(), styleInfo.getLayoutXml());
-                if (f.exists()) {
-                    inputStream = new FileInputStream(f);
-                }
-            } else {
-                zipFile = new ZipFile(styleInfo.getDataPath());
-                if (zipFile != null) {
-                    ZipEntry zipEntry = zipFile.getEntry(styleInfo.getLayoutXml());
-                    if (zipEntry != null) {
-                        inputStream = zipFile.getInputStream(zipEntry);
-                    }
-                }
-            }
-            if (inputStream != null) {
-                info = XmlUtils.getStyleUtils().getObject(Style.class, inputStream);
-            }
-        } catch (Exception e) {
-        } finally {
-            FileUtil.close(inputStream);
-            FileUtil.closeZip(zipFile);
+    protected static Style getStyle(StyleInfo styleInfo) {
+        Style info;
+        if (styleInfo.isFolder()) {
+            info = XmlUtils.getStyleUtils().parseXml(Style.class,
+                    new File(styleInfo.getDataPath(), styleInfo.getLayoutXml()).getAbsoluteFile(),
+                    null);
+        }else{
+            info = XmlUtils.getStyleUtils().parseXml(Style.class,
+                    new File(styleInfo.getDataPath()),
+                    styleInfo.getLayoutXml());
         }
         return info;
     }
 
-    public static StyleData getStyleData(StyleInfo styleInfo) {
-        StyleData info = null;
-        InputStream inputStream = null;
-        ZipFile zipFile = null;
-        try {
-            if (styleInfo.isFolder()) {
-                File f = new File(styleInfo.getDataPath(), styleInfo.getDataXml());
-                if (f.exists()) {
-                    inputStream = new FileInputStream(f);
-                }
-            } else {
-                zipFile = new ZipFile(styleInfo.getDataPath());
-                ZipEntry zipEntry = zipFile.getEntry(styleInfo.getDataXml());
-                if (zipEntry != null) {
-                    inputStream = zipFile.getInputStream(zipEntry);
-                }
-            }
-            if (inputStream != null) {
-                info = XmlUtils.getStyleUtils().getObject(StyleData.class, inputStream);
-            }
-        } catch (Exception e) {
-            if (DEBUG) {
-                Log.e("msoe", "load data", e);
-            }
-        } finally {
-            FileUtil.close(inputStream);
-            FileUtil.closeZip(zipFile);
+    protected static StyleData getStyleData(StyleInfo styleInfo) {
+        StyleData info;
+        if (styleInfo.isFolder()) {
+            info = XmlUtils.getStyleUtils().parseXml(StyleData.class,
+                    new File(styleInfo.getDataPath(), styleInfo.getDataXml()).getAbsoluteFile(),
+                    null);
+        }else{
+            info = XmlUtils.getStyleUtils().parseXml(StyleData.class,
+                    new File(styleInfo.getDataPath()),
+                    styleInfo.getDataXml());
         }
         return info;
     }

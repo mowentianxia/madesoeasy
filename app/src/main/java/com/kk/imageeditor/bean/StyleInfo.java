@@ -73,7 +73,7 @@ public class StyleInfo extends IXmlElement {
         if (isFolder()) {
             return FileUtil.getParent(stylePath);
         }
-        if (stylePath.endsWith(".zip")) {
+        if (!FileUtil.isExtension(stylePath, ".xml")) {
             return stylePath;
         }
         if (TextUtils.isEmpty(datafile)) return "";

@@ -1,6 +1,8 @@
 package com.kk.imageeditor.utils;
 
 
+import android.util.Log;
+
 import net.kk.xml.XmlOptions;
 import net.kk.xml.XmlReader;
 import net.kk.xml.XmlWriter;
@@ -13,6 +15,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
+import static com.kk.imageeditor.Constants.DEBUG;
 
 public class XmlUtils {
     public static boolean DEBUG = false;
@@ -63,6 +69,38 @@ public class XmlUtils {
         inputStream.close();
         return t;
 
+    }
+
+    /**
+     *
+     * @param xmlFile xml或者是zip文件
+     * @param entryName zip里面的名字
+     */
+    public <T> T parseXml(Class<T> pClass, File xmlFile, String entryName) {
+        T styleInfo = null;
+        InputStream inputStream = null;
+        ZipFile zipFile = null;
+        try {
+            if (FileUtil.isExtension(xmlFile.getAbsolutePath(), ".xml")) {
+                inputStream = new FileInputStream(xmlFile);
+            } else {
+                zipFile = new ZipFile(xmlFile);
+                ZipEntry zipEntry = zipFile.getEntry(entryName);
+                if (zipEntry != null) {
+                    inputStream = zipFile.getInputStream(zipEntry);
+                }
+            }
+            if (inputStream != null) {
+                styleInfo = XmlUtils.getStyleUtils().getObject(pClass, inputStream);
+            }
+        } catch (Exception e) {
+            if (DEBUG)
+                Log.e("msoe", "parseXml", e);
+        } finally {
+            FileUtil.close(inputStream);
+            FileUtil.closeZip(zipFile);
+        }
+        return styleInfo;
     }
 
     public <T> T getObject(Class<T> tClass, String xml) throws Exception {
