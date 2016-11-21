@@ -59,7 +59,6 @@ public class MainActivity extends DrawerAcitvity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setExitAnimEnable(false);
-        setSwapAnim(false);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mMyPreference = MyPreference.get(this);
@@ -282,28 +281,32 @@ public class MainActivity extends DrawerAcitvity
             zoomOut();
             return true;
         } else if (id == R.id.action_preview) {
-            VUiKit.defer().when(() -> {
-                Bitmap image = getDrawBitmap();
-                if (image == null) {
-                    return null;
-                }
-                String file = new File(pathConrollor.getWorkPath(), Constants.PREVIEW_NAME).getAbsolutePath();
-                BitmapUtil.saveBitmap(image, file, 100);
-                return file;
-            }).done((image) -> {
-                if (image != null) {
-                    PhotoViewActivity.showImage(this, image, getSaveFileName());
-                } else {
-                    Snackbar.make(mDrawerlayout, R.string.image_is_null, Snackbar.LENGTH_LONG)
-                            .setAction(R.string.action_zoom_out, (v) -> {
-                                zoomOut();
-                            }).show();
-                }
-            });
-
+            preview();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void preview() {
+        Toast.makeText(this, R.string.saving_image, Toast.LENGTH_SHORT).show();
+        VUiKit.defer().when(() -> {
+            Bitmap image = getDrawBitmap();
+            if (image == null) {
+                return null;
+            }
+            String file = new File(pathConrollor.getWorkPath(), Constants.PREVIEW_NAME).getAbsolutePath();
+            BitmapUtil.saveBitmap(image, file, 100);
+            return file;
+        }).done((image) -> {
+            if (image != null) {
+                PhotoViewActivity.showImage(this, image, getSaveFileName());
+            } else {
+                Snackbar.make(mDrawerlayout, R.string.image_is_null, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.action_zoom_fit, (v) -> {
+                            zoomFit();
+                        }).show();
+            }
+        });
     }
 
     //    @Override

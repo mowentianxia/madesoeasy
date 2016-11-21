@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -15,6 +16,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
@@ -186,7 +188,7 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
                 LinearLayout.LayoutParams.MATCH_PARENT, itemHeight);
         lp.gravity = Gravity.CENTER_VERTICAL;
         lp.leftMargin = VUiKit.dpToPx(10);
-        lp.rightMargin =  VUiKit.dpToPx(10);
+        lp.rightMargin = VUiKit.dpToPx(10);
         return lp;
     }
 
@@ -219,7 +221,7 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lp.gravity = Gravity.CENTER_VERTICAL;
         lp.leftMargin = VUiKit.dpToPx(10);
-        lp.rightMargin =  VUiKit.dpToPx(10);
+        lp.rightMargin = VUiKit.dpToPx(10);
         textView.setLayoutParams(lp);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         textView.setGravity(Gravity.CENTER_VERTICAL);
@@ -233,7 +235,8 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
         final Spinner sp = createSpinner(value, pSelectElement.getItems());
         showDialog(pSelectElement.getDesc(), (v, w) -> {
             onEditCompleted(getSpinnerValue(sp));
-        }, (v,s)->{}, null, sp);
+        }, (v, s) -> {
+        }, null, sp);
     }
 
     protected void showMultiComboBox(IDataProvider pIData, SelectElement pSelectElement) {
@@ -276,7 +279,8 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
                 }
             }
             onEditCompleted(values);
-        }, (v,s)->{}, null, views);
+        }, (v, s) -> {
+        }, null, views);
     }
 
     @SuppressWarnings("deprecation")
@@ -296,8 +300,10 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
             editText.setMinLines(6);
         else {
             editText.setSingleLine();
-            editText.setLayoutParams(getItemLayoutParams());
         }
+        ViewGroup.LayoutParams lp=getItemLayoutParams();
+        lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        editText.setLayoutParams(lp);
         editText.setText(defalutValue);
         return editText;
     }
@@ -306,7 +312,8 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
         final EditText editText = createInputText(defalutValue, singleLine);
         showDialog(desc, (v, w) -> {
             onEditCompleted("" + editText.getText());
-        }, (v,s)->{}, null, editText);
+        }, (v, s) -> {
+        }, null, editText);
     }
 
     private void showDialog(String title,
@@ -324,7 +331,8 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
     }
 
     public void showDialog(String title, String message, final DialogInterface.OnClickListener ok) {
-        showDialog(title, message, null, ok, (v,s)->{}, null);
+        showDialog(title, message, null, ok, (v, s) -> {
+        }, null);
     }
 
     public void showDialog(String title, String message,
@@ -332,7 +340,7 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
                            final DialogInterface.OnClickListener ok,
                            final DialogInterface.OnClickListener cancel,
                            final DialogInterface.OnCancelListener onCancel) {
-        AlertDialog.Builder builder= new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         if (!TextUtils.isEmpty(title))
             builder.setTitle(title);
         if (!TextUtils.isEmpty(message))
@@ -341,11 +349,11 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
             builder.setView(view);
         }
         builder.setPositiveButton(android.R.string.ok, ok);
-        if(cancel!=null) {
+        if (cancel != null) {
             builder.setCancelable(false);
-            builder.setNegativeButton(android.R.string.cancel, (v,s)->{
+            builder.setNegativeButton(android.R.string.cancel, (v, s) -> {
                 v.dismiss();
-                cancel.onClick(v,s);
+                cancel.onClick(v, s);
             });
         }
         Dialog dialog = builder.create();
@@ -380,7 +388,7 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
 
         @Override
         public String getCachePath(String name) {
-            if(TextUtils.isEmpty(name)){
+            if (TextUtils.isEmpty(name)) {
                 return pathConrollor.getCachePath();
             }
             return new File(pathConrollor.getCachePath(), name).getAbsolutePath();
@@ -388,7 +396,7 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
 
         @Override
         public String getTempPath(String name) {
-            if(TextUtils.isEmpty(name)){
+            if (TextUtils.isEmpty(name)) {
                 return pathConrollor.getTempPath();
             }
             return new File(pathConrollor.getTempPath(), name).getAbsolutePath();

@@ -16,7 +16,6 @@ import static com.kk.imageeditor.Constants.REQUEST_PERMISSIONS;
 class BaseActivity extends AppCompatActivity {
     private boolean mExitAnim = true;
     private boolean mEnterAnim = true;
-    private boolean mSwapAnim = true;
 
     protected String[] getPermissions() {
         return null;
@@ -30,10 +29,6 @@ class BaseActivity extends AppCompatActivity {
 
     public void setEnterAnimEnable(boolean disableEnterAnim) {
         this.mEnterAnim = disableEnterAnim;
-    }
-
-    public void setSwapAnim(boolean swapAnim) {
-        mSwapAnim = swapAnim;
     }
 
     public void setExitAnimEnable(boolean disableExitAnim) {
@@ -89,7 +84,7 @@ class BaseActivity extends AppCompatActivity {
     public void finish() {
         super.finish();
         if (mExitAnim) {
-            setAnim();
+            overridePendingTransition(R.anim.slide_left_in, R.anim.slide_right_out);
         }
     }
 
@@ -102,7 +97,7 @@ class BaseActivity extends AppCompatActivity {
     }
 
     private void setAnim() {
-        overridePendingTransition(R.anim.in_from_right, R.anim.out_to_right);
+        overridePendingTransition(R.anim.slide_right_in, R.anim.slide_left_out);
     }
 
     public void setActionBarTitle(int rid) {

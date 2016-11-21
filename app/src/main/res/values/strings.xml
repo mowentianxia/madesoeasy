@@ -23,6 +23,7 @@
     <string name="load_style_list">find all styles</string>
     <string name="action_zoom_in">Zoon In</string>
     <string name="action_zoom_out">Zoon Out</string>
+    <string name="action_zoom_fit">Self-Adaption</string>
     <string name="back_tip">Press back key again to exit.</string>
     <string name="reset_info">Reset info</string>
     <string name="open_set">Open set</string>
@@ -36,6 +37,7 @@
     <string name="load_style_error">load style fail</string>
     <string name="about">About</string>
     <string name="save_image">Save Image</string>
+    <string name="saving_image">Saving Image...</string>
     <string name="image_is_null">The size of image is too big.</string>
     <string name="file_dont_exist">File don\'t exist!</string>
     <string name="title_activity_settings">Settings</string>
