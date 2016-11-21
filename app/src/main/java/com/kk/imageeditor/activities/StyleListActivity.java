@@ -21,7 +21,6 @@ import com.kk.imageeditor.controllor.ControllorManager;
 import com.kk.imageeditor.controllor.PathConrollor;
 import com.kk.imageeditor.controllor.StyleControllor;
 import com.kk.imageeditor.draw.Drawer;
-import com.kk.imageeditor.utils.BitmapUtil;
 import com.kk.imageeditor.utils.VUiKit;
 
 import java.util.ArrayList;

@@ -191,6 +191,7 @@ public class SaveUtil {
         String setFile = new File(dir, ZIP_SET).getAbsolutePath();
         OutputStream outputStream = null;
         try {
+            FileUtil.createDirByFile(setFile);
             outputStream = new FileOutputStream(setFile);
             XmlUtils.getSetUtils().saveXml(saveInfo, outputStream);
         } catch (Exception e) {

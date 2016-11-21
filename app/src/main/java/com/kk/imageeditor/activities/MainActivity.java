@@ -26,19 +26,19 @@ import android.widget.Toast;
 import com.kk.imageeditor.Constants;
 import com.kk.imageeditor.R;
 import com.kk.imageeditor.bean.StyleInfo;
-import com.kk.imageeditor.controllor.ControllorManager;
-import com.kk.imageeditor.controllor.PathConrollor;
-import com.kk.imageeditor.controllor.StyleControllor;
+import com.kk.imageeditor.controllor.MyPreference;
 import com.kk.imageeditor.draw.Drawer;
 import com.kk.imageeditor.filebrowser.DialogFileFilter;
 import com.kk.imageeditor.filebrowser.OpenFileDialog;
 import com.kk.imageeditor.filebrowser.SaveFileDialog;
-import com.kk.imageeditor.settings.SettingsActivity;
 import com.kk.imageeditor.utils.BitmapUtil;
-import com.kk.imageeditor.utils.SaveUtil;
+import com.kk.imageeditor.utils.FileUtil;
 import com.kk.imageeditor.utils.VUiKit;
 
 import java.io.File;
+
+import static com.kk.imageeditor.Constants.SETTINGS_CATEGORY;
+import static com.kk.imageeditor.Constants.SETTINGS_CATEGORY_STYLE;
 
 public class MainActivity extends DrawerAcitvity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -50,8 +50,9 @@ public class MainActivity extends DrawerAcitvity
     private TextView setfileView;
     private DrawerLayout mDrawerlayout;
     private long exitLasttime;
-
-    //    private boolean firstResume = true;
+    private boolean firstResume = true;
+    private MyPreference mMyPreference;
+    private String mCurStyle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class MainActivity extends DrawerAcitvity
         setSwapAnim(false);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        mMyPreference = MyPreference.get(this);
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener((v) -> {
 //            Snackbar.make(v, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -93,7 +95,7 @@ public class MainActivity extends DrawerAcitvity
                 resetData();
                 getDefaultData().cleanCache();
             }
-            String style = styleControllor.getCurStyle();
+            String style = mMyPreference.getCurStyle();
             if (TextUtils.isEmpty(style)) {
                 //加载默认style
                 style = styleControllor.findDefaultStyle(pathConrollor.getStylePath());
@@ -109,13 +111,13 @@ public class MainActivity extends DrawerAcitvity
     @Override
     protected void onResume() {
         super.onResume();
-//        if (!firstResume) {
-//            //非第一次启动，如果是没加载，或者样式不一样的情况，加载style
-//            if (styleControllor.isChangedStyle()) {
-//                checkAndLoadStyle(styleControllor.getCurStyle(), false);
-//            }
-//        }
-//        firstResume = false;
+        if (!firstResume) {
+            if (!TextUtils.equals(mCurStyle, mMyPreference.getCurStyle())) {
+                checkAndLoadStyle(mMyPreference.getCurStyle(), true);
+            }
+            setSetFile(getSetFile());
+        }
+        firstResume = false;
     }
 
     private void checkAndLoadStyle(String style, boolean nocache) {
@@ -129,7 +131,8 @@ public class MainActivity extends DrawerAcitvity
         }).done((error) -> {
             dialog.dismiss();
             if (error == Drawer.Error.None) {
-                styleControllor.setCurStyle(style);
+                mCurStyle = style;
+                mMyPreference.setCurStyle(style);
                 initStyle(!nocache);
 //                zoomFit();
             } else {
@@ -185,7 +188,7 @@ public class MainActivity extends DrawerAcitvity
         super.setStyleInfo(info);
         if (info != null) {
             if (headImageView != null) {
-                Bitmap icon = Drawer.readImage(info, info.getIcon(), 0,0);
+                Bitmap icon = Drawer.readImage(info, info.getIcon(), 0, 0);
                 headImageView.setImageBitmap(icon);
             }
             if (headVerView != null) {
@@ -197,18 +200,20 @@ public class MainActivity extends DrawerAcitvity
             if (headAuthorView != null) {
                 headAuthorView.setText(info.getAuthor());
             }
-            if(setfileView !=null){
-                setfileView.setText(getSetFile());
-            }
         }
     }
 
     @Override
     public void setSetFile(String setFile) {
         super.setSetFile(setFile);
-        runOnUiThread(()->{
-            if(setfileView !=null){
-                setfileView.setText(getSetFile());
+        runOnUiThread(() -> {
+            if (setfileView != null) {
+                String file = getSetFile();
+                if(mMyPreference.showFullSetName()){
+                    setfileView.setText(file);
+                }else{
+                    setfileView.setText(FileUtil.getFileName(file));
+                }
             }
         });
     }
@@ -298,25 +303,27 @@ public class MainActivity extends DrawerAcitvity
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        Log.i("msoe", "requestCode="+requestCode+",resultCode="+resultCode+",data="+data);
-        if (requestCode == Constants.REQUEST_STYLE) {
-            if (data != null) {
-                String file = data.getStringExtra(Intent.EXTRA_TEXT);
-                if (!TextUtils.isEmpty(file)) {
-                    if (TextUtils.equals(styleControllor.getCurStyle(), file)) {
-                        return;
-                    }
-                    checkAndLoadStyle(file, true);
-                }
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+////        Log.i("msoe", "requestCode="+requestCode+",resultCode="+resultCode+",data="+data);
+//        if (requestCode == Constants.REQUEST_STYLE) {
+//            if (data != null) {
+//                String file = data.getStringExtra(Intent.EXTRA_TEXT);
+//                if (!TextUtils.isEmpty(file)) {
+//                    if (TextUtils.equals(styleControllor.getCurStyle(), file)) {
+//                        return;
+//                    }
+//                    checkAndLoadStyle(file, true);
+//                }
+//            }
+//        }
+//        super.onActivityResult(requestCode, resultCode, data);
+//    }
+//
     private void openStyleList() {
-        startActivityForResult(new Intent(this, StyleListActivity.class), Constants.REQUEST_STYLE);
+        Intent intent = new Intent(this, SettingsActivity.class);
+        intent.putExtra(SETTINGS_CATEGORY, SETTINGS_CATEGORY_STYLE);
+        startActivity(intent);
     }
 
     private void showAboutInfo() {
@@ -359,13 +366,10 @@ public class MainActivity extends DrawerAcitvity
             case R.id.nav_style_list:
                 openStyleList();
                 break;
-//            case R.id.nav_manage:
-//                if(Constants.DEBUG) {
-//                    Intent intent = new Intent(this, SettingsActivity.class);
-//                    intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
-//                    startActivity(intent);
-//                }
-//                break;
+            case R.id.nav_manage:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                break;
             case R.id.nav_about:
                 showAboutInfo();
                 break;

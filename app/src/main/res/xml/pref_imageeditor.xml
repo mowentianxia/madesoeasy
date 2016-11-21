@@ -1,10 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="路径设置">
+    <PreferenceCategory android:title="@string/setting_main">
+        <CheckBoxPreference
+            android:key="@string/settings_key_short_set_name"
+            android:title="@string/setting_show_long_set_name"/>
         <Preference
-            android:dialogTitle="请输入一个SDcard目录名字"
-            android:key="imageeditor_workpath"
-            android:summary="/mnt/sdcard/MadeSoEasy"
-            android:title="SDcard目录"/>
+            android:key="@string/settings_key_style_path"
+            android:title="@string/setting_style_path"/>
+        <Preference
+            android:key="@string/settings_about"
+            android:title="@string/about"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/setting_path">
+        <Preference
+            android:key="@string/settings_key_path_image"
+            android:title="@string/setting_path_cache"/>
+        <Preference
+            android:key="@string/settings_key_path_temp"
+            android:title="@string/setting_path_temp"/>
+        <Preference
+            android:key="@string/settings_key_path_style"
+            android:title="@string/setting_path_style"/>
+        <Preference
+            android:key="@string/settings_key_path_cache"
+            android:title="@string/setting_path_image"/>
     </PreferenceCategory>
 </PreferenceScreen>

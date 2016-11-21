@@ -43,10 +43,9 @@
             android:name=".activities.PermissionsActivity"
             android:theme="@style/AppTheme.Sub"/>
         <activity
-            android:name=".settings.SettingsActivity"
+            android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:theme="@style/AppTheme.Sub">
-        </activity>
+            android:theme="@style/AppTheme.Sub"/>
     </application>
 
 </manifest>

@@ -52,6 +52,12 @@
 作者:\t247321453\n
 邮箱:\t247321453@qq.com\n
 </string>
-    <string name="pref_header_imageeditor">图片相关设置</string>
-    <string name="pref_header_dataditor">数据库相关设置</string>
+    <string name="setting_main">应用设置</string>
+    <string name="setting_path">目录设置</string>
+    <string name="setting_show_long_set_name">显示存档完整路径</string>
+    <string name="setting_style_path">样式设置</string>
+    <string name="setting_path_cache">cache目录</string>
+    <string name="setting_path_temp">temp目录</string>
+    <string name="setting_path_style">style目录</string>
+    <string name="setting_path_image">image目录</string>
 </resources>

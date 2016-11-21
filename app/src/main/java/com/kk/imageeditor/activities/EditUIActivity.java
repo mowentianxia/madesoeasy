@@ -20,7 +20,6 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
-import com.kk.imageeditor.BuildConfig;
 import com.kk.imageeditor.Constants;
 import com.kk.imageeditor.bean.StyleInfo;
 import com.kk.imageeditor.bean.data.ImageData;
@@ -32,7 +31,6 @@ import com.kk.imageeditor.bean.enums.DataType;
 import com.kk.imageeditor.controllor.ControllorManager;
 import com.kk.imageeditor.controllor.PathConrollor;
 import com.kk.imageeditor.controllor.StyleControllor;
-import com.kk.imageeditor.draw.Drawer;
 import com.kk.imageeditor.draw.IDataProvider;
 import com.kk.imageeditor.utils.SaveUtil;
 import com.kk.imageeditor.utils.StringUtil;

@@ -2,6 +2,7 @@ package com.kk.imageeditor;
 
 
 public interface Constants {
+    String SETTINGS_NAME = "app_settings";
     String DEFAULT_STYLE = BuildConfig.DEFAULT_STYLE;
     String ASSET_STYLE = "style";
     String STYLE_XMl = "style.xml";
@@ -26,4 +27,7 @@ public interface Constants {
     String DEFAULT_NAME = "MadeSoEasy";
     String PREF_WORKPATH = "workpath";
     String PREF_LAST_SET = "last_set";
+
+    String SETTINGS_CATEGORY="extra_settings_category";
+    int SETTINGS_CATEGORY_STYLE = 1;
 }

@@ -52,6 +52,20 @@ Version:\t%s\n
 Author: \t247321453\n
 E-mail: \t247321453@qq.com\n
 </string>
-    <string name="pref_header_imageeditor">Image Editor</string>
-    <string name="pref_header_dataditor">Data Editor</string>
+    <string name="settings_key_short_set_name" translatable="false">settings_short_set_name</string>
+    <string name="settings_key_style_path" translatable="false">settings_style_file</string>
+
+    <string name="settings_key_path_image" translatable="false">settings_path_image</string>
+    <string name="settings_key_path_style" translatable="false">settings_path_style</string>
+    <string name="settings_key_path_temp" translatable="false">settings_path_temp</string>
+    <string name="settings_key_path_cache" translatable="false">settings_path_cache</string>
+    <string name="settings_about" translatable="false">settings_about</string>
+    <string name="setting_main">Main Settings</string>
+    <string name="setting_path">Folder Settings</string>
+    <string name="setting_show_long_set_name">Show full set name</string>
+    <string name="setting_style_path">Style File</string>
+    <string name="setting_path_cache">Cache Path</string>
+    <string name="setting_path_temp">Temp Path</string>
+    <string name="setting_path_style">Styles Path</string>
+    <string name="setting_path_image">Images Path</string>
 </resources>

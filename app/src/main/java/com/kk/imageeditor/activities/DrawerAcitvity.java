@@ -92,7 +92,7 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
      */
     protected void resetData() {
         if (mDrawer == null) return;
-        setSetFile(null);
+//        setSetFile(null);
         clearCache();
         mDrawer.reset();
     }
@@ -190,6 +190,9 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
     }
 
     public void setSetFile(String setFile) {
+        if(TextUtils.equals(mSetFile, setFile)){
+            return;
+        }
         mSetFile = setFile;
         mSharedPreferences.edit().putString(PREF_LAST_SET, setFile).commit();
     }

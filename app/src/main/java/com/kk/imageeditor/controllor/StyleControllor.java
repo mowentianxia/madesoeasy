@@ -25,11 +25,8 @@ import static com.kk.imageeditor.draw.Drawer.getStyleInfo;
 
 public class StyleControllor extends BaseControllor {
     private static final String VERCODE = "vercode";
-    private static final String CURSTYLE = "curstyle";
-    private String mCurStyle;
     private volatile int verCode;
     private int mCurVerCode;
-    private String lastStyle;
     private PathConrollor mPathConrollor;
 
     StyleControllor(Context context, SharedPreferences sharedPreferences) {
@@ -41,23 +38,6 @@ public class StyleControllor extends BaseControllor {
         } catch (PackageManager.NameNotFoundException e) {
         }
         verCode = sharedPreferences.getInt(VERCODE, 0);
-        mCurStyle = sharedPreferences.getString(CURSTYLE, null);
-    }
-
-    public boolean isChangedStyle() {
-        return lastStyle != null && mCurStyle != null && !TextUtils.equals(mCurStyle, lastStyle);
-    }
-
-    public void setCurStyle(String file) {
-        if (!TextUtils.isEmpty(file)) {
-            lastStyle = mCurStyle;
-            mCurStyle = new File(file).getAbsolutePath();
-            sharedPreferences.edit().putString(CURSTYLE, mCurStyle).apply();
-        }
-    }
-
-    public String getCurStyle() {
-        return mCurStyle;
     }
 
     public String findDefaultStyle(String path) {
