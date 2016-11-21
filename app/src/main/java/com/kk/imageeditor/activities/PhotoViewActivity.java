@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import com.kk.imageeditor.Constants;
 import com.kk.imageeditor.R;
 import com.kk.imageeditor.controllor.ControllorManager;
+import com.kk.imageeditor.controllor.MyPreference;
 import com.kk.imageeditor.filebrowser.DialogFileFilter;
 import com.kk.imageeditor.filebrowser.SaveFileDialog;
 import com.kk.imageeditor.utils.BitmapUtil;
@@ -23,7 +24,7 @@ import java.io.File;
 import uk.co.senab.photoview.PhotoView;
 
 public class PhotoViewActivity extends BaseActivity {
-
+    private MyPreference mMyPreference;
     PhotoView mPhotoView;
     private String mPath;
     String mName;
@@ -34,6 +35,7 @@ public class PhotoViewActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo);
         enableBackHome();
+        mMyPreference = MyPreference.get(this);
         mPhotoView = (PhotoView) findViewById(R.id.pv_main);
         if (loadItem(getIntent())) {
             loadImage();
@@ -62,19 +64,26 @@ public class PhotoViewActivity extends BaseActivity {
     }
 
     private void saveImage() {
+        String name = mName;
+        String ex = mMyPreference.getImageType();
+        if (ex != null) {
+            if (!ex.startsWith(".")) {
+                ex = "." + ex;
+            }
+            if (!name.endsWith(ex)) {
+                name += ex;
+            }
+        }
         final SaveFileDialog fileDialog = new SaveFileDialog(this);
         fileDialog.setCurPath(ControllorManager.get().getPathConrollor().getCurPath());
         fileDialog.setHideCreateButton(true);
-        fileDialog.setEditText(mName);
+        fileDialog.setEditText(name);
         fileDialog.setDialogFileFilter(new DialogFileFilter(false, false, Constants.IMAGE_EX));
         fileDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(android.R.string.ok),
                 (dialog, which) -> {
                     File file = fileDialog.getSelectFile();
                     if (file != null && !file.isDirectory()) {
                         String filepath = file.getAbsolutePath();
-                        if (!filepath.endsWith(".png")) {
-                            filepath += ".png";
-                        }
                         BitmapUtil.saveBitmap(mImage, filepath, 100);
                     }
                 });

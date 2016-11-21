@@ -54,11 +54,12 @@ E-mail: \t247321453@qq.com\n
 </string>
     <string name="settings_key_short_set_name" translatable="false">settings_short_set_name</string>
     <string name="settings_key_style_path" translatable="false">settings_style_file</string>
-
+    <string name="settings_default_image_type">png</string>
     <string name="settings_key_path_image" translatable="false">settings_path_image</string>
     <string name="settings_key_path_style" translatable="false">settings_path_style</string>
     <string name="settings_key_path_temp" translatable="false">settings_path_temp</string>
     <string name="settings_key_path_cache" translatable="false">settings_path_cache</string>
+    <string name="settings_key_image_type" translatable="false">settings_key_image_type</string>
     <string name="settings_about" translatable="false">settings_about</string>
     <string name="setting_main">Main Settings</string>
     <string name="setting_path">Folder Settings</string>
@@ -68,4 +69,13 @@ E-mail: \t247321453@qq.com\n
     <string name="setting_path_temp">Temp Path</string>
     <string name="setting_path_style">Styles Path</string>
     <string name="setting_path_image">Images Path</string>
+    <string name="setting_image_type">Save Image Type</string>
+    <array name="image_type">
+        <item>JPEG Image</item>
+        <item>PNG Image</item>
+    </array>
+    <array name="image_type_value">
+        <item>jpg</item>
+        <item>png</item>
+    </array>
 </resources>

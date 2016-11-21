@@ -60,4 +60,9 @@
     <string name="setting_path_temp">temp目录</string>
     <string name="setting_path_style">style目录</string>
     <string name="setting_path_image">image目录</string>
+    <string name="setting_image_type">图片存储</string>
+    <array name="image_type">
+        <item>JPEG格式</item>
+        <item>PNG格式</item>
+    </array>
 </resources>

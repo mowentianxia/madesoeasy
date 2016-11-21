@@ -55,7 +55,7 @@ public class BitmapUtil {
         FileOutputStream out = null;
         try {
             out = new FileOutputStream(f);
-            if (file.endsWith("png"))
+            if (!file.endsWith("png"))
                 bm.compress(Bitmap.CompressFormat.JPEG, quality, out);
             else
                 bm.compress(Bitmap.CompressFormat.PNG, quality, out);
