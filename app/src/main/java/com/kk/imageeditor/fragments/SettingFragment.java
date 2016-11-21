@@ -100,6 +100,9 @@ public class SettingFragment extends BasePreferenceFragment {
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object value) {
+        if(preference instanceof CheckBoxPreference){
+            return true;
+        }
         boolean rs = super.onPreferenceChange(preference, value);
         if (mMyPreference.KEY_IMGE_TYPE.equals(preference.getKey())) {
             ListPreference listPreference = (ListPreference) preference;

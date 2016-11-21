@@ -54,7 +54,7 @@ E-mail: \t247321453@qq.com\n
 </string>
     <string name="settings_key_short_set_name" translatable="false">settings_short_set_name</string>
     <string name="settings_key_style_path" translatable="false">settings_style_file</string>
-    <string name="settings_default_image_type">png</string>
+    <string name="settings_default_image_type" translatable="false">png</string>
     <string name="settings_key_path_image" translatable="false">settings_path_image</string>
     <string name="settings_key_path_style" translatable="false">settings_path_style</string>
     <string name="settings_key_path_temp" translatable="false">settings_path_temp</string>
