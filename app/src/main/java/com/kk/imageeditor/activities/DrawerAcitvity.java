@@ -17,6 +17,7 @@ import com.kk.imageeditor.R;
 import com.kk.imageeditor.bean.StyleInfo;
 import com.kk.imageeditor.draw.Drawer;
 import com.kk.imageeditor.utils.FileUtil;
+import com.kk.imageeditor.utils.VUiKit;
 import com.kk.imageeditor.widgets.ISelectImage;
 import com.kk.imageeditor.widgets.ISelectImageListener;
 
@@ -41,7 +42,7 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
                 Manifest.permission.READ_PHONE_STATE,
                 Manifest.permission.ACCESS_NETWORK_STATE,
                 Manifest.permission.ACCESS_WIFI_STATE,
-        };
+                };
     }
 
     @Override
@@ -107,6 +108,7 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
         if (mDrawer == null) return;
         mDrawer.initViews(0);
         setStyleInfo(getStyleInfo());
+        //第一次启动，加载上次的存档
         if (usechache) {
             loadCache();
         }
@@ -164,8 +166,17 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
         if (file == null || !file.exists()) return;
         mSetFile = file.getAbsolutePath();
         mDrawer.reset();
-        mDrawer.loadSet(file);
-        mDrawer.updateViews();
+        VUiKit.defer().when(() -> {
+            return mDrawer.loadSet(file);
+        }).done((ok) -> {
+            if (ok) {
+                setActionBarTitle(FileUtil.getFileNameNoType(mSetFile));
+                Toast.makeText(this, R.string.load_set_ok, Toast.LENGTH_SHORT).show();
+                mDrawer.updateViews();
+            } else {
+                Toast.makeText(this, R.string.load_set_fail, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     /***

@@ -127,7 +127,7 @@ public class MainActivity extends DrawerAcitvity
             if (error == Drawer.Error.None) {
                 styleControllor.setCurStyle(style);
                 initStyle(!nocache);
-                zoomFit();
+//                zoomFit();
             } else {
                 Toast.makeText(this, getString(R.string.load_style_error) + "\n" + style + "\nerror code:" + error, Toast.LENGTH_SHORT).show();
             }

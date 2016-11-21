@@ -28,6 +28,8 @@
     <string name="open_set">打开存档</string>
     <string name="save_set">保存存档</string>
     <string name="save_as">存档另存为</string>
+    <string name="load_set_ok">加载存档成功</string>
+    <string name="load_set_fail">加载存档失败</string>
     <string name="copy_style_wait">复制样式。。。</string>
     <string name="load_style_wait">加载样式中。。。</string>
     <string name="load_style_error">加载样式失败</string>

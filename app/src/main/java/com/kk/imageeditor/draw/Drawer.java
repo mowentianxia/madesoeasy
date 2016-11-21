@@ -98,9 +98,10 @@ public class Drawer {
     /***
      * @param file 加载存档
      */
-    public void loadSet(File file) {
+    public boolean loadSet(File file) {
         if (mDataProvider != null)
-            mDataProvider.load(file);
+            return mDataProvider.load(file);
+        return false;
     }
 
     /***
