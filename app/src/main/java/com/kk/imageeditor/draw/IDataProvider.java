@@ -317,7 +317,7 @@ public abstract class IDataProvider {
             if (!FileUtil.exists(newfile)) {
                 if (!TextUtils.equals(oldfile, newfile)) {
                     if (Constants.DEBUG) {
-                        Log.i("kk", "rename " + oldfile + " " + newfile);
+                        Log.d("kk", "rename " + oldfile + " " + newfile);
                     }
                     FileUtil.rename(oldfile, newfile);
                 }

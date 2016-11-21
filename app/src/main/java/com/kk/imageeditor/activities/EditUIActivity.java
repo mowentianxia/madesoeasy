@@ -36,6 +36,7 @@ import com.kk.imageeditor.draw.Drawer;
 import com.kk.imageeditor.draw.IDataProvider;
 import com.kk.imageeditor.utils.SaveUtil;
 import com.kk.imageeditor.utils.StringUtil;
+import com.kk.imageeditor.utils.VUiKit;
 import com.kk.imageeditor.view.IKView;
 import com.kk.imageeditor.widgets.ComboAdapter;
 import com.kk.imageeditor.widgets.ISelectImage;
@@ -186,8 +187,8 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, itemHeight);
         lp.gravity = Gravity.CENTER_VERTICAL;
-        lp.leftMargin = 10;
-        lp.rightMargin = 10;
+        lp.leftMargin = VUiKit.dpToPx(10);
+        lp.rightMargin =  VUiKit.dpToPx(10);
         return lp;
     }
 
@@ -219,8 +220,8 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lp.gravity = Gravity.CENTER_VERTICAL;
-        lp.leftMargin = 10;
-        lp.rightMargin = 10;
+        lp.leftMargin = VUiKit.dpToPx(10);
+        lp.rightMargin =  VUiKit.dpToPx(10);
         textView.setLayoutParams(lp);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         textView.setGravity(Gravity.CENTER_VERTICAL);

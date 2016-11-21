@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.MenuItem;
 
 import static com.kk.imageeditor.Constants.REQUEST_PERMISSIONS;
@@ -39,6 +40,9 @@ class BaseActivity extends AppCompatActivity {
     }
 
     public void setActionBarTitle(String title) {
+        if(TextUtils.isEmpty(title)){
+            return;
+        }
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle(title);

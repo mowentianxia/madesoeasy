@@ -28,6 +28,7 @@
     <string name="open_set">Open set</string>
     <string name="save_set">Save set</string>
     <string name="save_as">Save as</string>
+    <string name="noname">noname</string>
     <string name="load_set_ok">load card set ok</string>
     <string name="load_set_fail">load card set fail</string>
     <string name="copy_style_wait">coping styles</string>

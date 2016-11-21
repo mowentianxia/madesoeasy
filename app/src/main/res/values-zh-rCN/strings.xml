@@ -34,6 +34,7 @@
     <string name="load_style_wait">加载样式中。。。</string>
     <string name="load_style_error">加载样式失败</string>
     <string name="about">关于</string>
+    <string name="noname">未命名</string>
     <string name="save_image">保存图片</string>
     <string name="image_is_null">这个图片尺寸太大，无法显示图片</string>
     <string name="file_dont_exist">文件不存在！</string>

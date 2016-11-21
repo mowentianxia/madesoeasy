@@ -25,4 +25,5 @@ public interface Constants {
     //path
     String DEFAULT_NAME = "MadeSoEasy";
     String PREF_WORKPATH = "workpath";
+    String PREF_LAST_SET = "last_set";
 }

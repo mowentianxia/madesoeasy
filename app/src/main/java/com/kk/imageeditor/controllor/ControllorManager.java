@@ -18,6 +18,10 @@ public class ControllorManager {
 
     }
 
+    public SharedPreferences getSharedPreferences() {
+        return sharedPreferences;
+    }
+
     public void attach(Application application) {
         this.context = application;
         sharedPreferences = application.getSharedPreferences(PREF_FILE,Context.MODE_PRIVATE);

@@ -28,6 +28,9 @@ public class SaveUtil {
     private static boolean loadSet1(IDataProvider pIData, String file) {
         if (TextUtils.isEmpty(file))
             return false;
+        if (Constants.DEBUG) {
+            Log.d("msoe", "load set 1 " + file);
+        }
         File f = FileUtil.file(file);
         if (f != null && f.exists()) {
             String dir = pIData.getTempPath("");
@@ -50,7 +53,7 @@ public class SaveUtil {
                     }
                     values2.put(k, e.getValue());
                 }
-                Log.i("msoe", "laod set1:"+values2);
+                Log.i("msoe", "laod set1:" + values2);
                 pIData.updateValues(values2);
             }
 
@@ -88,26 +91,30 @@ public class SaveUtil {
     private static boolean loadSet2(IDataProvider pIData, String file) {
         if (TextUtils.isEmpty(file))
             return false;
+        if (Constants.DEBUG) {
+            Log.d("msoe", "load set 2 " + file);
+        }
         File f = FileUtil.file(file);
         if (f != null && f.exists()) {
             String dir = pIData.getTempPath("");
             ZipUtil.unzip(file, dir);// 解压
             String setF = new File(dir, ZIP_SET).getAbsolutePath();
             SaveInfo saveInfo = null;
-            FileInputStream inputStream=null;
+            FileInputStream inputStream = null;
             try {
-                inputStream=new FileInputStream(setF);
+                inputStream = new FileInputStream(setF);
                 saveInfo = XmlUtils.getSetUtils().getObject(SaveInfo.class, inputStream);
             } catch (Exception e) {
-                e.printStackTrace();
-            }finally {
+                if (Constants.DEBUG) {
+                    Log.d("msoe", "load set 2",e);
+                }
+            } finally {
                 FileUtil.close(inputStream);
             }
             if (saveInfo != null) {
                 if (Constants.DEBUG) {
-                    Log.v("kk", "" + saveInfo);
+                    Log.d("msoe", "laod set2:" + saveInfo.values);
                 }
-                Log.i("msoe", "laod set2:"+saveInfo.values);
                 pIData.updateValues(saveInfo.values);
             }
             return true;
@@ -126,9 +133,8 @@ public class SaveUtil {
             saveInfo = XmlUtils.getSetUtils().getObject(SaveInfo.class, inputStream);
         } catch (Exception e) {
             if (Constants.DEBUG) {
-                Log.e("kk", "" + e.toString() + " " + e.getCause());
+                Log.e("kk", "loadSetCache", e);
             }
-            e.printStackTrace();
         } finally {
             FileUtil.close(inputStream);
         }
@@ -161,9 +167,8 @@ public class SaveUtil {
             XmlUtils.getSetUtils().saveXml(saveInfo, outputStream);
         } catch (Exception e) {
             if (Constants.DEBUG) {
-                Log.e("kk", "" + e.toString() + " " + e.getCause());
+                Log.e("kk", "saveSetCache", e);
             }
-            e.printStackTrace();
         } finally {
             FileUtil.close(outputStream);
         }
@@ -190,9 +195,8 @@ public class SaveUtil {
             XmlUtils.getSetUtils().saveXml(saveInfo, outputStream);
         } catch (Exception e) {
             if (Constants.DEBUG) {
-                Log.e("kk", "" + e.toString() + " " + e.getCause());
+                Log.e("kk", "saveSet2", e);
             }
-            e.printStackTrace();
         } finally {
             FileUtil.close(outputStream);
         }
@@ -207,9 +211,6 @@ public class SaveUtil {
             return false;
         String dir = pIData.getTempPath("");
         FileUtil.delete(dir);
-        if (Constants.DEBUG) {
-            Log.i("kk", "load set " + file);
-        }
         if (file.endsWith(SET_EX1)) {
             return loadSet1(pIData, file);
         } else {

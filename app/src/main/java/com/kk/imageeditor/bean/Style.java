@@ -94,9 +94,10 @@ public class Style extends IXmlElement {
         return scale;
     }
 
-    public void setScale(float pScale) {
+    public float setScale(float pScale) {
         pScale = (int) (pScale * 10) / 10.0f;
         scale = pScale;
+        return scale;
     }
 
     public int getWidth() {

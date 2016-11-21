@@ -47,6 +47,7 @@ public class MainActivity extends DrawerAcitvity
     private TextView headTitleView;
     private TextView headAuthorView;
     private TextView headVerView;
+    private TextView setfileView;
     private DrawerLayout mDrawerlayout;
     private long exitLasttime;
 
@@ -77,6 +78,7 @@ public class MainActivity extends DrawerAcitvity
         headTitleView = (TextView) head.findViewById(R.id.titleView);
         headAuthorView = (TextView) head.findViewById(R.id.authorView);
         headVerView = (TextView) head.findViewById(R.id.versionView);
+        setfileView = (TextView) head.findViewById(R.id.setname);
         //初始化
         initDrawer((ViewGroup) findViewById(R.id.drawer));
         checkAndCopyStyle();
@@ -193,7 +195,20 @@ public class MainActivity extends DrawerAcitvity
             if (headAuthorView != null) {
                 headAuthorView.setText(info.getAuthor());
             }
+            if(setfileView !=null){
+                setfileView.setText(getSetFile());
+            }
         }
+    }
+
+    @Override
+    public void setSetFile(String setFile) {
+        super.setSetFile(setFile);
+        runOnUiThread(()->{
+            if(setfileView !=null){
+                setfileView.setText(getSetFile());
+            }
+        });
     }
 
     @Override

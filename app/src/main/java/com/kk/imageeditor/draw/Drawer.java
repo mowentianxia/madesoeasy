@@ -246,8 +246,10 @@ public class Drawer {
             return s;
         }
         mViewGroup.removeAllViews();
-        if (s <= 0)
+        if (s <= 0) {
             s = getDefaultScale();
+            mScale =s;
+        }
         mStyle.setScale(s);
         if (mDataProvider == null) {
             mDataProvider = new DefaultData(context);

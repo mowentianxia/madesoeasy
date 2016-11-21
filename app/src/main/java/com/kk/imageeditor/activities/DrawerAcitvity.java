@@ -2,6 +2,7 @@ package com.kk.imageeditor.activities;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.kk.imageeditor.Constants;
 import com.kk.imageeditor.R;
 import com.kk.imageeditor.bean.StyleInfo;
+import com.kk.imageeditor.controllor.ControllorManager;
 import com.kk.imageeditor.draw.Drawer;
 import com.kk.imageeditor.utils.FileUtil;
 import com.kk.imageeditor.utils.VUiKit;
@@ -23,6 +25,7 @@ import com.kk.imageeditor.widgets.ISelectImageListener;
 
 import java.io.File;
 
+import static com.kk.imageeditor.Constants.PREF_LAST_SET;
 import static com.kk.imageeditor.Constants.SCALE_SETP;
 
 public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
@@ -33,6 +36,7 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
     private String selectFile;
     private int selectWidth;
     private int selectHeigth;
+    protected SharedPreferences mSharedPreferences;
 
     @Override
     protected String[] getPermissions() {
@@ -48,6 +52,13 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mSharedPreferences = ControllorManager.get().getSharedPreferences();
+        mSetFile = mSharedPreferences.getString(PREF_LAST_SET, getDefaultCacheSet());
+//        setActionBarTitle(FileUtil.getFileNameNoType(mSetFile));
+    }
+
+    protected String getDefaultCacheSet() {
+        return null;//new File(pathConrollor.getSetPath(), getString(R.string.noname) + Constants.SET_EX2).getAbsolutePath();
     }
 
     @Override
@@ -60,7 +71,6 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
     }
 
     protected void initDrawer(ViewGroup viewGroup) {
-        ViewParent vp = viewGroup.getParent();
         int w, h;
         w = getResources().getDisplayMetrics().widthPixels;
         ActionBar actionBar = getSupportActionBar();
@@ -82,7 +92,7 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
      */
     protected void resetData() {
         if (mDrawer == null) return;
-        mSetFile = null;
+        setSetFile(null);
         clearCache();
         mDrawer.reset();
     }
@@ -164,19 +174,24 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
     protected void loadSet(File file) {
         if (checkDrawer()) return;
         if (file == null || !file.exists()) return;
-        mSetFile = file.getAbsolutePath();
         mDrawer.reset();
         VUiKit.defer().when(() -> {
-            return mDrawer.loadSet(file);
+            return  mDrawer.loadSet(file);
         }).done((ok) -> {
             if (ok) {
-                setActionBarTitle(FileUtil.getFileNameNoType(mSetFile));
+                setSetFile(file.getAbsolutePath());
+//                setActionBarTitle(FileUtil.getFileNameNoType(mSetFile));
                 Toast.makeText(this, R.string.load_set_ok, Toast.LENGTH_SHORT).show();
                 mDrawer.updateViews();
             } else {
                 Toast.makeText(this, R.string.load_set_fail, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void setSetFile(String setFile) {
+        mSetFile = setFile;
+        mSharedPreferences.edit().putString(PREF_LAST_SET, setFile).commit();
     }
 
     /***
@@ -190,7 +205,7 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
             }
             file = mSetFile;
         }
-        mSetFile = file;
+        setSetFile(file);
         mDrawer.saveSet(FileUtil.file(file));
     }
 
