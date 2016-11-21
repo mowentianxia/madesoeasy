@@ -1,5 +1,6 @@
 package com.kk.imageeditor.activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -100,7 +101,7 @@ public class PhotoViewActivity extends BaseActivity {
         }
     }
 
-    public static void showImage(Context context, String bmp, String name) {
+    public static void showImage(Activity context, String bmp, String name) {
         Intent intent = new Intent(context, PhotoViewActivity.class);
         intent.putExtra(Constants.EXTRA_FILE, bmp);
         intent.putExtra(Intent.EXTRA_TEXT, name);

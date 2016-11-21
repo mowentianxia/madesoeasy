@@ -2,14 +2,21 @@ package com.kk.imageeditor.activities;
 
 import android.content.Intent;
 import android.graphics.Rect;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
+import com.kk.imageeditor.R;
+
 import static com.kk.imageeditor.Constants.REQUEST_PERMISSIONS;
 
 class BaseActivity extends AppCompatActivity {
+    private boolean mExitAnim = true;
+    private boolean mEnterAnim = true;
+    private boolean mSwapAnim = true;
 
     protected String[] getPermissions() {
         return null;
@@ -21,18 +28,31 @@ class BaseActivity extends AppCompatActivity {
         startPermissionsActivity();
     }
 
+    public void setEnterAnimEnable(boolean disableEnterAnim) {
+        this.mEnterAnim = disableEnterAnim;
+    }
+
+    public void setSwapAnim(boolean swapAnim) {
+        mSwapAnim = swapAnim;
+    }
+
+    public void setExitAnimEnable(boolean disableExitAnim) {
+        this.mExitAnim = disableExitAnim;
+    }
+
     protected int getActivityHeight() {
         Rect rect = new Rect();
         getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
         return rect.height();
     }
 
-    public void enableBackHome(){
+    public void enableBackHome() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
+
     protected int getStatusBarHeight() {
         Rect rect = new Rect();
         getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
@@ -40,13 +60,49 @@ class BaseActivity extends AppCompatActivity {
     }
 
     public void setActionBarTitle(String title) {
-        if(TextUtils.isEmpty(title)){
+        if (TextUtils.isEmpty(title)) {
             return;
         }
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle(title);
         }
+    }
+
+    @Override
+    public void startActivity(Intent intent) {
+        super.startActivity(intent);
+        if (mEnterAnim) {
+            setAnim();
+        }
+    }
+
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        super.startActivityForResult(intent, requestCode);
+        if (mEnterAnim) {
+            setAnim();
+        }
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        if (mExitAnim) {
+            setAnim();
+        }
+    }
+
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
+        super.startActivityForResult(intent, requestCode, options);
+        if (mEnterAnim) {
+            setAnim();
+        }
+    }
+
+    private void setAnim() {
+        overridePendingTransition(R.anim.in_from_right, R.anim.out_to_right);
     }
 
     public void setActionBarTitle(int rid) {
@@ -58,6 +114,7 @@ class BaseActivity extends AppCompatActivity {
         if (PERMISSIONS == null || PERMISSIONS.length == 0) return;
         PermissionsActivity.startActivityForResult(this, REQUEST_PERMISSIONS, PERMISSIONS);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -66,6 +123,7 @@ class BaseActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
