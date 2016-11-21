@@ -209,9 +209,9 @@ public class MainActivity extends DrawerAcitvity
         runOnUiThread(() -> {
             if (setfileView != null) {
                 String file = getSetFile();
-                if(mMyPreference.showFullSetName()){
+                if (mMyPreference.showFullSetName()) {
                     setfileView.setText(file);
-                }else{
+                } else {
                     setfileView.setText(FileUtil.getFileName(file));
                 }
             }
@@ -285,17 +285,20 @@ public class MainActivity extends DrawerAcitvity
             VUiKit.defer().when(() -> {
                 Bitmap image = getDrawBitmap();
                 if (image == null) {
-                    Snackbar.make(mDrawerlayout, R.string.image_is_null, Snackbar.LENGTH_LONG)
-                            .setAction(R.string.action_zoom_out, (v) -> {
-                                zoomOut();
-                            }).show();
                     return null;
                 }
                 String file = new File(pathConrollor.getWorkPath(), Constants.PREVIEW_NAME).getAbsolutePath();
                 BitmapUtil.saveBitmap(image, file, 100);
                 return file;
             }).done((image) -> {
-                PhotoViewActivity.showImage(this, image, getSaveFileName());
+                if (image != null) {
+                    PhotoViewActivity.showImage(this, image, getSaveFileName());
+                } else {
+                    Snackbar.make(mDrawerlayout, R.string.image_is_null, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.action_zoom_out, (v) -> {
+                                zoomOut();
+                            }).show();
+                }
             });
 
         }
@@ -303,7 +306,7 @@ public class MainActivity extends DrawerAcitvity
         return super.onOptionsItemSelected(item);
     }
 
-//    @Override
+    //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 ////        Log.i("msoe", "requestCode="+requestCode+",resultCode="+resultCode+",data="+data);
 //        if (requestCode == Constants.REQUEST_STYLE) {
