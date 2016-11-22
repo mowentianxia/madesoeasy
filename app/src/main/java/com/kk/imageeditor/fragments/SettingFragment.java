@@ -79,10 +79,7 @@ public class SettingFragment extends BasePreferenceFragment {
     @Override
     public boolean onPreferenceClick(Preference preference) {
         String key = preference.getKey();
-        if (preference instanceof CheckBoxPreference) {
-            CheckBoxPreference checkBoxPreference = (CheckBoxPreference) preference;
-            mSharedPreferences.edit().putBoolean(key, checkBoxPreference.isChecked()).apply();
-        } else if (mMyPreference.KEY_STYLE_PATH.equals(key)) {
+        if (mMyPreference.KEY_STYLE_PATH.equals(key)) {
             startActivityForResult(new Intent(getActivity(), StyleListActivity.class), Constants.REQUEST_STYLE);
         } else if (KEY_ABOUT.equals(key)) {
             showAboutInfo();
@@ -100,7 +97,10 @@ public class SettingFragment extends BasePreferenceFragment {
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object value) {
-        if(preference instanceof CheckBoxPreference){
+        super.onPreferenceChange(preference, value);
+        if (preference instanceof CheckBoxPreference) {
+            CheckBoxPreference checkBoxPreference = (CheckBoxPreference) preference;
+            mSharedPreferences.edit().putBoolean(preference.getKey(), checkBoxPreference.isChecked()).apply();
             return true;
         }
         boolean rs = super.onPreferenceChange(preference, value);

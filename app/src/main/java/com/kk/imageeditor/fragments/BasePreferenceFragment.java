@@ -6,6 +6,7 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
@@ -64,6 +65,9 @@ abstract class BasePreferenceFragment extends PreferenceFragment implements Pref
                 }
             }
 
+        } else if(preference instanceof CheckBoxPreference){
+            CheckBoxPreference checkBoxPreference = (CheckBoxPreference)preference;
+            checkBoxPreference.setChecked((Boolean)value);
         } else {
             // For all other preferences, set the summary to the value's
             // simple string representation.
