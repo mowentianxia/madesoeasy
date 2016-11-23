@@ -81,9 +81,10 @@ public class StyleControllor extends BaseControllor {
             verCode = mCurVerCode;
             update = true;
             sharedPreferences.edit().putInt(VERCODE, mCurVerCode).commit();
-            String StylePath = mPathConrollor.getStylePath();
+            String stylePath = mPathConrollor.getStylePath();
             try {
-                FileUtil.copyFilesFromAssets(context, Constants.ASSET_STYLE, StylePath, update);
+                FileUtil.createNoMedia(stylePath);
+                FileUtil.copyFilesFromAssets(context, Constants.ASSET_STYLE, stylePath, update);
             } catch (IOException e) {
             }
         }

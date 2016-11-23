@@ -294,7 +294,7 @@ public class MainActivity extends DrawerAcitvity
             if (image == null) {
                 return null;
             }
-            String file = new File(pathConrollor.getWorkPath(), Constants.PREVIEW_NAME).getAbsolutePath();
+            String file = new File(pathConrollor.getCachePath(), Constants.PREVIEW_NAME).getAbsolutePath();
             BitmapUtil.saveBitmap(image, file, 100);
             return file;
         }).done((image) -> {
