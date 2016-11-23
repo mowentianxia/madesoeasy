@@ -21,6 +21,7 @@ import com.kk.imageeditor.controllor.ControllorManager;
 import com.kk.imageeditor.controllor.PathConrollor;
 import com.kk.imageeditor.controllor.StyleControllor;
 import com.kk.imageeditor.draw.Drawer;
+import com.kk.imageeditor.utils.BitmapUtil;
 import com.kk.imageeditor.utils.VUiKit;
 
 import java.util.ArrayList;
@@ -124,6 +125,7 @@ public class StyleListActivity extends BaseActivity {
             }
             if (headImageView != null) {
                 Bitmap icon =  Drawer.readImage(info, info.getIcon(), 0,0);
+                BitmapUtil.destroy(headImageView.getDrawable());
                 headImageView.setImageBitmap(icon);
             }
             if (headVerView != null) {

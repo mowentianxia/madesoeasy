@@ -188,6 +188,7 @@ public class MainActivity extends DrawerAcitvity
         if (info != null) {
             if (headImageView != null) {
                 Bitmap icon = Drawer.readImage(info, info.getIcon(), 0, 0);
+                BitmapUtil.destroy(headImageView.getDrawable());
                 headImageView.setImageBitmap(icon);
             }
             if (headVerView != null) {
