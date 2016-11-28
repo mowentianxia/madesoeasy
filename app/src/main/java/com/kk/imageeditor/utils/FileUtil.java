@@ -214,6 +214,33 @@ public class FileUtil {
         }
     }
 
+    public static boolean copyFromZip(ZipFile zipFile, String zipEntryName, String destName) {
+        if (zipFile == null
+                || TextUtils.isEmpty(zipEntryName) || TextUtils.isEmpty(destName)) return false;
+        //创建文件夹
+        boolean isOK = false;
+        InputStream is = null;
+        OutputStream outputStream = null;
+        try {
+            FileUtil.createDirByFile(destName);
+            ZipEntry ZEpng = zipFile.getEntry(zipEntryName);
+            if (ZEpng != null) {
+                is = zipFile.getInputStream(ZEpng);
+                outputStream = new FileOutputStream(destName);
+                copy(is, outputStream);
+                isOK = true;
+            }
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            close(outputStream);
+            close(is);
+        }
+        return isOK;
+    }
+
     /***
      * 从zip复制文件
      *

@@ -80,12 +80,10 @@ public class BitmapUtil {
         return options;
     }
 
-    public static Bitmap getBitmapFormZip(String file, String name, int w, int h) {
-        ZipFile zipFile = null;
+    public static Bitmap getBitmapFormZip(ZipFile zipFile, String name, int w, int h) {
         InputStream inputStream = null;
         Bitmap bitmap = null;
         try {
-            zipFile = new ZipFile(file);
             ZipEntry entry = zipFile.getEntry(name);
             if (entry != null) {
                 inputStream = zipFile.getInputStream(entry);
@@ -100,7 +98,6 @@ public class BitmapUtil {
 
         } finally {
             FileUtil.close(inputStream);
-            FileUtil.closeZip(zipFile);
         }
         return bitmap;
     }
@@ -109,7 +106,7 @@ public class BitmapUtil {
         InputStream inputStream = null;
         Bitmap bmp = null;
         try {
-            if(!new File(path).exists()){
+            if (!new File(path).exists()) {
                 return null;
             }
             inputStream = new FileInputStream(path);

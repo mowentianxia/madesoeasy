@@ -36,12 +36,14 @@ import com.kk.imageeditor.utils.JudgUtils;
 import com.kk.imageeditor.view.IKView;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.zip.ZipFile;
 
 public abstract class IDataProvider {
     protected Context context;
@@ -58,6 +60,7 @@ public abstract class IDataProvider {
 
     final static Pattern NamePattern = Pattern.compile("\\{\\{[a-zA-Z0-9_-]+\\}\\}");
 
+    protected ZipFile mZipFile;
     protected Style mStyle;
     protected final FontLoader mFontLoader;
 
@@ -114,7 +117,9 @@ public abstract class IDataProvider {
         //     updateAllBools();
         updateDatas(false);
     }
+
     public abstract String getCachePath(String name);
+
     public abstract String getTempPath(String name);
 
     public String getSaveFileName() {
@@ -217,6 +222,13 @@ public abstract class IDataProvider {
 
     protected void inidData() {
         if (!isLoad()) return;
+        FileUtil.closeZip(mZipFile);
+        if (!mStyle.getInfo().isFolder()) {
+            try {
+                mZipFile = new ZipFile(mStyle.getDataFile());
+            } catch (IOException e) {
+            }
+        }
         initValues(false);
         updateAllBools();
         updateDatas(true);
@@ -335,7 +347,7 @@ public abstract class IDataProvider {
         update(data, pInfo);
         FontInfo fontInfo = getValue(pInfo.getFont());
         if (fontInfo != null) {
-            data.font = mFontLoader.getFont(fontInfo, mStyle.getStyleInfo(), getCachePath(""));
+            data.font = mFontLoader.getFont(fontInfo, mStyle.getStyleInfo(), mZipFile, getCachePath(""));
             data.font_size = fontInfo.getSize();// * mStyle.getScale();
             data.fontstyle = fontInfo.getFontstyle().ordinal();
         }
@@ -443,9 +455,20 @@ public abstract class IDataProvider {
         File imgfile = FileUtil.file(getTempPath(zipname));
         Bitmap bmp = BitmapUtil.getBitmapFromFile(imgfile.getAbsolutePath(), (int) w, (int) h);
         if (bmp == null) {
-            bmp = Drawer.readImage(mStyle.getStyleInfo(), zipname, (int)w, (int)h);
+            bmp = readImage(mStyle.getStyleInfo(), zipname, (int) w, (int) h);
         }
         return new BitmapDrawable(context.getResources(), bmp);
+    }
+
+    public Bitmap readImage(StyleInfo styleInfo, String zipname, int w, int h) {
+        Bitmap bmp = null;
+        if (styleInfo.isFolder()) {
+            File imgfile = FileUtil.file(styleInfo.getDataPath(), zipname);
+            bmp = BitmapUtil.getBitmapFromFile(imgfile.getAbsolutePath(), w, h);
+        } else {
+            bmp = BitmapUtil.getBitmapFormZip(mZipFile, zipname, w, h);
+        }
+        return bmp;
     }
 
     protected int toColor(String name) {
@@ -551,7 +574,7 @@ public abstract class IDataProvider {
             return false;
         }
         for (String file : list) {
-            FileUtil.copyFromZip(mStyle.getDataFile(), file, getCachePath(file));
+            FileUtil.copyFromZip(mZipFile, file, getCachePath(file));
         }
         return true;
     }

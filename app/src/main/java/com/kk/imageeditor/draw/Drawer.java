@@ -21,6 +21,7 @@ import com.kk.imageeditor.view.IKView;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Locale;
@@ -221,18 +222,24 @@ public class Drawer {
         }
         return info;
     }
-
     public static Bitmap readImage(StyleInfo styleInfo, String zipname, int w, int h) {
         Bitmap bmp = null;
         if (styleInfo.isFolder()) {
             File imgfile = FileUtil.file(styleInfo.getDataPath(), zipname);
             bmp = BitmapUtil.getBitmapFromFile(imgfile.getAbsolutePath(), w, h);
         } else {
-            bmp = BitmapUtil.getBitmapFormZip(styleInfo.getDataPath(), zipname, w, h);
+            ZipFile zipFile= null;
+            try {
+                zipFile = new ZipFile(styleInfo.getDataPath());
+                bmp = BitmapUtil.getBitmapFormZip(zipFile, zipname, w, h);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }finally {
+                FileUtil.closeZip(zipFile);
+            }
         }
         return bmp;
     }
-
     /***
      * 初始化
      *

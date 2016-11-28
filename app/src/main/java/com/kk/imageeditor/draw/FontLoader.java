@@ -12,6 +12,7 @@ import java.io.File;
 import java.lang.ref.SoftReference;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.zip.ZipFile;
 
 public class FontLoader {
     public FontLoader() {
@@ -30,20 +31,25 @@ public class FontLoader {
         return null;
     }
 
-    public Typeface getFont(FontInfo fontInfo, StyleInfo styleInfo,String tempPath) {
+    private File getFontFile(FontInfo fontInfo, StyleInfo styleInfo, ZipFile zipFile, String tempPath) {
+        File fontFile = null;
+        if (styleInfo.isFolder()) {
+            fontFile = new File(styleInfo.getDataPath(), fontInfo.getFont());
+        } else {
+            fontFile = new File(tempPath, fontInfo.getFont());
+            if (!fontFile.exists()) {
+                FileUtil.copyFromZip(zipFile, fontInfo.getFont(), fontFile.getAbsolutePath());
+            }
+        }
+        return fontFile;
+    }
+
+    public Typeface getFont(FontInfo fontInfo, StyleInfo styleInfo, ZipFile zipFile, String tempPath) {
         if (fontInfo == null) return null;
         Typeface face = get(fontInfo.getTag());
         if (face != null)
             return face;
-        File fontFile = null;
-        if(styleInfo.isFolder()){
-            fontFile = new File(styleInfo.getDataPath(), fontInfo.getFont());
-        }else{
-            fontFile = new File(tempPath,  fontInfo.getFont());
-            if(!fontFile.exists()){
-                FileUtil.copyFromZip(styleInfo.getDataPath(), fontInfo.getFont(), fontFile.getAbsolutePath());
-            }
-        }
+        File fontFile = getFontFile(fontInfo, styleInfo, zipFile, tempPath);
         if (fontFile.exists()) {
             try {
                 face = Typeface.createFromFile(fontFile);
