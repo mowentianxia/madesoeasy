@@ -34,18 +34,18 @@
             android:name=".activities.PhotoViewActivity"
             android:label="@string/title_activity_image"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Sub"/>
+            android:theme="@style/AppTheme.Main"/>
         <activity
             android:name=".activities.StyleListActivity"
             android:label="@string/title_activity_style_list"
-            android:theme="@style/AppTheme.Sub"/>
+            android:theme="@style/AppTheme.Main"/>
         <activity
             android:name=".activities.PermissionsActivity"
-            android:theme="@style/AppTheme.Sub"/>
+            android:theme="@style/AppTheme.Main"/>
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:theme="@style/AppTheme.Sub"/>
+            android:theme="@style/AppTheme.Main"/>
     </application>
 
 </manifest>
