@@ -12,6 +12,5 @@ public class App extends Application {
         super.onCreate();
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         ControllorManager.get().attach(this);
-        WifiManager wifiManager;
     }
 }
