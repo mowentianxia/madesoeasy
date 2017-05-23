@@ -24,7 +24,7 @@ public interface Constants {
     String EXTRA_FILE = "filepath";
 
     //path
-    String DEFAULT_NAME = "MadeSoEasy";
+    String DEFAULT_NAME = "MadeSoEasy2";
     String PREF_WORKPATH = "workpath";
     String PREF_LAST_SET = "last_set";
 
