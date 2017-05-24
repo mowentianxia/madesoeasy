@@ -413,6 +413,9 @@ public abstract class IDataProvider {
         if (whens == null) {
             return null;
         }
+        if (whens.length == 1) {
+            return whens[0].get();
+        }
         for (When<T> eWhen : whens) {
             if (eWhen == null) {
                 continue;

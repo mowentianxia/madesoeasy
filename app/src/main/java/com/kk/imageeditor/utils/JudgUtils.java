@@ -1,6 +1,8 @@
 package com.kk.imageeditor.utils;
 
 
+import android.text.TextUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -22,6 +24,8 @@ public class JudgUtils {
     }
 
     public static boolean getBoolean(String str, boolean def) {
+        if (str == null || str.length() == 0)
+            return def;
         JudgUtils judgUtils = new JudgUtils();
         return judgUtils.convertBool(str, def);
     }

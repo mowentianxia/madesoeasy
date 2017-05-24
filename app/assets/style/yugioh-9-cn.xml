@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<styleinfo folder="true">
+<!-- folder="true" 则是从当前文件夹读取 否则则是从<file>yugioh-9.zip</file>读取 -->
+<styleinfo folder="false">
 	<name>yugioh-9-cn</name>
 	<desc>游戏王第九期</desc>
 	<author>菜菜</author>

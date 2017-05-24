@@ -216,6 +216,7 @@ class BaseTextView extends TextView implements ITextView {
             return;
         }
         TextPaint paint = getPaint();
+        paint.setColor(getCurrentTextColor());
 //        paint.drawableState = getDrawableState();
         float mViewWidth = getTextWidth();
         if (isItalicText()) {

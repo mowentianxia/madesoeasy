@@ -200,6 +200,9 @@ public class MainActivity extends DrawerAcitvity
             if (headAuthorView != null) {
                 headAuthorView.setText(info.getAuthor());
             }
+            if (setfileView != null) {
+                setfileView.setText(getSaveFileName());
+            }
         }
     }
 

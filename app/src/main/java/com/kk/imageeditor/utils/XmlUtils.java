@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -72,8 +73,7 @@ public class XmlUtils {
     }
 
     /**
-     *
-     * @param xmlFile xml或者是zip文件
+     * @param xmlFile   xml或者是zip文件
      * @param entryName zip里面的名字
      */
     public <T> T parseXml(Class<T> pClass, File xmlFile, String entryName) {
@@ -88,6 +88,16 @@ public class XmlUtils {
                 ZipEntry zipEntry = zipFile.getEntry(entryName);
                 if (zipEntry != null) {
                     inputStream = zipFile.getInputStream(zipEntry);
+                } else {
+                    //第一个xml
+                    Enumeration<? extends ZipEntry> es = zipFile.entries();
+                    while (es.hasMoreElements()){
+                        zipEntry = es.nextElement();
+                        if(zipEntry.getName().endsWith(".xml")){
+                            inputStream = zipFile.getInputStream(zipEntry);
+                            break;
+                        }
+                    }
                 }
             }
             if (inputStream != null) {

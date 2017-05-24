@@ -15,8 +15,8 @@ android {
         applicationId "com.kk.imageeditor"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 1000
-        versionName "1.0.0"
+        versionCode 3101
+        versionName "3.0.1"
         buildConfigField "String","DEFAULT_STYLE",'"yugioh-9-cn.xml"'
         vectorDrawables.useSupportLibrary = true
     }

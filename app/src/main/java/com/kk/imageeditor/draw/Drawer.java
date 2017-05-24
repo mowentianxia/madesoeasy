@@ -31,7 +31,6 @@ import java.util.zip.ZipFile;
 import static com.kk.imageeditor.Constants.DEBUG;
 
 public class Drawer {
-    public static final String XML_STYLE_NAME = "style.xml";
     protected Context context;
     protected IDataProvider mDataProvider;
     protected ViewGroup mViewGroup;
@@ -188,7 +187,7 @@ public class Drawer {
             }
             if (DEBUG)
                 Log.e("msoe", "get style:" + styleInfo);
-        }else{
+        } else {
             if (DEBUG)
                 Log.e("msoe", "get style:" + f);
         }
@@ -201,7 +200,7 @@ public class Drawer {
             info = XmlUtils.getStyleUtils().parseXml(Style.class,
                     new File(styleInfo.getDataPath(), styleInfo.getLayoutXml()).getAbsoluteFile(),
                     null);
-        }else{
+        } else {
             info = XmlUtils.getStyleUtils().parseXml(Style.class,
                     new File(styleInfo.getDataPath()),
                     styleInfo.getLayoutXml());
@@ -212,34 +211,41 @@ public class Drawer {
     protected static StyleData getStyleData(StyleInfo styleInfo) {
         StyleData info;
         if (styleInfo.isFolder()) {
+            File xml = new File(styleInfo.getDataPath(), styleInfo.getDataXml());
+            if (DEBUG)
+                Log.d("kk", "load from folder " + xml);
             info = XmlUtils.getStyleUtils().parseXml(StyleData.class,
-                    new File(styleInfo.getDataPath(), styleInfo.getDataXml()).getAbsoluteFile(),
+                    xml,
                     null);
-        }else{
+        } else {
+            if (DEBUG)
+                Log.d("kk", "load from zip " + styleInfo.getDataPath() + "!" + styleInfo.getDataXml());
             info = XmlUtils.getStyleUtils().parseXml(StyleData.class,
                     new File(styleInfo.getDataPath()),
                     styleInfo.getDataXml());
         }
         return info;
     }
+
     public static Bitmap readImage(StyleInfo styleInfo, String zipname, int w, int h) {
         Bitmap bmp = null;
         if (styleInfo.isFolder()) {
             File imgfile = FileUtil.file(styleInfo.getDataPath(), zipname);
             bmp = BitmapUtil.getBitmapFromFile(imgfile.getAbsolutePath(), w, h);
         } else {
-            ZipFile zipFile= null;
+            ZipFile zipFile = null;
             try {
                 zipFile = new ZipFile(styleInfo.getDataPath());
                 bmp = BitmapUtil.getBitmapFormZip(zipFile, zipname, w, h);
             } catch (IOException e) {
                 e.printStackTrace();
-            }finally {
+            } finally {
                 FileUtil.closeZip(zipFile);
             }
         }
         return bmp;
     }
+
     /***
      * 初始化
      *
@@ -255,7 +261,7 @@ public class Drawer {
         mViewGroup.removeAllViews();
         if (s <= 0) {
             s = getDefaultScale();
-            mScale =s;
+            mScale = s;
         }
         mStyle.setScale(s);
         if (mDataProvider == null) {

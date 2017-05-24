@@ -77,7 +77,9 @@ public class StyleControllor extends BaseControllor {
     public boolean copyStyleFromAssets() {
         boolean update = false;
         if (mCurVerCode != verCode) {
-            Log.i("msoe", "copy styles:"+verCode+"/"+mCurVerCode);
+            if(Constants.DEBUG) {
+                Log.i("msoe", "copy styles:" + verCode + "/" + mCurVerCode);
+            }
             verCode = mCurVerCode;
             update = true;
             sharedPreferences.edit().putInt(VERCODE, mCurVerCode).commit();
