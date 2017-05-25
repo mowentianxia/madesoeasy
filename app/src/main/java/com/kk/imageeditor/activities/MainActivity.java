@@ -1,7 +1,6 @@
 package com.kk.imageeditor.activities;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -28,12 +27,12 @@ import com.kk.imageeditor.R;
 import com.kk.imageeditor.bean.StyleInfo;
 import com.kk.imageeditor.controllor.MyPreference;
 import com.kk.imageeditor.draw.Drawer;
-import com.kk.imageeditor.filebrowser.DialogFileFilter;
-import com.kk.imageeditor.filebrowser.OpenFileDialog;
-import com.kk.imageeditor.filebrowser.SaveFileDialog;
 import com.kk.imageeditor.utils.BitmapUtil;
 import com.kk.imageeditor.utils.FileUtil;
 import com.kk.imageeditor.utils.VUiKit;
+
+import net.kk.dialog.FileDialog;
+import net.kk.dialog.FileFilter2;
 
 import java.io.File;
 
@@ -142,19 +141,16 @@ public class MainActivity extends DrawerAcitvity
 
     private void openFromSelect() {
         //选择一个存档打开
-        final OpenFileDialog fileDialog = new OpenFileDialog(this);
-        fileDialog.setCurPath(pathConrollor.getCurPath());
-        fileDialog.setDialogFileFilter(new DialogFileFilter(false, false, Constants.SET_EX));
-        fileDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(android.R.string.ok), (dialog, which) -> {
-            pathConrollor.setCurPath(fileDialog.getCurPath());
-            File file = fileDialog.getSelectFile();
-            loadSet(file);
+        FileDialog dialog=new FileDialog(this, FileDialog.Mode.OpenFile);
+        dialog.setTitle(R.string.open_set);
+        dialog.setPath(new File(pathConrollor.getCurPath()), new FileFilter2(false, Constants.SET_EX));
+        dialog.setFileChooseListener((dlg, file) -> {
+            if(file != null) {
+                pathConrollor.setCurPath(file.getParent());
+                loadSet(file);
+            }
         });
-
-        fileDialog.setButton(DialogInterface.BUTTON_NEGATIVE,
-                getString(android.R.string.cancel),
-                (DialogInterface.OnClickListener) null);
-        fileDialog.show();
+        dialog.show();
     }
 
     private void saveSetInfo(boolean useold) {
@@ -163,22 +159,18 @@ public class MainActivity extends DrawerAcitvity
             saveSet(null);
         } else {
             //选择/输入一个文件保存
-            final SaveFileDialog fileDialog = new SaveFileDialog(this);
-            fileDialog.setCurPath(pathConrollor.getCurPath());
-            fileDialog.setHideCreateButton(true);
-            fileDialog.setEditText(getSaveFileName());
-            fileDialog.setDialogFileFilter(new DialogFileFilter(false, false, Constants.SET_EX));
-            fileDialog.setButton(DialogInterface.BUTTON_POSITIVE,
-                    getString(android.R.string.ok), (dialog, which) -> {
-                        pathConrollor.setCurPath(fileDialog.getCurPath());
-                        File file = fileDialog.getSelectFile();
-                        if (file != null && !file.isDirectory())
-                            saveSet(file.getAbsolutePath());
-                    });
-            fileDialog.setButton(DialogInterface.BUTTON_NEGATIVE,
-                    getString(android.R.string.cancel),
-                    (DialogInterface.OnClickListener) null);
-            fileDialog.show();
+            final FileDialog dialog = new FileDialog(this, FileDialog.Mode.SaveFile);
+            dialog.setTitle(R.string.save_image);
+            dialog.setInputText(getSaveFileName());
+            dialog.setPath(new File(pathConrollor.getCurPath()), new FileFilter2(false, Constants.IMAGE_EX));
+            dialog.setFileChooseListener((dialog1, file) -> {
+                if (file != null && !file.isDirectory()) {
+                    pathConrollor.setCurPath(file.getParent());
+                    saveSet(file.getAbsolutePath());
+                    Toast.makeText(this, getString(R.string.save_set_tip)+file.getAbsolutePath(),Toast.LENGTH_SHORT).show();
+                }
+            });
+            dialog.show();
         }
     }
 

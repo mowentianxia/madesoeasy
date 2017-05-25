@@ -26,6 +26,7 @@
     <string name="back_tip">再按一次返回键退出</string>
     <string name="reset_info">重置信息</string>
     <string name="open_set">打开存档</string>
+    <string name="save_set_tip">保存存档成功,%s</string>
     <string name="save_set">保存存档</string>
     <string name="save_as">存档另存为</string>
     <string name="load_set_ok">加载存档成功</string>

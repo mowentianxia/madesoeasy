@@ -14,11 +14,12 @@ import com.kk.imageeditor.Constants;
 import com.kk.imageeditor.R;
 import com.kk.imageeditor.controllor.ControllorManager;
 import com.kk.imageeditor.controllor.MyPreference;
-import com.kk.imageeditor.filebrowser.DialogFileFilter;
-import com.kk.imageeditor.filebrowser.SaveFileDialog;
 import com.kk.imageeditor.utils.BitmapUtil;
 import com.kk.imageeditor.utils.ShareUtil;
 import com.kk.imageeditor.utils.VUiKit;
+
+import net.kk.dialog.FileDialog;
+import net.kk.dialog.FileFilter2;
 
 import java.io.File;
 
@@ -77,22 +78,18 @@ public class PhotoViewActivity extends BaseActivity {
                 name += ex;
             }
         }
-        final SaveFileDialog fileDialog = new SaveFileDialog(this);
-        fileDialog.setCurPath(ControllorManager.get().getPathConrollor().getCurPath());
-        fileDialog.setHideCreateButton(true);
-        fileDialog.setEditText(name);
-        fileDialog.setDialogFileFilter(new DialogFileFilter(false, false, Constants.IMAGE_EX));
-        fileDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(android.R.string.ok),
-                (dialog, which) -> {
-                    File file = fileDialog.getSelectFile();
-                    if (file != null && !file.isDirectory()) {
-                        String filepath = file.getAbsolutePath();
-                        BitmapUtil.saveBitmap(mImage, filepath, 100);
-                    }
-                });
-        fileDialog.setButton(DialogInterface.BUTTON_NEGATIVE,
-                getString(android.R.string.cancel), (DialogInterface.OnClickListener) null);
-        fileDialog.show();
+        final FileDialog dialog = new FileDialog(this, FileDialog.Mode.SaveFile);
+        dialog.setTitle(R.string.save_image);
+        dialog.setInputText(name);
+        dialog.setPath(new File(ControllorManager.get().getPathConrollor().getCurPath()),
+                new FileFilter2(false, Constants.IMAGE_EX));
+        dialog.setFileChooseListener((dlg, file) -> {
+            if (file != null && !file.isDirectory()) {
+                String filepath = file.getAbsolutePath();
+                BitmapUtil.saveBitmap(mImage, filepath, 100);
+            }
+        });
+        dialog.show();
     }
 
     private void loadImage() {

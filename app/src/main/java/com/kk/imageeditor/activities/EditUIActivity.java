@@ -23,6 +23,7 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.kk.imageeditor.Constants;
+import com.kk.imageeditor.R;
 import com.kk.imageeditor.bean.StyleInfo;
 import com.kk.imageeditor.bean.data.ImageData;
 import com.kk.imageeditor.bean.data.SelectElement;
@@ -297,7 +298,7 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
             editText.setBackgroundDrawable(null);
         }
         if (!singleLine)
-            editText.setMinLines(6);
+            editText.setMinLines(10);
         else {
             editText.setSingleLine();
         }
@@ -340,7 +341,7 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
                            final DialogInterface.OnClickListener ok,
                            final DialogInterface.OnClickListener cancel,
                            final DialogInterface.OnCancelListener onCancel) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.BaseDialog);
         if (!TextUtils.isEmpty(title))
             builder.setTitle(title);
         if (!TextUtils.isEmpty(message))

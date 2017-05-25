@@ -72,6 +72,7 @@ E-mail: \t247321453@qq.com\n
     <string name="setting_path_style">Styles Path</string>
     <string name="setting_path_image">Images Path</string>
     <string name="setting_image_type">Save Image Type</string>
+    <string name="save_set_tip">save set ok,%s</string>
     <array name="image_type">
         <item>JPEG Image</item>
         <item>PNG Image</item>

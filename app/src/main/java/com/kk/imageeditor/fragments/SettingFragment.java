@@ -2,7 +2,6 @@ package com.kk.imageeditor.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -11,16 +10,14 @@ import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.kk.imageeditor.Constants;
 import com.kk.imageeditor.R;
 import com.kk.imageeditor.activities.StyleListActivity;
 import com.kk.imageeditor.controllor.MyPreference;
-import com.kk.imageeditor.controllor.PathConrollor;
-import com.kk.imageeditor.filebrowser.DialogFileFilter;
-import com.kk.imageeditor.filebrowser.OpenFileDialog;
-import com.kk.imageeditor.filebrowser.SaveFileDialog;
+
+import net.kk.dialog.FileDialog;
+import net.kk.dialog.FileFilter2;
 
 import java.io.File;
 
@@ -112,21 +109,16 @@ public class SettingFragment extends BasePreferenceFragment {
     }
 
     private void selectFolder(Preference preference, MyPreference.DirType dirType) {
-        final OpenFileDialog fileDialog = new OpenFileDialog(getActivity());
-        fileDialog.setCurPath(mMyPreference.getWorkPath());
-        fileDialog.setDialogFileFilter(new DialogFileFilter(true, false));
-        fileDialog.setButton(DialogInterface.BUTTON_POSITIVE,
-                getString(android.R.string.ok), (dialog, which) -> {
-                    File file = fileDialog.getSelectFile();
-                    if (file != null && file.isDirectory()) {
-                        preference.setSummary(file.getAbsolutePath());
-                        mMyPreference.setFolder(dirType, file.getAbsolutePath());
-                    }
-                });
-        fileDialog.setButton(DialogInterface.BUTTON_NEGATIVE,
-                getString(android.R.string.cancel),
-                (DialogInterface.OnClickListener) null);
-        fileDialog.show();
+        FileDialog dialog=new FileDialog(getActivity(), FileDialog.Mode.ChooseDirectory);
+        dialog.setTitle(R.string.open_set);
+        dialog.setPath(new File(mMyPreference.getWorkPath()), new FileFilter2(false, Constants.SET_EX));
+        dialog.setFileChooseListener((dlg, file) -> {
+            if (file != null && file.isDirectory()) {
+                preference.setSummary(file.getAbsolutePath());
+                mMyPreference.setFolder(dirType, file.getAbsolutePath());
+            }
+        });
+        dialog.show();
     }
 
     private void showAboutInfo() {
