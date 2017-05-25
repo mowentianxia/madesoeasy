@@ -131,6 +131,7 @@ public class KTextView extends FitTextView implements IKView<TextData, TextInfo,
             setVisibility(View.GONE);
             return;
         }
+        setJustify(item.justify);
         if (item.shadowColor != Color.TRANSPARENT) {
             setShadowLayer(item.shadowRadius, item.shadowDx, item.shadowDy, item.shadowColor);
         } else {

@@ -22,7 +22,6 @@ import com.kk.imageeditor.utils.FileUtil;
 import com.kk.imageeditor.utils.VUiKit;
 import com.kk.imageeditor.widgets.ISelectImage;
 import com.kk.imageeditor.widgets.ISelectImageListener;
-import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
 

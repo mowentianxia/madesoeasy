@@ -21,5 +21,6 @@ public class TextData extends ViewData{
     public boolean keepWord = true;
     public float lineSpace;
     public float lineSpaceScale;
+    public boolean justify;
     public String text;
 }

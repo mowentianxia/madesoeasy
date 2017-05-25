@@ -30,6 +30,8 @@ public class TextInfo extends ViewInfo {
     protected ShadowInfo[] shadows;
     @XmlElement("text")
     protected String text;
+    @XmlAttribute("justify")
+    protected boolean justify;
 
     public ShadowInfo[] getShadows() {
         return shadows;
@@ -67,6 +69,9 @@ public class TextInfo extends ViewInfo {
         return alignStr;
     }
 
+    public boolean isJustify() {
+        return justify;
+    }
 
     @Override
     public String toString() {
@@ -85,6 +90,7 @@ public class TextInfo extends ViewInfo {
                 ", lineSpace=" + lineSpace +
                 ", lineSpaceScale=" + lineSpaceScale +
                 ", text='" + text + '\'' +
+                ", justify ="+justify+
                 '}';
     }
 }

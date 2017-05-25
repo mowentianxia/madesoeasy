@@ -162,7 +162,7 @@ public class MainActivity extends DrawerAcitvity
             final FileDialog dialog = new FileDialog(this, FileDialog.Mode.SaveFile);
             dialog.setTitle(R.string.save_image);
             dialog.setInputText(getSaveFileName());
-            dialog.setPath(new File(pathConrollor.getCurPath()), new FileFilter2(false, Constants.IMAGE_EX));
+            dialog.setPath(new File(pathConrollor.getCurPath()), new FileFilter2(false, Constants.STYLE_EX));
             dialog.setFileChooseListener((dialog1, file) -> {
                 if (file != null && !file.isDirectory()) {
                     pathConrollor.setCurPath(file.getParent());

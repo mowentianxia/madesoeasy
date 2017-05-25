@@ -358,6 +358,7 @@ public abstract class IDataProvider {
         data.lineSpace = pInfo.getLineSpace();
         data.lineSpaceScale = pInfo.getLineSpaceScale();
         data.text = dealString(pInfo.getText());
+        data.justify = pInfo.isJustify();
         data.align = GravityUtil.getTextAlign(getValue(pInfo.getAlignStr()));
         //阴影
         ShadowInfo shadowInfo = getValue(pInfo.getShadows());
