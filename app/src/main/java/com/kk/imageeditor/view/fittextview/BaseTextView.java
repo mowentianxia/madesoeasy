@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.kk.imageeditor.R;
 
 
-class BaseTextView extends TextView implements ITextView {
+class BaseTextView extends android.support.v7.widget.AppCompatTextView implements ITextView {
     protected boolean mSingleLine = false;
     protected boolean mIncludeFontPadding = true;
     protected float mLineSpacingMult = 1;
@@ -208,7 +208,10 @@ class BaseTextView extends TextView implements ITextView {
     public TextView getTextView() {
         return this;
     }
-
+    public int getLineHeight(TextPaint paint) {
+        return Math.round(paint.getFontMetricsInt(null) * getLineSpacingMultiplierCompat()
+                + getLineSpacingExtraCompat());
+    }
     @Override
     protected void onDraw(Canvas canvas) {
         if (!mJustify || mSingleLine) {
@@ -234,7 +237,7 @@ class BaseTextView extends TextView implements ITextView {
             int lineEnd = layout.getLineEnd(i);
 //            int top = layout.getLineTop(i);
             float x = layout.getLineLeft(i);
-            int mLineY = layout.getTopPadding() + (i + 1) * getLineHeight();
+            int mLineY = layout.getTopPadding() + (i + 1) * getLineHeight(paint);
             CharSequence line = text.subSequence(lineStart, lineEnd);
             if (line.length() == 0) {
                 continue;
@@ -262,17 +265,18 @@ class BaseTextView extends TextView implements ITextView {
                 //标点数
                 int clen = countEmpty(line);
                 float d = (mViewWidth - lineWidth) / clen;
-                for (int j = 0; j < line.length(); j++) {
+                final int lineLen = line.length();
+                for (int j = 0; j < lineLen; j++) {
                     float cw = getPaint().measureText(line, j, j + 1);
                     canvas.drawText(line, j, j + 1, x, mLineY, getPaint());
                     x += cw;
                     // 后面是标点
-                    if (isEmpty(line, j + 1, j + 2)) {
-                        x += d / 2;
+                    if ((j + 1) < (lineLen-2) && isEmpty(line.charAt(j + 1))) {
+                        x += d / 2.0f;
                     }
                     //当前是标点
-                    if (isEmpty(line, j, j + 1)) {
-                        x += d / 2;
+                    if (isEmpty(line.charAt(j))) {
+                        x += d / 2.0f;
                     }
                 }
             } else {
@@ -291,7 +295,7 @@ class BaseTextView extends TextView implements ITextView {
         int len = text.length();
         int count = 0;
         for (int i = 0; i < len; i++) {
-            if (isEmpty(text, i, i + 1)) {
+            if (isEmpty(text.charAt(i))) {
                 count++;
             }
         }
@@ -302,15 +306,9 @@ class BaseTextView extends TextView implements ITextView {
      * 是否是标点/空白字符
      *
      * @param c     内容
-     * @param start 开始
-     * @param end   结束
      */
-    protected boolean isEmpty(CharSequence c, int start, int end) {
-        if (end >= c.length()) {
-            return false;
-        }
-        CharSequence ch = c.subSequence(start, end);
-        return TextUtils.equals(ch, "\t") || TextUtils.equals(ch, " ") || FitTextHelper.sSpcaeList.contains(ch);
+    protected boolean isEmpty(char c) {
+        return FitTextHelper.isSpace(c);
     }
 
 //    private void drawScaledText(Canvas canvas, int mViewWidth, int mLineY, int lineStart, CharSequence line, float lineWidth) {

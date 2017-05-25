@@ -157,6 +157,7 @@ public class MainActivity extends DrawerAcitvity
         if (useold && !TextUtils.isEmpty(getSetFile())) {
             //直接保存
             saveSet(null);
+            Toast.makeText(this, getString(R.string.save_set_tip)+getSetFile(),Toast.LENGTH_SHORT).show();
         } else {
             //选择/输入一个文件保存
             final FileDialog dialog = new FileDialog(this, FileDialog.Mode.SaveFile);
@@ -193,7 +194,11 @@ public class MainActivity extends DrawerAcitvity
                 headAuthorView.setText(info.getAuthor());
             }
             if (setfileView != null) {
-                setfileView.setText(getSaveFileName());
+                if(!TextUtils.isEmpty(getSetFile())){
+                    setfileView.setText(new File(getSetFile()).getName());
+                }else {
+                    setfileView.setText(getSaveFileName());
+                }
             }
         }
     }
