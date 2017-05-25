@@ -150,7 +150,6 @@ public class KTextView extends FitTextView implements IKView<TextData, TextInfo,
         Drawable old = getBackground();
         if (old != null) {
             if (old.equals(item.getBackground())) {
-                Log.v("kk", "bg is same");
                 return;
             } else {
                 BitmapUtil.destroy(old);

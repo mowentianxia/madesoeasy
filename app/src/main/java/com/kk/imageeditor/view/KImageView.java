@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.kk.imageeditor.Constants;
 import com.kk.imageeditor.bean.data.ImageData;
 import com.kk.imageeditor.bean.data.SelectElement;
 import com.kk.imageeditor.bean.view.ImageInfo;
@@ -73,7 +74,6 @@ public class KImageView extends ImageView implements IKView<ImageData, ImageInfo
         Drawable old = getDrawable();
         if (old != null) {
             if (old.equals(item.getSrc())) {
-                Log.v("kk", "src is same");
                 return false;
             } else {
                 BitmapUtil.destroy(old);
@@ -83,7 +83,6 @@ public class KImageView extends ImageView implements IKView<ImageData, ImageInfo
         old = getBackground();
         if (old != null) {
             if (old.equals(mImageData.getBackground())) {
-                Log.v("kk", "bg is same");
                 return false;
             } else {
                 BitmapUtil.destroy(old);

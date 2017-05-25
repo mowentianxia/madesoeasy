@@ -34,3 +34,7 @@
 -keepclassmembers class * extends net.kk.xml.IXmlElement{
     *;
 }
+
+-dontwarn com.yalantis.ucrop**
+-keep class com.yalantis.ucrop** { *; }
+-keep interface com.yalantis.ucrop** { *; }

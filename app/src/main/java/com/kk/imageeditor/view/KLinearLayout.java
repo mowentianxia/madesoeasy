@@ -116,7 +116,6 @@ public class KLinearLayout extends LinearLayout implements IKLayout<LayoutData, 
         Drawable old = getBackground();
         if (old != null) {
             if (old.equals(mLayoutData.getBackground())) {
-                Log.v("kk", "bg is same");
                 return false;
             } else {
                 BitmapUtil.destroy(old);

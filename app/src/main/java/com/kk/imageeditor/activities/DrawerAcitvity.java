@@ -22,6 +22,7 @@ import com.kk.imageeditor.utils.FileUtil;
 import com.kk.imageeditor.utils.VUiKit;
 import com.kk.imageeditor.widgets.ISelectImage;
 import com.kk.imageeditor.widgets.ISelectImageListener;
+import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
 
@@ -243,6 +244,12 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
         selectFile = saveFile;
         selectWidth = width;
         selectHeigth = height;
+
+//        UCrop.of(sourceUri, destinationUri)
+//                .withAspectRatio(1, 1)
+//                .withMaxResultSize(width, height)
+//                .start(this);
+
         FileUtil.createDirByFile(saveFile);
         if (needSelect) {// 浏览图片
             Intent intent = new Intent(Intent.ACTION_PICK, null);

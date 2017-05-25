@@ -121,8 +121,6 @@ public class SettingFragment extends BasePreferenceFragment {
                     if (file != null && file.isDirectory()) {
                         preference.setSummary(file.getAbsolutePath());
                         mMyPreference.setFolder(dirType, file.getAbsolutePath());
-                    } else {
-                        Log.e("msoe", "select ==null");
                     }
                 });
         fileDialog.setButton(DialogInterface.BUTTON_NEGATIVE,

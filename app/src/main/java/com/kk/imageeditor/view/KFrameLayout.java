@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.kk.imageeditor.Constants;
 import com.kk.imageeditor.bean.data.LayoutData;
 import com.kk.imageeditor.bean.data.SelectElement;
 import com.kk.imageeditor.bean.view.LayoutInfo;
@@ -74,7 +75,6 @@ public class KFrameLayout extends FrameLayout implements IKLayout<LayoutData, La
         Drawable old = getBackground();
         if (old != null) {
             if (old.equals(mLayoutData.getBackground())) {
-                Log.v("kk","bg is same");
                 return false;
             } else {
                 BitmapUtil.destroy(old);
@@ -85,7 +85,7 @@ public class KFrameLayout extends FrameLayout implements IKLayout<LayoutData, La
         }
         if (item.visible) {
             setVisibility(View.VISIBLE);
-        }else{
+        } else {
             setVisibility(View.GONE);
             return true;
         }
