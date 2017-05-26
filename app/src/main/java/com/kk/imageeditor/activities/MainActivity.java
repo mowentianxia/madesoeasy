@@ -195,9 +195,9 @@ public class MainActivity extends DrawerAcitvity
             }
             if (setfileView != null) {
                 if(!TextUtils.isEmpty(getSetFile())){
-                    setfileView.setText(new File(getSetFile()).getName());
+                    setSetFileName(getSetFile());
                 }else {
-                    setfileView.setText(getSaveFileName());
+                    setSetFileName(getSaveFileName());
                 }
             }
         }
@@ -206,9 +206,20 @@ public class MainActivity extends DrawerAcitvity
     @Override
     public void setSetFile(String setFile) {
         super.setSetFile(setFile);
+        if (setfileView != null) {
+            runOnUiThread(() -> {
+                if(!TextUtils.isEmpty(getSetFile())){
+                    setSetFileName(getSetFile());
+                }else {
+                    setSetFileName(getSaveFileName());
+                }
+            });
+        }
+    }
+
+    private void setSetFileName(String file){
         runOnUiThread(() -> {
             if (setfileView != null) {
-                String file = getSetFile();
                 if (mMyPreference.showFullSetName()) {
                     setfileView.setText(file);
                 } else {
