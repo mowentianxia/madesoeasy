@@ -18,11 +18,14 @@
     <com.kk.imageeditor.view.MyTextView
         android:id="@+id/setname"
         android:layout_width="match_parent"
-        android:layout_height="28dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:lines="2"
+        android:ellipsize="start"
         android:layout_marginBottom="4dp"
         android:textColor="@android:color/white"
+        app:ftMinTextSize="18sp"
+        app:ftMaxTextSize="24sp"
         android:text="@string/noname"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
 </LinearLayout>
