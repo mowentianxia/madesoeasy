@@ -1,3 +1,5 @@
 include ':app'
 include ':filedialog'
 project(':filedialog').projectDir = new File(settingsDir, 'libdialog/filedialog')
+include ':fittextview'
+project(':fittextview').projectDir = new File(settingsDir, 'libfittextview/library')

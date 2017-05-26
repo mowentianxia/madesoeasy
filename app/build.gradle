@@ -15,8 +15,8 @@ android {
         applicationId "com.kk.imageeditor"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 3102
-        versionName "3.0.2"
+        versionCode 3103
+        versionName "3.0.3"
         buildConfigField "String","DEFAULT_STYLE",'"yugioh-9-cn.xml"'
         vectorDrawables.useSupportLibrary = true
         android {
@@ -70,4 +70,5 @@ dependencies {
     testCompile 'xmlpull:xmlpull:1.1.3.1'
     testCompile 'net.sf.kxml:kxml2:2.3.0'
     compile project(':filedialog')
+    compile project(':fittextview')
 }

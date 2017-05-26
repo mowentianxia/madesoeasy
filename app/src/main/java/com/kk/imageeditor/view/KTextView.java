@@ -7,15 +7,13 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import com.kk.imageeditor.bean.data.SelectElement;
 import com.kk.imageeditor.bean.data.TextData;
 import com.kk.imageeditor.bean.view.TextInfo;
 import com.kk.imageeditor.utils.BitmapUtil;
-import com.kk.imageeditor.view.fittextview.FitTextView;
+import com.kk.view.FitTextView;
 
 public class KTextView extends FitTextView implements IKView<TextData, TextInfo, View> {
     protected SelectElement mSelectElement;
@@ -32,11 +30,6 @@ public class KTextView extends FitTextView implements IKView<TextData, TextInfo,
 
     public KTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        setJustify(true);
-        setIncludeFontPadding(false);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-//            setTextAlignment(TextView.TEXT_ALIGNMENT_GRAVITY);
-//        }
     }
 
     @Override

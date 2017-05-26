@@ -4,3 +4,6 @@
 [submodule "libdialog"]
 	path = libdialog
 	url = https://github.com/247321453/FileDialog.git
+[submodule "libfittextview"]
+	path = libfittextview
+	url = https://github.com/247321453/JustifyTextView.git
