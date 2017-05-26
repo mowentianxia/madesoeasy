@@ -47,6 +47,8 @@
     <string name="no_find_image_cutor">no find image cutor</string>
     <string name="create_folder">New folder</string>
     <string name="apply">Apply</string>
+    <string name="save_set_tip">save set ok.</string>
+    <string name="tip_restart_app">Please restart app.</string>
     <string name="dialog_title">Info</string>
         <string name="about_info" formatted="false">\n
 Name:   \t%s\n
@@ -54,6 +56,7 @@ Version:\t%s\n
 Author: \t247321453\n
 E-mail: \t247321453@qq.com\n
 </string>
+    <string name="settings_hardware" translatable="false">settings_hardware</string>
     <string name="settings_key_short_set_name" translatable="false">settings_short_set_name</string>
     <string name="settings_key_style_path" translatable="false">settings_style_file</string>
     <string name="settings_default_image_type" translatable="false">png</string>
@@ -66,13 +69,13 @@ E-mail: \t247321453@qq.com\n
     <string name="setting_main">Main Settings</string>
     <string name="setting_path">Folder Settings</string>
     <string name="setting_show_long_set_name">Show full set name</string>
+    <string name="setting_hardware_title">Use Hardware Accelerated</string>
     <string name="setting_style_path">Style File</string>
     <string name="setting_path_cache">Cache Path</string>
     <string name="setting_path_temp">Temp Path</string>
     <string name="setting_path_style">Styles Path</string>
     <string name="setting_path_image">Images Path</string>
     <string name="setting_image_type">Save Image Type</string>
-    <string name="save_set_tip">save set ok.</string>
     <array name="image_type">
         <item>JPEG Image</item>
         <item>PNG Image</item>

@@ -58,12 +58,14 @@
     <string name="setting_main">应用设置</string>
     <string name="setting_path">目录设置</string>
     <string name="setting_show_long_set_name">显示存档完整路径</string>
+    <string name="setting_hardware_title">开启硬件加速</string>
     <string name="setting_style_path">样式设置</string>
     <string name="setting_path_cache">cache目录</string>
     <string name="setting_path_temp">temp目录</string>
     <string name="setting_path_style">style目录</string>
     <string name="setting_path_image">image目录</string>
     <string name="setting_image_type">图片存储</string>
+    <string name="tip_restart_app">设置在重启后生效</string>
     <array name="image_type">
         <item>JPEG格式</item>
         <item>PNG格式</item>

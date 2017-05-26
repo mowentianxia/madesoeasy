@@ -10,6 +10,7 @@ import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.kk.imageeditor.Constants;
 import com.kk.imageeditor.R;
@@ -55,7 +56,7 @@ public class SettingFragment extends BasePreferenceFragment {
 //        bindPreferenceSummaryToValue(findPreference(mMyPreference.KEY_PATH_IMAGE), ValueType.String);
 //        bindPreferenceSummaryToValue(findPreference(mMyPreference.KEY_PATH_STYLE), ValueType.String);
 //        bindPreferenceSummaryToValue(findPreference(mMyPreference.KEY_PATH_TEMP), ValueType.String);
-//
+        bindPreferenceSummaryToValue(findPreference(mMyPreference.KEY_HARDWARE), ValueType.Boolean);
         bindPreferenceSummaryToValue(findPreference(mMyPreference.KEY_STYLE_PATH), ValueType.String);
         bindPreferenceSummaryToValue(findPreference(mMyPreference.KEY_IMGE_TYPE), ValueType.String);
         bindPreferenceSummaryToValue(findPreference(KEY_ABOUT), ValueType.String);
@@ -97,7 +98,11 @@ public class SettingFragment extends BasePreferenceFragment {
         super.onPreferenceChange(preference, value);
         if (preference instanceof CheckBoxPreference) {
             CheckBoxPreference checkBoxPreference = (CheckBoxPreference) preference;
-            mSharedPreferences.edit().putBoolean(preference.getKey(), checkBoxPreference.isChecked()).apply();
+            boolean checked = checkBoxPreference.isChecked();
+            mSharedPreferences.edit().putBoolean(preference.getKey(), checked).apply();
+            if (checked && mMyPreference.KEY_HARDWARE.equals(preference.getKey())) {
+                Toast.makeText(getActivity(), R.string.tip_restart_app, Toast.LENGTH_SHORT).show();
+            }
             return true;
         }
         boolean rs = super.onPreferenceChange(preference, value);
@@ -109,7 +114,7 @@ public class SettingFragment extends BasePreferenceFragment {
     }
 
     private void selectFolder(Preference preference, MyPreference.DirType dirType) {
-        FileDialog dialog=new FileDialog(getActivity(), FileDialog.Mode.ChooseDirectory);
+        FileDialog dialog = new FileDialog(getActivity(), FileDialog.Mode.ChooseDirectory);
         dialog.setTitle(R.string.open_set);
         dialog.setPath(new File(mMyPreference.getWorkPath()), new FileFilter2(false, Constants.SET_EX));
         dialog.setFileChooseListener((dlg, file) -> {

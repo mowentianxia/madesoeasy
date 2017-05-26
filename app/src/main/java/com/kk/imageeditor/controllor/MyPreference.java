@@ -33,6 +33,7 @@ public class MyPreference {
     public final String KEY_PATH_TEMP;
     public final String KEY_STYLE_PATH;
     public final String KEY_IMGE_TYPE;
+    public final String KEY_HARDWARE;
     private SharedPreferences mSharedPreferences;
 
     //默认文件夹路径
@@ -53,6 +54,7 @@ public class MyPreference {
         KEY_PATH_TEMP = context.getString(R.string.settings_key_path_temp);
         KEY_STYLE_PATH = context.getString(R.string.settings_key_style_path);
         KEY_IMGE_TYPE = context.getString(R.string.settings_key_image_type);
+        KEY_HARDWARE = context.getString(R.string.settings_hardware);
         mSharedPreferences = context.getSharedPreferences(Constants.SETTINGS_NAME, Context.MODE_MULTI_PROCESS | Context.MODE_PRIVATE);
         mCurStyle = mSharedPreferences.getString(KEY_STYLE_PATH, null);
         defImageType = context.getString(R.string.settings_default_image_type);
@@ -125,6 +127,10 @@ public class MyPreference {
 
     public String getTempPath() {
         return mTempPath;
+    }
+
+    public boolean isHardware(){
+        return mSharedPreferences.getBoolean(KEY_HARDWARE, false);
     }
 
     public void setFolder(DirType type, String path) {

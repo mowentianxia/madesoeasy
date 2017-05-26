@@ -5,6 +5,10 @@
             android:key="@string/settings_key_short_set_name"
             android:persistent="true"
             android:title="@string/setting_show_long_set_name"/>
+        <CheckBoxPreference
+            android:key="@string/settings_hardware"
+            android:persistent="true"
+            android:title="@string/setting_hardware_title"/>
         <Preference
             android:key="@string/settings_key_style_path"
             android:persistent="true"
