@@ -72,9 +72,9 @@ public class PathConrollor extends BaseControllor {
         }
         this.workPath = workPath;
 
-        cachePath = new File(workPath, "cache").getAbsolutePath();
+        cachePath = new File(workPath, ".cache").getAbsolutePath();
         FileUtil.createNoMedia(cachePath);
-        tempPath = new File(workPath, "temp").getAbsolutePath();
+        tempPath = new File(workPath, ".temp").getAbsolutePath();
         FileUtil.createNoMedia(tempPath);
         imagePath = new File(workPath, "images").getAbsolutePath();
         setPath = new File(workPath, "saves").getAbsolutePath();
