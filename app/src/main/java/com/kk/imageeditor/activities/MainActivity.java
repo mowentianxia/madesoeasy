@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -18,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -58,9 +60,8 @@ public class MainActivity extends DrawerAcitvity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if(MyPreference.get(this).isHardware()){
-            getWindow().setFlags( WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
-                    WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
+        if (MyPreference.get(this).isHardware()) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         }
         setExitAnimEnable(false);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -146,11 +147,11 @@ public class MainActivity extends DrawerAcitvity
 
     private void openFromSelect() {
         //选择一个存档打开
-        FileDialog dialog=new FileDialog(this, FileDialog.Mode.OpenFile);
+        FileDialog dialog = new FileDialog(this, FileDialog.Mode.OpenFile);
         dialog.setTitle(R.string.open_set);
         dialog.setPath(new File(pathConrollor.getCurPath()), new FileFilter2(false, Constants.SET_EX));
         dialog.setFileChooseListener((dlg, file) -> {
-            if(file != null) {
+            if (file != null) {
                 pathConrollor.setCurPath(file.getParent());
                 loadSet(file);
             }
@@ -162,7 +163,7 @@ public class MainActivity extends DrawerAcitvity
         if (useold && !TextUtils.isEmpty(getSetFile())) {
             //直接保存
             saveSet(null);
-            Toast.makeText(this, getString(R.string.save_set_tip)+getSetFile(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.save_set_tip) + getSetFile(), Toast.LENGTH_SHORT).show();
         } else {
             //选择/输入一个文件保存
             final FileDialog dialog = new FileDialog(this, FileDialog.Mode.SaveFile);
@@ -173,7 +174,7 @@ public class MainActivity extends DrawerAcitvity
                 if (file != null && !file.isDirectory()) {
                     pathConrollor.setCurPath(file.getParent());
                     saveSet(file.getAbsolutePath());
-                    Toast.makeText(this, getString(R.string.save_set_tip)+file.getAbsolutePath(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.save_set_tip) + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
                 }
             });
             dialog.show();
@@ -199,9 +200,9 @@ public class MainActivity extends DrawerAcitvity
                 headAuthorView.setText(info.getAuthor());
             }
             if (setfileView != null) {
-                if(!TextUtils.isEmpty(getSetFile())){
+                if (!TextUtils.isEmpty(getSetFile())) {
                     setSetFileName(getSetFile());
-                }else {
+                } else {
                     setSetFileName(getSaveFileName());
                 }
             }
@@ -213,16 +214,16 @@ public class MainActivity extends DrawerAcitvity
         super.setSetFile(setFile);
         if (setfileView != null) {
             runOnUiThread(() -> {
-                if(!TextUtils.isEmpty(getSetFile())){
+                if (!TextUtils.isEmpty(getSetFile())) {
                     setSetFileName(getSetFile());
-                }else {
+                } else {
                     setSetFileName(getSaveFileName());
                 }
             });
         }
     }
 
-    private void setSetFileName(String file){
+    private void setSetFileName(String file) {
         runOnUiThread(() -> {
             if (setfileView != null) {
                 if (mMyPreference.showFullSetName()) {

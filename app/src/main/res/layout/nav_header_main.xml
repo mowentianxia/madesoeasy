@@ -15,7 +15,7 @@
 
     <include layout="@layout/style_info"/>
 
-    <com.kk.imageeditor.view.MyTextView
+    <TextView
         android:id="@+id/setname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,8 +24,7 @@
         android:ellipsize="start"
         android:layout_marginBottom="4dp"
         android:textColor="@android:color/white"
-        app:ftMinTextSize="18sp"
-        app:ftMaxTextSize="24sp"
-        android:text="@string/noname"
+        android:textSize="14sp"
+        tools:text="@string/noname"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
 </LinearLayout>

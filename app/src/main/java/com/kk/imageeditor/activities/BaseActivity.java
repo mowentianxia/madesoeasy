@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
 import com.kk.imageeditor.R;
 
@@ -25,6 +26,15 @@ class BaseActivity extends AppCompatActivity {
 
     protected String[] getPermissions() {
         return null;
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //透明状态栏
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
     }
 
     @Override
