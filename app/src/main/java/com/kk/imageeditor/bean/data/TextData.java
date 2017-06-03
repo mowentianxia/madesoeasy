@@ -23,4 +23,5 @@ public class TextData extends ViewData{
     public float lineSpaceScale;
     public boolean justify;
     public String text;
+    public boolean fontPadding = true;
 }

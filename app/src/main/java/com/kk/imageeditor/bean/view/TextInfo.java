@@ -32,6 +32,8 @@ public class TextInfo extends ViewInfo {
     protected String text;
     @XmlAttribute("justify")
     protected boolean justify;
+    @XmlAttribute("font-padding")
+    protected boolean fontPadding;
 
     public ShadowInfo[] getShadows() {
         return shadows;
@@ -43,6 +45,10 @@ public class TextInfo extends ViewInfo {
 
     public float getLineSpace() {
         return lineSpace;
+    }
+
+    public boolean isFontPadding() {
+        return fontPadding;
     }
 
     public float getLineSpaceScale() {

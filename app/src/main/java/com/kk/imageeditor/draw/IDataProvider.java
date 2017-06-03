@@ -360,6 +360,7 @@ public abstract class IDataProvider {
         data.text = dealString(pInfo.getText());
         data.justify = pInfo.isJustify();
         data.align = GravityUtil.getTextAlign(getValue(pInfo.getAlignStr()));
+        data.fontPadding = pInfo.isFontPadding();
         //阴影
         ShadowInfo shadowInfo = getValue(pInfo.getShadows());
         if (shadowInfo != null) {

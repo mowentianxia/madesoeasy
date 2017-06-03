@@ -78,7 +78,7 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
         if (actionBar != null) {
             actionBarH = actionBar.getHeight();
         }
-        h = getResources().getDisplayMetrics().heightPixels - actionBarH - getStatusBarHeight();
+        h = getWindowManager().getDefaultDisplay().getHeight() - actionBarH - getStatusBarHeight();
         mDrawer = new Drawer(this, viewGroup, w, h, getDefaultData());
     }
 
@@ -176,7 +176,7 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
         if (file == null || !file.exists()) return;
         mDrawer.reset();
         VUiKit.defer().when(() -> {
-            return  mDrawer.loadSet(file);
+            return mDrawer.loadSet(file);
         }).done((ok) -> {
             if (ok) {
                 setSetFile(file.getAbsolutePath());
@@ -190,7 +190,7 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
     }
 
     public void setSetFile(String setFile) {
-        if(TextUtils.equals(mSetFile, setFile)){
+        if (TextUtils.equals(mSetFile, setFile)) {
             return;
         }
         mSetFile = setFile;

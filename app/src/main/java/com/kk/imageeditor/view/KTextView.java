@@ -77,23 +77,18 @@ public class KTextView extends FitTextView implements IKView<TextData, TextInfo,
         if (face != null) {
             setTypeface(face);
         }
-//        if (item.font_size > 0) {
-//            float size = item.font_size;
-//            setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
-//            setMaxTextSize(size);
-//            if (item.singleline)
-//                setMinTextSize(size);
-//            else
-//                setMinTextSize(size / 2.0f);
-//        }
+
+        setIncludeFontPadding(item.fontPadding);
         // 单行
         if (item.singleline) {
             setSingleLine(true);
+            setNeedFit(false);
             setMinTextSize(getTextSize());
             setKeepWord(true);
             setLineSpacing(0.0f, 1.0f);
         } else {
             setKeepWord(item.keepWord);
+            setNeedFit(true);
              setSingleLine(false);
             // 行间距
             float linespace = item.lineSpace;

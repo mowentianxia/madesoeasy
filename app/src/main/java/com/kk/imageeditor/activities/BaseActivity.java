@@ -7,9 +7,13 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.MenuItem;
 
 import com.kk.imageeditor.R;
+
+import java.lang.reflect.Method;
 
 import static com.kk.imageeditor.Constants.REQUEST_PERMISSIONS;
 
