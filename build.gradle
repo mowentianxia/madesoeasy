@@ -12,9 +12,9 @@ buildscript {
     }
 }
 ext {
-    compileSdkVersion = 24
+    compileSdkVersion = 25
     buildToolsVersion = compileSdkVersion+".0.0"
-    supportVersion = 24+".2.1"
+    supportVersion = compileSdkVersion+".1.1"
 }
 allprojects {
     repositories {
