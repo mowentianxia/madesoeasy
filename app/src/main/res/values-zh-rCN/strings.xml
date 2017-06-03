@@ -46,7 +46,6 @@
     <string name="title_activity_style_list">样式列表</string>
     <string name="no_find_image_selector">没有找到图片选择器</string>
     <string name="no_find_image_cutor">没有找到裁剪工具</string>
-    <string name="create_folder">新建文件夹</string>
     <string name="apply">应用</string>
     <string name="dialog_title">提示</string>
         <string name="about_info" formatted="false">\n
