@@ -35,31 +35,19 @@ public class SettingFragment extends BasePreferenceFragment {
         return this;
     }
 
-    protected Object getValue(String key, ValueType type) {
-        if (mMyPreference.KEY_IMGE_TYPE.equals(key)) {
-            String t = mMyPreference.getImageType();
-            return t;
-        } else {
-            return super.getValue(key, type);
-        }
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(false);
         addPreferencesFromResource(R.xml.pref_imageeditor);
         KEY_ABOUT = getString(R.string.settings_about);
-        bindPreferenceSummaryToValue(findPreference(mMyPreference.KEY_SHORT_SET_NAME), ValueType.Boolean);
+        bindPreferenceSummaryToValue(findPreference(mMyPreference.KEY_LONG_SET_NAME), ValueType.Boolean, mMyPreference.showFullSetName());
 
-//        bindPreferenceSummaryToValue(findPreference(mMyPreference.KEY_PATH_CACHE), ValueType.String);
-//        bindPreferenceSummaryToValue(findPreference(mMyPreference.KEY_PATH_IMAGE), ValueType.String);
-//        bindPreferenceSummaryToValue(findPreference(mMyPreference.KEY_PATH_STYLE), ValueType.String);
-//        bindPreferenceSummaryToValue(findPreference(mMyPreference.KEY_PATH_TEMP), ValueType.String);
-        bindPreferenceSummaryToValue(findPreference(mMyPreference.KEY_HARDWARE), ValueType.Boolean);
-        bindPreferenceSummaryToValue(findPreference(mMyPreference.KEY_STYLE_PATH), ValueType.String);
-        bindPreferenceSummaryToValue(findPreference(mMyPreference.KEY_IMGE_TYPE), ValueType.String);
-        bindPreferenceSummaryToValue(findPreference(KEY_ABOUT), ValueType.String);
+        bindPreferenceSummaryToValue(findPreference(mMyPreference.KEY_HARDWARE), ValueType.Boolean, mMyPreference.isHardware());
+        bindPreferenceSummaryToValue(findPreference(mMyPreference.KEY_CUT_SCALE), ValueType.Boolean, mMyPreference.isCutUseScale());
+        bindPreferenceSummaryToValue(findPreference(mMyPreference.KEY_STYLE_PATH), ValueType.String, "");
+        bindPreferenceSummaryToValue(findPreference(mMyPreference.KEY_IMGE_TYPE), ValueType.String, mMyPreference.getImageType());
+        bindPreferenceSummaryToValue(findPreference(KEY_ABOUT), ValueType.String, "");
         if (mInitSettings != 0) {
             switch (mInitSettings) {
                 case Constants.SETTINGS_CATEGORY_STYLE:

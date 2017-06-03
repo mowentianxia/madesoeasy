@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 
 import java.io.File;
@@ -20,11 +21,11 @@ import java.util.zip.ZipFile;
 
 @SuppressWarnings("deprecation")
 public class BitmapUtil {
-    private final static long MAX_BITMAP;
+    private final static int MAX_BITMAP;
 
     static {
         DisplayMetrics dm = Resources.getSystem().getDisplayMetrics();
-        MAX_BITMAP = (dm.widthPixels * dm.heightPixels) / 5 * 4;
+        MAX_BITMAP = dm.widthPixels * dm.heightPixels;
     }
 
     public static void destroy(Drawable drawable) {
@@ -39,6 +40,15 @@ public class BitmapUtil {
             }
             drawable = null;
         }
+    }
+
+    public static int[] getScaleSize(int width, int height) {
+        if (width * height > MAX_BITMAP) {
+            return new int[]{width, height};
+        }
+        float scale = (float) MAX_BITMAP / ((float) (width * height));
+        float s = (float) Math.sqrt(scale);
+        return new int[]{(int) (width * s), (int)(height * s)};
     }
 
     public static boolean saveBitmap(Bitmap bm, String file, int quality) {
@@ -124,19 +134,14 @@ public class BitmapUtil {
 
     /***
      * @param drawinput
-     * @param srcW      图片的宽
-     * @param srcH      图片的高
-     * @param dstW      目标的宽
-     * @param dstH      目标的宽
      * @return
      */
-    public static Bitmap getBitmapByStream(InputStream drawinput, float srcW, float srcH, float dstW, float dstH) {
+    public static Bitmap getBitmapByStream(InputStream drawinput, float width, float height, float reqWidth, float reqHeight) {
         Bitmap b = null;
         try {
             BitmapFactory.Options options = new BitmapFactory.Options();
-            if (dstW * dstH >= MAX_BITMAP) {
-                options.inSampleSize = (int) ((srcH / dstH + srcW / dstW) / 2.0f);
-            }
+            options.inSampleSize = getSampleSize((int) width, (int) height, MAX_BITMAP);
+            Log.w("kk", "width=" + width + ",height=" + height + ",inSampleSize=" + options.inSampleSize);
             options.inPurgeable = true;
             options.inInputShareable = true;
             b = BitmapFactory.decodeStream(drawinput, null, options);
@@ -144,6 +149,17 @@ public class BitmapUtil {
             e.printStackTrace();
         }
         return b;
+    }
+
+    private static int getSampleSize(int width, int height, int max) {
+        int inSampleSize = 1;
+        for (int scale = 0; scale < 32; scale++) {
+            inSampleSize = (int) Math.pow(2, scale);
+            if ((width / inSampleSize) * (height / inSampleSize) < max) {
+                break;
+            }
+        }
+        return inSampleSize;
     }
 
     public static Bitmap getBitmapFromFile(View view) {

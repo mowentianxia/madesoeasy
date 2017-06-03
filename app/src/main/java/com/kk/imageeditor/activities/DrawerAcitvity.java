@@ -10,7 +10,6 @@ import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.Toast;
 
 import com.kk.imageeditor.Constants;
@@ -59,6 +58,11 @@ public class DrawerAcitvity extends EditUIActivity implements ISelectImage {
 
     protected String getDefaultCacheSet() {
         return null;//new File(pathConrollor.getSetPath(), getString(R.string.noname) + Constants.SET_EX2).getAbsolutePath();
+    }
+
+    @Override
+    protected float getCurScale() {
+        return mDrawer.getScale();
     }
 
     @Override

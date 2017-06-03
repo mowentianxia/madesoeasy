@@ -12,7 +12,6 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.RingtonePreference;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.kk.imageeditor.activities.SettingsActivity;
@@ -65,9 +64,9 @@ abstract class BasePreferenceFragment extends PreferenceFragment implements Pref
                 }
             }
 
-        } else if(preference instanceof CheckBoxPreference){
-            CheckBoxPreference checkBoxPreference = (CheckBoxPreference)preference;
-            checkBoxPreference.setChecked((Boolean)value);
+        } else if (preference instanceof CheckBoxPreference) {
+            CheckBoxPreference checkBoxPreference = (CheckBoxPreference) preference;
+            checkBoxPreference.setChecked((Boolean) value);
         } else {
             // For all other preferences, set the summary to the value's
             // simple string representation.
@@ -83,33 +82,33 @@ abstract class BasePreferenceFragment extends PreferenceFragment implements Pref
      * immediately updated upon calling this method. The exact display format is
      * dependent on the type of preference.
      */
-    protected final <T> void bindPreferenceSummaryToValue(Preference preference, ValueType type) {
-        Object value = getValue(preference.getKey(), type);
+    protected final <T> void bindPreferenceSummaryToValue(Preference preference, ValueType type, Object def) {
+        Object value = getValue(preference.getKey(), type, def);
         onPreferenceChange(preference, value);
         preference.setOnPreferenceChangeListener(this);
-        if(!(preference instanceof  ListPreference)) {
+        if (!(preference instanceof ListPreference)) {
             preference.setOnPreferenceClickListener(this);
         }
     }
 
-    protected Object getValue(String key, ValueType type) {
+    protected Object getValue(String key, ValueType type, Object def) {
         Object value = null;
         switch (type) {
             case Boolean:
-                value = mSharedPreferences.getBoolean(key, false);
+                value = mSharedPreferences.getBoolean(key, (Boolean) def);
                 break;
             case Long:
-                value = mSharedPreferences.getLong(key, 0);
+                value = mSharedPreferences.getLong(key, (Long) def);
                 break;
             case Int:
-                value = mSharedPreferences.getInt(key, 0);
+                value = mSharedPreferences.getInt(key, (Integer) def);
                 break;
             case Float:
-                value = mSharedPreferences.getFloat(key, 0);
+                value = mSharedPreferences.getFloat(key, (Float) def);
                 break;
             case String:
             default:
-                value = mSharedPreferences.getString(key, "");
+                value = mSharedPreferences.getString(key, (String) def);
                 break;
         }
         return value;

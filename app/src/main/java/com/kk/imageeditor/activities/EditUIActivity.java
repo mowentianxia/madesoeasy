@@ -6,7 +6,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -16,7 +15,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
@@ -32,9 +30,11 @@ import com.kk.imageeditor.bean.data.TextData;
 import com.kk.imageeditor.bean.data.ViewData;
 import com.kk.imageeditor.bean.enums.DataType;
 import com.kk.imageeditor.controllor.ControllorManager;
+import com.kk.imageeditor.controllor.MyPreference;
 import com.kk.imageeditor.controllor.PathConrollor;
 import com.kk.imageeditor.controllor.StyleControllor;
 import com.kk.imageeditor.draw.IDataProvider;
+import com.kk.imageeditor.utils.BitmapUtil;
 import com.kk.imageeditor.utils.SaveUtil;
 import com.kk.imageeditor.utils.StringUtil;
 import com.kk.imageeditor.utils.VUiKit;
@@ -56,6 +56,8 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
     protected abstract void updateViews();
 
     protected abstract ISelectImage getSelectImage();
+
+    protected abstract float getCurScale();
 
     protected IDataProvider getDefaultData() {
         return mDefaultData;
@@ -156,7 +158,17 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
                     }
                     String file = pIData.getTempPath(name);
                     getSelectImage().setListener(this);
-                    getSelectImage().startPhotoCut(file, (int) data.width, (int) data.height, true);
+                    // 计算倍数
+                    int[] r;
+                    if (MyPreference.get(this).isCutUseScale()) {
+                        r = new int[]{
+                                (int) (data.width * getCurScale()),
+                                (int) (data.height * getCurScale()),
+                        };
+                    } else {
+                        r = BitmapUtil.getScaleSize((int) data.width, (int) data.height);
+                    }
+                    getSelectImage().startPhotoCut(file, r[0], r[1], true);
                 }
                 break;
             case select:
@@ -302,7 +314,7 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
         else {
             editText.setSingleLine();
         }
-        ViewGroup.LayoutParams lp=getItemLayoutParams();
+        ViewGroup.LayoutParams lp = getItemLayoutParams();
         lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
         editText.setLayoutParams(lp);
         editText.setText(defalutValue);

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Environment;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.kk.imageeditor.Constants;
 import com.kk.imageeditor.R;
@@ -26,7 +25,7 @@ public class MyPreference {
         return sMyPreference;
     }
 
-    public final String KEY_SHORT_SET_NAME;
+    public final String KEY_LONG_SET_NAME;
     public final String KEY_PATH_CACHE;
     public final String KEY_PATH_IMAGE;
     public final String KEY_PATH_STYLE;
@@ -34,6 +33,7 @@ public class MyPreference {
     public final String KEY_STYLE_PATH;
     public final String KEY_IMGE_TYPE;
     public final String KEY_HARDWARE;
+    public final String KEY_CUT_SCALE;
     private SharedPreferences mSharedPreferences;
 
     //默认文件夹路径
@@ -47,7 +47,7 @@ public class MyPreference {
     private String defImageType;
 
     private MyPreference(Context context) {
-        KEY_SHORT_SET_NAME = context.getString(R.string.settings_key_short_set_name);
+        KEY_LONG_SET_NAME = context.getString(R.string.settings_key_long_set_name);
         KEY_PATH_CACHE = context.getString(R.string.settings_key_path_cache);
         KEY_PATH_IMAGE = context.getString(R.string.settings_key_path_image);
         KEY_PATH_STYLE = context.getString(R.string.settings_key_path_style);
@@ -55,6 +55,7 @@ public class MyPreference {
         KEY_STYLE_PATH = context.getString(R.string.settings_key_style_path);
         KEY_IMGE_TYPE = context.getString(R.string.settings_key_image_type);
         KEY_HARDWARE = context.getString(R.string.settings_hardware);
+        KEY_CUT_SCALE = context.getString(R.string.settings_cut_image_scale);
         mSharedPreferences = context.getSharedPreferences(Constants.SETTINGS_NAME, Context.MODE_MULTI_PROCESS | Context.MODE_PRIVATE);
         mCurStyle = mSharedPreferences.getString(KEY_STYLE_PATH, null);
         defImageType = context.getString(R.string.settings_default_image_type);
@@ -82,11 +83,11 @@ public class MyPreference {
     }
 
     public boolean showFullSetName() {
-        return mSharedPreferences.getBoolean(KEY_SHORT_SET_NAME, true);
+        return mSharedPreferences.getBoolean(KEY_LONG_SET_NAME, false);
     }
 
     public void setFullSetName(boolean fullname) {
-        mSharedPreferences.edit().putBoolean(KEY_SHORT_SET_NAME, fullname).apply();
+        mSharedPreferences.edit().putBoolean(KEY_LONG_SET_NAME, fullname).apply();
     }
 
     public String getCurStyle() {
@@ -131,6 +132,14 @@ public class MyPreference {
 
     public boolean isHardware(){
         return mSharedPreferences.getBoolean(KEY_HARDWARE, false);
+    }
+
+    /***
+     * 按照当前比例裁剪
+     * @return
+     */
+    public boolean isCutUseScale(){
+        return mSharedPreferences.getBoolean(KEY_CUT_SCALE, true);
     }
 
     public void setFolder(DirType type, String path) {

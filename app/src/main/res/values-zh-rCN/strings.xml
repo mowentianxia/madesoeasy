@@ -65,6 +65,8 @@
     <string name="setting_path_image">image目录</string>
     <string name="setting_image_type">图片存储</string>
     <string name="tip_restart_app">设置在重启后生效</string>
+    <string name="settings_cut_image_scale_title">比例调整裁剪大小</string>
+    <string name="settings_cut_image_scale_desc">裁剪的尺寸按照当前比例调整</string>
     <array name="image_type">
         <item>JPEG格式</item>
         <item>PNG格式</item>
