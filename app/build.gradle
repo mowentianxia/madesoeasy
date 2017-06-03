@@ -2,12 +2,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 
 
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-def sign_pwd = properties.getProperty("sign.password")
-def sign_alias = properties.getProperty("sign.alias")
-def sign_alias_pwd = properties.getProperty("sign.aliaspassword")
-
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
@@ -33,26 +27,16 @@ android {
             java.srcDirs = ['src/main/java', '../libxml2object/xml2object/src/main/java']
         }
     }
-    signingConfigs {
-        myConfig {
-            storeFile file("msoe.key")
-            storePassword sign_pwd
-            keyAlias sign_alias
-            keyPassword sign_alias_pwd
-        }
-    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
     buildTypes {
         release {
-            signingConfig signingConfigs.myConfig
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            signingConfig signingConfigs.myConfig
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
