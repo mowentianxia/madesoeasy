@@ -23,7 +23,7 @@ android {
     sourceSets {
         main {
             assets.srcDirs = ['assets', 'src/main/assets']
-            java.srcDirs = ['src/main/java', '../libxml2object/xml2object/src/main/java']
+//            java.srcDirs = ['src/main/java', '../libxml2object/xml2object/src/main/java']
         }
     }
     compileOptions {
@@ -51,4 +51,8 @@ dependencies {
     testCompile 'net.sf.kxml:kxml2:2.3.0'
     compile project(':filedialog')
     compile project(':fittextview')
+    compile (project(':xml2object')){
+        exclude module:'xmlpull'
+        exclude module:'kxml2'
+    }
 }

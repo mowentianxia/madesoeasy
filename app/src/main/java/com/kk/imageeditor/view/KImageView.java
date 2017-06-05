@@ -4,6 +4,7 @@ package com.kk.imageeditor.view;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -16,7 +17,7 @@ import com.kk.imageeditor.bean.view.ImageInfo;
 import com.kk.imageeditor.utils.BitmapUtil;
 
 
-public class KImageView extends ImageView implements IKView<ImageData, ImageInfo, ImageView> {
+public class KImageView extends AppCompatImageView implements IKView<ImageData, ImageInfo, ImageView> {
     public static final int DEFAULT_COLOR = 0x383838;
     protected ImageInfo mViewElement;
     protected SelectElement mSelectElement;
