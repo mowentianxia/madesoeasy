@@ -176,7 +176,7 @@ public class MyPreference {
         }
     }
 
-    public SettingsPreference getSharedPreferences() {
+    public SharedPreferences getSharedPreferences() {
         return mSharedPreferences;
     }
 

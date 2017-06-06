@@ -125,7 +125,7 @@ abstract class BasePreferenceFragment extends PreferenceFragment implements Pref
     }
 
     protected MyPreference mMyPreference;
-    protected SettingsPreference mSharedPreferences;
+    protected SharedPreferences mSharedPreferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
