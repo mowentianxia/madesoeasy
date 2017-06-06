@@ -8,6 +8,8 @@ import android.text.TextUtils;
 import com.kk.imageeditor.Constants;
 import com.kk.imageeditor.R;
 
+import net.kk.plus.preferences.SettingsPreference;
+
 import java.io.File;
 
 import static com.kk.imageeditor.Constants.DEFAULT_NAME;
@@ -34,7 +36,7 @@ public class MyPreference {
     public final String KEY_IMGE_TYPE;
     public final String KEY_HARDWARE;
     public final String KEY_CUT_SCALE;
-    private SharedPreferences mSharedPreferences;
+    private SettingsPreference mSharedPreferences;
 
     //默认文件夹路径
     private String mWorkPath;
@@ -56,7 +58,7 @@ public class MyPreference {
         KEY_IMGE_TYPE = context.getString(R.string.settings_key_image_type);
         KEY_HARDWARE = context.getString(R.string.settings_hardware);
         KEY_CUT_SCALE = context.getString(R.string.settings_cut_image_scale);
-        mSharedPreferences = context.getSharedPreferences(Constants.SETTINGS_NAME, Context.MODE_MULTI_PROCESS | Context.MODE_PRIVATE);
+        mSharedPreferences = new SettingsPreference(context, Constants.SETTINGS_NAME);
         mCurStyle = mSharedPreferences.getString(KEY_STYLE_PATH, null);
         defImageType = context.getString(R.string.settings_default_image_type);
         String defPath = null;
@@ -65,6 +67,7 @@ public class MyPreference {
         } catch (Exception e) {
             defPath = new File(context.getFilesDir(), DEFAULT_NAME).getAbsolutePath();
         }
+
         mWorkPath = mSharedPreferences.getString(PREF_WORKPATH, defPath);
         mCachePath = mSharedPreferences.getString(KEY_PATH_CACHE, new File(defPath, "cache").getAbsolutePath());
         mImagePath = mSharedPreferences.getString(KEY_PATH_IMAGE, new File(defPath, "images").getAbsolutePath());
@@ -92,10 +95,6 @@ public class MyPreference {
 
     public String getCurStyle() {
         return mCurStyle;
-    }
-
-    public SharedPreferences getSharedPreferences() {
-        return mSharedPreferences;
     }
 
     public String getWorkPath() {
@@ -175,6 +174,10 @@ public class MyPreference {
                 }
                 break;
         }
+    }
+
+    public SettingsPreference getSharedPreferences() {
+        return mSharedPreferences;
     }
 
     public enum DirType {

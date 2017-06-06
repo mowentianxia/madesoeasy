@@ -17,6 +17,8 @@ import android.view.MenuItem;
 import com.kk.imageeditor.activities.SettingsActivity;
 import com.kk.imageeditor.controllor.MyPreference;
 
+import net.kk.plus.preferences.SettingsPreference;
+
 abstract class BasePreferenceFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener
         , Preference.OnPreferenceChangeListener {
     @Override
@@ -123,7 +125,7 @@ abstract class BasePreferenceFragment extends PreferenceFragment implements Pref
     }
 
     protected MyPreference mMyPreference;
-    protected SharedPreferences mSharedPreferences;
+    protected SettingsPreference mSharedPreferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

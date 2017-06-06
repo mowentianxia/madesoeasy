@@ -7,3 +7,6 @@
 [submodule "libfittextview"]
 	path = libfittextview
 	url = https://github.com/247321453/JustifyTextView.git
+[submodule "libsettingsprovider"]
+	path = libsettingsprovider
+	url = https://github.com/247321453/SettingsProvider.git

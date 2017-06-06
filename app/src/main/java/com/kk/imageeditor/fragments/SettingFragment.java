@@ -62,9 +62,12 @@ public class SettingFragment extends BasePreferenceFragment {
         super.onResume();
     }
 
+    String mCurKey = null;
+
     @Override
     public boolean onPreferenceClick(Preference preference) {
         String key = preference.getKey();
+        mCurKey = key;
         if (mMyPreference.KEY_STYLE_PATH.equals(key)) {
             startActivityForResult(new Intent(getActivity(), StyleListActivity.class), Constants.REQUEST_STYLE);
         } else if (KEY_ABOUT.equals(key)) {
@@ -88,7 +91,7 @@ public class SettingFragment extends BasePreferenceFragment {
             CheckBoxPreference checkBoxPreference = (CheckBoxPreference) preference;
             boolean checked = checkBoxPreference.isChecked();
             mSharedPreferences.edit().putBoolean(preference.getKey(), checked).apply();
-            if (checked && mMyPreference.KEY_HARDWARE.equals(preference.getKey())) {
+            if (TextUtils.equals(mCurKey, preference.getKey()) && mMyPreference.KEY_HARDWARE.equals(preference.getKey())) {
                 Toast.makeText(getActivity(), R.string.tip_restart_app, Toast.LENGTH_SHORT).show();
             }
             return true;
