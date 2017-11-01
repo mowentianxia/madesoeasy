@@ -33,6 +33,7 @@ import com.kk.imageeditor.draw.Drawer;
 import com.kk.imageeditor.utils.BitmapUtil;
 import com.kk.imageeditor.utils.FileUtil;
 import com.kk.imageeditor.utils.VUiKit;
+import com.kk.view.CompactTextView;
 
 import net.kk.dialog.FileDialog;
 import net.kk.dialog.FileFilter2;
@@ -89,6 +90,11 @@ public class MainActivity extends DrawerAcitvity
         setfileView = (TextView) head.findViewById(R.id.setname);
         //初始化
         initDrawer((ViewGroup) findViewById(R.id.drawer));
+//        CompactTextView compactTextView = (CompactTextView) findViewById(R.id.text1);
+//        compactTextView.setNeedScaleText(true);
+//        compactTextView.setText("未命名觉健身卡思思经济嘻健健康康可嘻嘻嘻未命名觉健身卡思健康康可嘻嘻嘻未命名觉健身卡思");
+//        compactTextView.getPaint().setTextScaleX(0.5f);
+//        compactTextView.invalidate();
         checkAndCopyStyle();
     }
 
