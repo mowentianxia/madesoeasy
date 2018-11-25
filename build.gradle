@@ -2,23 +2,25 @@
 
 buildscript {
     repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         jcenter()
+        google()
+        maven { url "https://jitpack.io" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0'
-        classpath 'me.tatarka:gradle-retrolambda:3.2.5'
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath 'com.android.tools.build:gradle:3.2.0'
     }
 }
 ext {
-    compileSdkVersion = 25
-    buildToolsVersion = compileSdkVersion+".0.0"
-    supportVersion = compileSdkVersion+".3.1"
+    compileSdkVersion = 28
+    buildToolsVersion = compileSdkVersion+".0.2"
+    supportVersion = compileSdkVersion+".+"
 }
 allprojects {
     repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         jcenter()
+        google()
         maven { url "https://jitpack.io" }
     }
 }
