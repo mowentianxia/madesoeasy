@@ -82,18 +82,24 @@ public class XmlUtils {
             if (FileUtil.isExtension(xmlFile.getAbsolutePath(), ".xml")) {
                 inputStream = new FileInputStream(xmlFile);
             } else {
-                zipFile = new ZipFile(xmlFile);
-                ZipEntry zipEntry = zipFile.getEntry(entryName);
-                if (zipEntry != null) {
-                    inputStream = zipFile.getInputStream(zipEntry);
+                File dir = xmlFile.getParentFile();
+                File cache = new File(dir, entryName);
+                if (cache.exists()) {
+                    inputStream = new FileInputStream(cache);
                 } else {
-                    //第一个xml
-                    Enumeration<? extends ZipEntry> es = zipFile.entries();
-                    while (es.hasMoreElements()){
-                        zipEntry = es.nextElement();
-                        if(zipEntry.getName().endsWith(".xml")){
-                            inputStream = zipFile.getInputStream(zipEntry);
-                            break;
+                    zipFile = new ZipFile(xmlFile);
+                    ZipEntry zipEntry = zipFile.getEntry(entryName);
+                    if (zipEntry != null) {
+                        inputStream = zipFile.getInputStream(zipEntry);
+                    } else {
+                        //第一个xml
+                        Enumeration<? extends ZipEntry> es = zipFile.entries();
+                        while (es.hasMoreElements()) {
+                            zipEntry = es.nextElement();
+                            if (zipEntry.getName().endsWith(".xml")) {
+                                inputStream = zipFile.getInputStream(zipEntry);
+                                break;
+                            }
                         }
                     }
                 }

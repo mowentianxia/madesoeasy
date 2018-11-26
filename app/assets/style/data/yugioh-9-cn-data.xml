@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datas>
+	<data name="image_type" default=""  desc="图片类型" >
+		<item name="默认" value="" />
+		<item name="无边框" value="noframe" />
+		<item name="透明卡" value="full" />
+	</data>
+	<data name="cardattr" default="none" desc="属性" >
+		<item name="无" value="none" />
+		<item name="暗" value="dark" />
+		<item name="神" value="divine" />
+		<item name="地" value="earth" />
+		<item name="炎" value="fire" />
+		<item name="光" value="light" />
+		<item name="水" value="water" />
+		<item name="风" value="wind" />
+		<item name="魔法" value="spell" />
+		<item name="陷阱" value="trap" />
+	</data>
+	<data name="cardtype" default="normal" desc="卡片类型" >
+		<item name="无" value="none" />
+		<item name="通常" value="normal" />
+		<item name="效果" value="effect" />
+		<item name="融合" value="fusion" />
+		<item name="仪式" value="ritual" />
+		<item name="同调" value="synchro" />
+		<item name="衍生物" value="token" />
+		<item name="超量" value="xyz" />
+		<item name="魔法" value="spell" />
+		<item name="陷阱" value="trap" />
+	</data>
+	<data name="cardname" desc="卡片名称" type="text" default="未命名" />
+	<data name="cardcode" desc="卡片密码" type="text"  default="00000000" />
+	<data name="cardtext" desc="效果文本" type="text"  default="点击输入效果文本" />
+	<data name="cardptext" desc="P效果文本" type="text" default="点击输入P效果文本" />
+	<data name="cardpleft" desc="P蓝刻度"  type="text" default="0"  />
+	<data name="cardpright" desc="P红刻度" type="text"  default="0"  />
+	<data name="edition" desc="标注"  type="text" default="" />
+	<data name="cardnum" desc="卡包编号"  type="text" default="DT01-CN001" />
+	<data name="cardatk"  desc="攻击力" type="text" default="0"  />
+	<data name="carddef"  desc="防御力" type="text" default="0"  />
+	<data name="cardlevel" desc="卡片等级/阶级" type="text" default="0" />
+	<data name="cardcode_image" desc="中间图" type="image"  default="{{cardcode}}.png" />
+
+	<data name="pimagetype" default=""  desc="摇摆怪图片类型">
+		<item name="默认" value="" />
+		<item name="长方形" value="rect" />
+	</data>
+	<data name="cardcopy" default=""  desc="版权图片">
+		<item name="默认" value="" />
+		<item name="英文" value="enCopyriht" />
+		<item name="日文" value="jpCopyriht" />
+	</data>
+	<data name="cardborder" default=""  desc="边框颜色">
+		<item name="默认" value="" />
+		<item name="金色边框" value="gold" />
+	</data>
+	<data name="namecolor" default=""  desc="卡名颜色">
+		<item name="默认" value="" />
+		<item name="银字" value="#E6E6E6" />
+		<item name="金字" value="#D8C735" />
+		<item name="红字" value="#3C0000" />
+		<item name="白字" value="#FFFFFF" />
+		<item name="黑字" value="#000000" />
+	</data>
+	<data name="cardrare" default="none" desc="镀膜类型">
+		<item name="默认" value="none" />
+		<item name="面闪" value="superfoil" />
+		<item name="纹理" value="secretfoil" />
+		<item name="竖纹" value="parallelfoil" />
+		<item name="十字碎点" value="mosaicfoil" />
+		<item name="星碎" value="starfoil" />
+		<item name="螺旋纹" value="ultimatefoil" />
+	</data>
+	<data name="rare_type" default=""  desc="镀膜大小">
+		<item name="无" value="" />
+		<item name="中间图" value="middle" />
+		<item name="全图" value="full" />
+	</data>
+	<data name="corner" default="none"  desc="防伪标志" >
+		<item name="无" value="none" />
+		<item name="默认" value="cornerdefault" />
+		<item name="金色" value="cornerfirst" />
+		<item name="银色" value="cornerunlimited" />
+	</data>
+	<data name="pendulum" default="none"  desc="摇摆类型">
+		<item name="无" value="none" />
+		<item name="大" value="big" />
+		<item name="中" value="normal" />
+		<item name="小" value="small" />
+	</data>
+	<data name="stmark" default=""  desc="魔法陷阱标识" >
+		<item name="无" value="" />
+		<item name="通常魔法" value="normalspell" />
+		<item name="通常陷阱" value="normaltrap" />
+		<item name="速攻魔法" value="quickspell" />
+		<item name="仪式魔法" value="ritualspell" />
+		<item name="永续魔法" value="continuousspell" />
+		<item name="装备魔法" value="equipspell" />
+		<item name="场地魔法" value="fieldspell" />
+		<item name="反击陷阱" value="countertrap" />
+		<item name="永续陷阱" value="continuoustrap" />
+	</data>
+	<data name="race" desc="种族" default="" hide="true">
+		<item value=""/>
+		<item value="战士族"/>
+		<item value="魔法师族"/>
+		<item value="天使族"/>
+		<item value="恶魔族"/>
+		<item value="不死族"/>
+		<item value="机械族"/>
+		<item value="水族"/>
+		<item value="炎族"/>
+		<item value="岩石族"/>
+		<item value="鸟兽族"/>
+		<item value="植物族"/>
+		<item value="昆虫族"/>
+		<item value="雷族"/>
+		<item value="龙族"/>
+		<item value="兽族"/>
+		<item value="兽战士族"/>
+		<item value="恐龙族"/>
+		<item value="鱼族"/>
+		<item value="海龙族"/>
+		<item value="爬虫类族"/>
+		<item value="念动力族"/>
+		<item value="幻神兽族"/>
+		<item value="创造神族"/>
+		<item value="幻龙族"/>
+	</data>
+	<data name="effect" desc="效果类型" default="" hide="true">
+		<item value=""/>
+		<item value="同调"/>
+		<item value="超量"/>
+		<item value="融合"/>
+		<item value="仪式"/>
+		<item value="效果"/>
+		<item value="调整"/>
+		<item value="灵魂"/>
+		<item value="卡通"/>
+		<item value="二重"/>
+		<item value="同盟"/>
+		<item value="灵摆"/>
+		<item value="反转"/>
+		<item value="黑暗同调"/>
+		<item value="黑暗调整"/>
+		<item value="特殊召唤"/>
+		<item value="衍生物"/>
+	</data>
+	<data name="cardmonster" desc="种族/效果类型" type="multi_select" >
+		<item name="race" 		value="race"   />
+		<item name="effect1"	value="effect" />
+		<item name="effect2" 	value="effect" />
+		<item name="effect3" 	value="effect" />
+	</data>
+	<data name="cardfoil" desc="罕贵度" type="multi_select" >
+		<item name="cardrare" 	value="cardrare"	/>
+		<item name="rare_type" 	value="rare_type"	/>
+		<item name="cardborder" value="cardborder"	/>
+		<item name="corner" 	value="corner"		/>
+		<item name="cardcopy" 	value="cardcopy" />
+	</data>
+	<data name="cardbg" desc="样式设置" type="multi_select" >
+		<item name="cardtype" 	value="cardtype"	/>
+		<item name="image_type" value="image_type"	/>
+		<item name="pendulum" 	value="pendulum"	/>
+		<item name="pimagetype" value="pimagetype"	/>
+		<item name="namecolor" 	value="namecolor"	/>
+	</data>
+	<bool name="cardborder_is_gold" value="'{{cardborder}}' == 'gold'"/>
+	<bool name="is_pendulum" 		value="'{{pendulum}}' == 'big' or '{{pendulum}}' == 'normal' or '{{pendulum}}' == 'small'"/>
+	<bool name="image_is_normal" 	value="'{{image_type}}' == ''"/>
+	<bool name="image_is_noframe" 	value="'{{image_type}}' == 'noframe'"/>
+	<bool name="image_is_full" 		value="'{{image_type}}' == 'full'"/>
+	<bool name="image_not_full" 	value="'{{image_type}}' != 'full'"/>
+	<bool name="pimage_is_normal" 	value="'{{pimagetype}}' != 'rect'"/>
+	<bool name="pimage_is_rect" 	value="'{{pimagetype}}' == 'rect'"/>
+	<bool name="pendulum_is_normal" value="'{{pendulum}}' == 'normal'"/>
+	<bool name="pendulum_is_big" 	value="'{{pendulum}}' == 'big'"/>
+	<bool name="pendulum_is_small" 	value="'{{pendulum}}' == 'small'"/>
+	<bool name="pendulum_nots_big" 	value="{{pendulum_is_small}} or {{pendulum_is_normal}}"/>
+	<bool name="pendulum_nots_small" value="{{pendulum_is_normal}} or {{pendulum_is_big}}"/>
+	<bool name="is_spelltrap" 		value="'{{cardtype}}' == 'spell' or '{{cardtype}}' == 'trap'" />
+	<bool name="rare_type_is_normal" value="'{{rare_type}}' == ''"/>
+	<bool name="rare_type_is_middle" value="'{{rare_type}}' == 'middle'"/>
+	<bool name="rare_type_is_full" 	value="'{{rare_type}}' == 'full'"/>
+	<bool name="card_is_syz" 		value="'{{cardtype}}' == 'xyz'"/>
+	<bool name="card_name_is_white" value="{{is_spelltrap}} or {{card_is_syz}}"/>
+	<bool name="card_is_black" 		value="{{card_is_syz}}"/>
+	<bool name="has_name_color" 	value="'{{namecolor}}' != ''"/>
+</datas>
