@@ -7,8 +7,8 @@ android {
         applicationId "com.kk.imageeditor"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 3200
-        versionName "3.1.0"
+        versionCode 3300
+        versionName "3.2.0"
         buildConfigField "String","DEFAULT_STYLE",'"yugioh-9-cn.xml"'
         vectorDrawables.useSupportLibrary = true
         android {

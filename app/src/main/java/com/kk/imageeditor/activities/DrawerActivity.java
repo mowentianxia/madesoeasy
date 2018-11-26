@@ -19,6 +19,7 @@ import com.kk.imageeditor.R;
 import com.kk.imageeditor.bean.StyleInfo;
 import com.kk.imageeditor.controllor.ControllorManager;
 import com.kk.imageeditor.draw.Drawer;
+import com.kk.imageeditor.utils.UriCompat;
 import com.kk.imageeditor.view.ISelectImage;
 import com.kk.imageeditor.view.ISelectImageListener;
 
@@ -254,7 +255,7 @@ public class DrawerActivity extends EditUIActivity implements ISelectImage {
             if (f != null && f.exists()) {// 删除旧文件
                 f.delete();
             }
-            intent2.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+            intent2.putExtra(MediaStore.EXTRA_OUTPUT, UriCompat.fromFile(this, f));
             try {
                 this.startActivityForResult(intent2, Constants.REQUEST_CAPTURE);
             } catch (Exception e) {
@@ -268,7 +269,7 @@ public class DrawerActivity extends EditUIActivity implements ISelectImage {
         if (TextUtils.isEmpty(saveFile)) return;
         File file = FileUtil.file(saveFile);
         if (file == null) return;
-        Uri saveimgUri = Uri.fromFile(file);
+        Uri saveimgUri = UriCompat.fromFile(this, file);
 
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
@@ -311,7 +312,7 @@ public class DrawerActivity extends EditUIActivity implements ISelectImage {
         } else if (requestCode == Constants.REQUEST_CAPTURE) {
             File f = FileUtil.file(selectFile + ".tmp");
             if (f != null && f.exists()) {// 拍照的临时图片
-                openPhotoCut(Uri.fromFile(f), selectFile, selectWidth, selectHeigth);
+                openPhotoCut(UriCompat.fromFile(this, f), selectFile, selectWidth, selectHeigth);
             } else {
                 if (listener != null) {
                     listener.onCurImageCompleted(selectFile);

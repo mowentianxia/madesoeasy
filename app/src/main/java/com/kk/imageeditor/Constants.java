@@ -2,6 +2,7 @@ package com.kk.imageeditor;
 
 
 public interface Constants {
+    String FILE_AUTH = BuildConfig.APPLICATION_ID + ".fileProvider";
     String SETTINGS_NAME = "app_settings";
     String DEFAULT_STYLE = BuildConfig.DEFAULT_STYLE;
     String ASSET_STYLE = "style";
@@ -28,6 +29,6 @@ public interface Constants {
     String PREF_WORKPATH = "workpath";
     String PREF_LAST_SET = "last_set";
 
-    String SETTINGS_CATEGORY="extra_settings_category";
+    String SETTINGS_CATEGORY = "extra_settings_category";
     int SETTINGS_CATEGORY_STYLE = 1;
 }

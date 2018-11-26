@@ -19,7 +19,7 @@ public class ShareUtil {
         File f = new File(imgPath);
         if (f != null && f.exists() && f.isFile()) {
             intent.setType("image/jpg");
-            Uri u = Uri.fromFile(f);
+            Uri u = UriCompat.fromFile(context, f);
             intent.putExtra(Intent.EXTRA_STREAM, u);
         }
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
