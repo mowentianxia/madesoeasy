@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.kk.common.ui.fittext.FitTextView;
 import com.kk.common.utils.BitmapUtil;
+import com.kk.imageeditor.R;
 import com.kk.imageeditor.bean.data.SelectElement;
 import com.kk.imageeditor.bean.data.TextData;
 import com.kk.imageeditor.bean.view.TextInfo;
