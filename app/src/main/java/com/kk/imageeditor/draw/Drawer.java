@@ -181,11 +181,13 @@ public class Drawer {
             if (error == Drawer.Error.None) {
                 return styleInfo;
             }
-            if (DEBUG)
-                Log.e("msoe", "get style:" + styleInfo);
+            if (DEBUG) {
+                Log.w("msoe", "get style failed 1:" + f + ",error=" + error);
+            }
         } else {
-            if (DEBUG)
-                Log.e("msoe", "get style:" + f);
+            if (DEBUG) {
+                Log.w("msoe", "get style failed 2:" + f);
+            }
         }
         return null;
     }

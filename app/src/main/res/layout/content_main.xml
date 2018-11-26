@@ -31,7 +31,7 @@
                 />
         </HorizontalScrollView>
     </ScrollView>
-    <com.kk.view.CompactTextView
+    <com.kk.common.ui.fittext.CompactTextView
         android:id="@+id/text1"
         android:visibility="gone"
         android:layout_width="match_parent"

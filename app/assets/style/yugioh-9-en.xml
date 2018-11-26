@@ -8,6 +8,6 @@
 	<app-version>3</app-version>
 	<icon>icon/en.png</icon>
 	<file>yugioh-9.zip</file>
-	<fragments>fragments/yugioh-9-en-fragments.xml</fragments>
-	<layout>fragments/yugioh-9-en-layout.xml</layout>
+	<data>data/yugioh-9-en-data.xml</data>
+	<layout>data/yugioh-9-en-layout.xml</layout>
 </styleinfo>

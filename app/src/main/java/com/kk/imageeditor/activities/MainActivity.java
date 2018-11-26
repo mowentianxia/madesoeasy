@@ -14,6 +14,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,6 +39,7 @@ import net.kk.dialog.FileFilter2;
 
 import java.io.File;
 
+import static com.kk.imageeditor.Constants.DEBUG;
 import static com.kk.imageeditor.Constants.SETTINGS_CATEGORY;
 import static com.kk.imageeditor.Constants.SETTINGS_CATEGORY_STYLE;
 
@@ -75,11 +77,6 @@ public class MainActivity extends DrawerActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mMyPreference = MyPreference.get(this);
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener((v) -> {
-//            Snackbar.make(v, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                    .setAction("Action", null).show();
-//        });
 
         mDrawerlayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -97,11 +94,11 @@ public class MainActivity extends DrawerActivity
         setfileView = (TextView) head.findViewById(R.id.setname);
         //初始化
         initDrawer((ViewGroup) findViewById(R.id.drawer));
-//        CompactTextView compactTextView = (CompactTextView) findViewById(R.id.text1);
-//        compactTextView.setNeedScaleText(true);
-//        compactTextView.setText("未命名觉健身卡思思经济嘻健健康康可嘻嘻嘻未命名觉健身卡思健康康可嘻嘻嘻未命名觉健身卡思");
-//        compactTextView.getPaint().setTextScaleX(0.5f);
-//        compactTextView.invalidate();
+    }
+
+    @Override
+    protected void initData() {
+        super.initData();
         checkAndCopyStyle();
     }
 
@@ -115,6 +112,9 @@ public class MainActivity extends DrawerActivity
             String style = mMyPreference.getCurStyle();
             if (TextUtils.isEmpty(style)) {
                 //加载默认style
+                if(DEBUG) {
+                    Log.d("mose", "load default style");
+                }
                 style = styleControllor.findDefaultStyle(pathConrollor.getStylePath());
             }
             return style;

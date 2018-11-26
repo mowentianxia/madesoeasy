@@ -43,8 +43,8 @@ public class StyleControllor extends BaseControllor {
         if (dir.isFile()) {
             return path;
         }
-        File file=new File(path, Constants.DEFAULT_STYLE);
-        if(file.exists()){
+        File file = new File(path, Constants.DEFAULT_STYLE);
+        if (file.exists()) {
             StyleInfo style = getStyleInfo(file);
             if (style != null) {
                 return file.getAbsolutePath();
@@ -53,8 +53,9 @@ public class StyleControllor extends BaseControllor {
         File[] files = FileUtil.listFiles(path, Constants.STYLE_EX);
         if (files != null) {
             for (File f : files) {
-                if (Constants.DEBUG)
-                    Log.i("msoe", "try " + f);
+                if (Constants.DEBUG) {
+                    Log.i("msoe", "findStyle " + f);
+                }
                 if (f.isFile()) {
                     StyleInfo style = getStyleInfo(f);
                     if (style != null) {
