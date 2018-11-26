@@ -29,9 +29,6 @@ proguard/
 .idea/
 .gradle/
 build/
-gradlew
-gradle/
-gradlew.bat
 
 /app/*.key
 /temp
