@@ -15,6 +15,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kk.common.VDeferredManager;
+import com.kk.common.base.BaseActivity;
+import com.kk.common.utils.BitmapUtil;
 import com.kk.imageeditor.Constants;
 import com.kk.imageeditor.R;
 import com.kk.imageeditor.bean.StyleInfo;
@@ -22,8 +25,6 @@ import com.kk.imageeditor.controllor.ControllorManager;
 import com.kk.imageeditor.controllor.PathConrollor;
 import com.kk.imageeditor.controllor.StyleControllor;
 import com.kk.imageeditor.draw.Drawer;
-import com.kk.imageeditor.utils.BitmapUtil;
-import com.kk.imageeditor.utils.VUiKit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +38,8 @@ public class StyleListActivity extends BaseActivity {
     private RecyclerView mRecyclerView;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void doOnCreate(@Nullable Bundle savedInstanceState) {
+        super.doOnCreate(savedInstanceState);
         setContentView(R.layout.activity_stylelist);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -54,7 +55,7 @@ public class StyleListActivity extends BaseActivity {
 
     private void load() {
         ProgressDialog dialog = ProgressDialog.show(this, null, getString(R.string.load_style_list));
-        VUiKit.defer().when(() -> {
+        VDeferredManager.defer().when(() -> {
             return mStyleControllor.getStyleList(pathConrollor.getStylePath(), Constants.STYLE_EX);
         }).fail((e) -> {
             if (DEBUG) {

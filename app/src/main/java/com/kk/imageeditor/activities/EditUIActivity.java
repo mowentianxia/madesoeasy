@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -20,6 +21,9 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import com.kk.common.VDeferredManager;
+import com.kk.common.base.BaseActivity;
+import com.kk.common.utils.BitmapUtil;
 import com.kk.imageeditor.Constants;
 import com.kk.imageeditor.R;
 import com.kk.imageeditor.bean.StyleInfo;
@@ -34,14 +38,12 @@ import com.kk.imageeditor.controllor.MyPreference;
 import com.kk.imageeditor.controllor.PathConrollor;
 import com.kk.imageeditor.controllor.StyleControllor;
 import com.kk.imageeditor.draw.IDataProvider;
-import com.kk.imageeditor.utils.BitmapUtil;
 import com.kk.imageeditor.utils.SaveUtil;
 import com.kk.imageeditor.utils.StringUtil;
-import com.kk.imageeditor.utils.VUiKit;
 import com.kk.imageeditor.view.IKView;
-import com.kk.imageeditor.widgets.ComboAdapter;
-import com.kk.imageeditor.widgets.ISelectImage;
-import com.kk.imageeditor.widgets.ISelectImageListener;
+import com.kk.imageeditor.view.ComboAdapter;
+import com.kk.imageeditor.view.ISelectImage;
+import com.kk.imageeditor.view.ISelectImageListener;
 
 import java.io.File;
 import java.util.List;
@@ -64,8 +66,8 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void doOnCreate(@Nullable Bundle savedInstanceState) {
+        super.doOnCreate(savedInstanceState);
         DisplayMetrics dm = getResources().getDisplayMetrics();
         itemHeight = Math.round(Math.max(dm.widthPixels, dm.heightPixels) / 15.0f);
         pathConrollor = ControllorManager.get().getPathConrollor();
@@ -200,8 +202,8 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, itemHeight);
         lp.gravity = Gravity.CENTER_VERTICAL;
-        lp.leftMargin = VUiKit.dpToPx(10);
-        lp.rightMargin = VUiKit.dpToPx(10);
+        lp.leftMargin = VDeferredManager.dpToPx(10);
+        lp.rightMargin = VDeferredManager.dpToPx(10);
         return lp;
     }
 
@@ -233,8 +235,8 @@ abstract class EditUIActivity extends BaseActivity implements ISelectImageListen
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lp.gravity = Gravity.CENTER_VERTICAL;
-        lp.leftMargin = VUiKit.dpToPx(10);
-        lp.rightMargin = VUiKit.dpToPx(10);
+        lp.leftMargin = VDeferredManager.dpToPx(10);
+        lp.rightMargin = VDeferredManager.dpToPx(10);
         textView.setLayoutParams(lp);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         textView.setGravity(Gravity.CENTER_VERTICAL);

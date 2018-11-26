@@ -4,22 +4,17 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.res.AssetManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.kk.common.utils.FileUtil;
 import com.kk.imageeditor.Constants;
-import com.kk.imageeditor.bean.Style;
 import com.kk.imageeditor.bean.StyleInfo;
-import com.kk.imageeditor.draw.Drawer;
-import com.kk.imageeditor.utils.FileUtil;
-import com.kk.imageeditor.utils.XmlUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Locale;
 
 import static com.kk.imageeditor.draw.Drawer.getStyleInfo;
 

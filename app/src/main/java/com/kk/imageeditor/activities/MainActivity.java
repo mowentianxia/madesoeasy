@@ -1,11 +1,11 @@
 package com.kk.imageeditor.activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -19,21 +19,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kk.common.VDeferredManager;
+import com.kk.common.utils.BitmapUtil;
+import com.kk.common.utils.FileUtil;
 import com.kk.imageeditor.Constants;
 import com.kk.imageeditor.R;
 import com.kk.imageeditor.bean.StyleInfo;
 import com.kk.imageeditor.controllor.MyPreference;
 import com.kk.imageeditor.draw.Drawer;
-import com.kk.imageeditor.utils.BitmapUtil;
-import com.kk.imageeditor.utils.FileUtil;
-import com.kk.imageeditor.utils.VUiKit;
-import com.kk.view.CompactTextView;
 
 import net.kk.dialog.FileDialog;
 import net.kk.dialog.FileFilter2;
@@ -43,8 +41,13 @@ import java.io.File;
 import static com.kk.imageeditor.Constants.SETTINGS_CATEGORY;
 import static com.kk.imageeditor.Constants.SETTINGS_CATEGORY_STYLE;
 
-public class MainActivity extends DrawerAcitvity
+public class MainActivity extends DrawerActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    public static void start(Context context) {
+        Intent starter = new Intent(context, MainActivity.class);
+        context.startActivity(starter);
+    }
 
     private ImageView headImageView;
     private TextView headTitleView;
@@ -58,13 +61,17 @@ public class MainActivity extends DrawerAcitvity
     private String mCurStyle;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public boolean isHasExitAnim() {
+        return false;
+    }
+
+    @Override
+    protected void doOnCreate(Bundle savedInstanceState) {
+        super.doOnCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (MyPreference.get(this).isHardware()) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         }
-        setExitAnimEnable(false);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mMyPreference = MyPreference.get(this);
@@ -100,7 +107,7 @@ public class MainActivity extends DrawerAcitvity
 
     private void checkAndCopyStyle() {
         ProgressDialog dialog = ProgressDialog.show(this, null, getString(R.string.copy_style_wait));
-        VUiKit.defer().when(() -> {
+        VDeferredManager.defer().when(() -> {
             if (styleControllor.copyStyleFromAssets()) {
                 resetData();
                 getDefaultData().cleanCache();
@@ -136,7 +143,7 @@ public class MainActivity extends DrawerAcitvity
             return;
         }
         ProgressDialog dialog = ProgressDialog.show(this, null, getString(R.string.load_style_wait));
-        VUiKit.defer().when(() -> {
+        VDeferredManager.defer().when(() -> {
             return loadStyle(style, nocache);
         }).done((error) -> {
             dialog.dismiss();
@@ -313,7 +320,7 @@ public class MainActivity extends DrawerAcitvity
 
     private void preview() {
         Toast.makeText(this, R.string.saving_image, Toast.LENGTH_SHORT).show();
-        VUiKit.defer().when(() -> {
+        VDeferredManager.defer().when(() -> {
             Bitmap image = getDrawBitmap();
             if (image == null) {
                 return null;

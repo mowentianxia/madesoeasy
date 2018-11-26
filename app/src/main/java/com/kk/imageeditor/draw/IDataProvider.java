@@ -9,6 +9,8 @@ import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.kk.common.utils.BitmapUtil;
+import com.kk.common.utils.FileUtil;
 import com.kk.imageeditor.Constants;
 import com.kk.imageeditor.bean.Style;
 import com.kk.imageeditor.bean.StyleInfo;
@@ -28,9 +30,7 @@ import com.kk.imageeditor.bean.view.ImageInfo;
 import com.kk.imageeditor.bean.view.LayoutInfo;
 import com.kk.imageeditor.bean.view.TextInfo;
 import com.kk.imageeditor.bean.view.ViewInfo;
-import com.kk.imageeditor.utils.BitmapUtil;
 import com.kk.imageeditor.utils.Calculator;
-import com.kk.imageeditor.utils.FileUtil;
 import com.kk.imageeditor.utils.GravityUtil;
 import com.kk.imageeditor.utils.JudgUtils;
 import com.kk.imageeditor.view.IKView;

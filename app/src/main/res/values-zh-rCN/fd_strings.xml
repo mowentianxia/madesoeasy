@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="create_folder">创建文件夹</string>
+    <string name="new_directory">新建文件夹</string>
+    <string name="last_directory">上一级目录</string>
+    <string name="input_name">输入名字</string>
+    <string name="new_file">新建</string>
+    <string name="file_default_title">文件浏览器</string>
+</resources>

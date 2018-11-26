@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Environment;
 import android.text.TextUtils;
 
-import com.kk.imageeditor.utils.FileUtil;
+import com.kk.common.utils.FileUtil;
 
 import java.io.File;
 

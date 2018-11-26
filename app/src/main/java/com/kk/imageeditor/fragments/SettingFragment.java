@@ -3,19 +3,27 @@ package com.kk.imageeditor.fragments;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.kk.common.base.BasePreferenceFragment;
 import com.kk.imageeditor.Constants;
 import com.kk.imageeditor.R;
+import com.kk.imageeditor.activities.SettingsActivity;
 import com.kk.imageeditor.activities.StyleListActivity;
 import com.kk.imageeditor.controllor.MyPreference;
+
 
 import net.kk.dialog.FileDialog;
 import net.kk.dialog.FileFilter2;
@@ -25,9 +33,20 @@ import java.io.File;
 public class SettingFragment extends BasePreferenceFragment {
     private int mInitSettings;
     private String KEY_ABOUT;
+    private MyPreference mMyPreference;
 
     public SettingFragment() {
 
+    }
+
+    @Override
+    protected void backHome() {
+        startActivity(new Intent(getActivity(), SettingsActivity.class));
+    }
+
+    @Override
+    protected SharedPreferences getSharedPreferences() {
+        return mMyPreference == null ? null : mMyPreference.getSharedPreferences();
     }
 
     public SettingFragment initCategory(int settings) {
@@ -39,6 +58,8 @@ public class SettingFragment extends BasePreferenceFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(false);
+        mMyPreference = MyPreference.get(getActivity());
+
         addPreferencesFromResource(R.xml.pref_imageeditor);
         KEY_ABOUT = getString(R.string.settings_about);
         bindPreferenceSummaryToValue(findPreference(mMyPreference.KEY_LONG_SET_NAME), ValueType.Boolean, mMyPreference.showFullSetName());
@@ -90,7 +111,7 @@ public class SettingFragment extends BasePreferenceFragment {
         if (preference instanceof CheckBoxPreference) {
             CheckBoxPreference checkBoxPreference = (CheckBoxPreference) preference;
             boolean checked = checkBoxPreference.isChecked();
-            mSharedPreferences.edit().putBoolean(preference.getKey(), checked).apply();
+            getSharedPreferences().edit().putBoolean(preference.getKey(), checked).apply();
             if (TextUtils.equals(mCurKey, preference.getKey()) && mMyPreference.KEY_HARDWARE.equals(preference.getKey())) {
                 Toast.makeText(getActivity(), R.string.tip_restart_app, Toast.LENGTH_SHORT).show();
             }

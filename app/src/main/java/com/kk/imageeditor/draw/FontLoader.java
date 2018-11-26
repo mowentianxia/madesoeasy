@@ -4,9 +4,9 @@ package com.kk.imageeditor.draw;
 import android.graphics.Typeface;
 
 
+import com.kk.common.utils.FileUtil;
 import com.kk.imageeditor.bean.StyleInfo;
 import com.kk.imageeditor.bean.data.FontInfo;
-import com.kk.imageeditor.utils.FileUtil;
 
 import java.io.File;
 import java.lang.ref.SoftReference;

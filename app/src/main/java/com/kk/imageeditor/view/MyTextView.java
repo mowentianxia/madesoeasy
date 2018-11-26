@@ -3,7 +3,7 @@ package com.kk.imageeditor.view;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.kk.view.FitTextView;
+import com.kk.common.ui.fittext.FitTextView;
 
 public class MyTextView extends FitTextView {
     public MyTextView(Context context) {

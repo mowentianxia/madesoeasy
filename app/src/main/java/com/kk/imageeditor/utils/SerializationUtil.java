@@ -2,6 +2,8 @@ package com.kk.imageeditor.utils;
 
 import android.text.TextUtils;
 
+import com.kk.common.utils.FileUtil;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;

@@ -1,7 +1,6 @@
 package com.kk.imageeditor.activities;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -10,13 +9,15 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.kk.common.VDeferredManager;
+import com.kk.common.base.BaseActivity;
+import com.kk.common.utils.BitmapUtil;
 import com.kk.imageeditor.Constants;
 import com.kk.imageeditor.R;
 import com.kk.imageeditor.controllor.ControllorManager;
 import com.kk.imageeditor.controllor.MyPreference;
-import com.kk.imageeditor.utils.BitmapUtil;
 import com.kk.imageeditor.utils.ShareUtil;
-import com.kk.imageeditor.utils.VUiKit;
+
 
 import net.kk.dialog.FileDialog;
 import net.kk.dialog.FileFilter2;
@@ -33,8 +34,8 @@ public class PhotoViewActivity extends BaseActivity {
     Bitmap mImage;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void doOnCreate(Bundle savedInstanceState) {
+        super.doOnCreate(savedInstanceState);
         setContentView(R.layout.activity_photo);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -93,7 +94,7 @@ public class PhotoViewActivity extends BaseActivity {
     }
 
     private void loadImage() {
-        VUiKit.defer().when(() -> {
+        VDeferredManager.defer().when(() -> {
             mImage = BitmapUtil.getBitmapFromFile(mPath, 0, 0);
             return mImage;
         }).done((v) -> {

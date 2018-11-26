@@ -1,9 +1,1 @@
-include ':app'
-include ':filedialog'
-project(':filedialog').projectDir = new File(settingsDir, 'libdialog/filedialog')
-include ':fittextview'
-project(':fittextview').projectDir = new File(settingsDir, 'libfittextview/library')
-include ':xml2object'
-project(':xml2object').projectDir = new File(settingsDir, 'libxml2object/xml2object')
-include ':settingsprovider'
-project(':settingsprovider').projectDir = new File(settingsDir, 'libsettingsprovider/library')
+include ':app', ':common'

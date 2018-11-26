@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="create_folder">Create Folder</string>
+    <string name="new_directory">New Directory</string>
+    <string name="new_file">New</string>
+    <string name="last_directory">Up level directory</string>
+    <string name="input_name">Input name</string>
+    <string name="file_default_title">File Browser</string>
+</resources>

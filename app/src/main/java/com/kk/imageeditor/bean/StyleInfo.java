@@ -2,7 +2,7 @@ package com.kk.imageeditor.bean;
 
 import android.text.TextUtils;
 
-import com.kk.imageeditor.utils.FileUtil;
+import com.kk.common.utils.FileUtil;
 
 import net.kk.xml.annotations.XmlAttribute;
 import net.kk.xml.annotations.XmlElement;

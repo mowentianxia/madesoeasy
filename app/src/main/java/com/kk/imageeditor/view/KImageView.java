@@ -6,15 +6,13 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.kk.imageeditor.Constants;
+import com.kk.common.utils.BitmapUtil;
 import com.kk.imageeditor.bean.data.ImageData;
 import com.kk.imageeditor.bean.data.SelectElement;
 import com.kk.imageeditor.bean.view.ImageInfo;
-import com.kk.imageeditor.utils.BitmapUtil;
 
 
 public class KImageView extends AppCompatImageView implements IKView<ImageData, ImageInfo, ImageView> {

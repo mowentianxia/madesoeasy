@@ -9,11 +9,11 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.kk.common.ui.fittext.FitTextView;
+import com.kk.common.utils.BitmapUtil;
 import com.kk.imageeditor.bean.data.SelectElement;
 import com.kk.imageeditor.bean.data.TextData;
 import com.kk.imageeditor.bean.view.TextInfo;
-import com.kk.imageeditor.utils.BitmapUtil;
-import com.kk.view.FitTextView;
 
 public class KTextView extends FitTextView implements IKView<TextData, TextInfo, View> {
     protected SelectElement mSelectElement;

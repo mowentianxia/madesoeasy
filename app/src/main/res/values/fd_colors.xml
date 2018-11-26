@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="file_text_color">#000000</color>
+    <color name="file_sep_color">#60000000</color>
+    <color name="file_choose_color">#803030f0</color>
+</resources>

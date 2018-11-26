@@ -8,8 +8,6 @@ import android.text.TextUtils;
 import com.kk.imageeditor.Constants;
 import com.kk.imageeditor.R;
 
-import net.kk.plus.preferences.SettingsPreference;
-
 import java.io.File;
 
 import static com.kk.imageeditor.Constants.DEFAULT_NAME;
@@ -36,7 +34,7 @@ public class MyPreference {
     public final String KEY_IMGE_TYPE;
     public final String KEY_HARDWARE;
     public final String KEY_CUT_SCALE;
-    private SettingsPreference mSharedPreferences;
+    private SharedPreferences mSharedPreferences;
 
     //默认文件夹路径
     private String mWorkPath;
@@ -58,7 +56,7 @@ public class MyPreference {
         KEY_IMGE_TYPE = context.getString(R.string.settings_key_image_type);
         KEY_HARDWARE = context.getString(R.string.settings_hardware);
         KEY_CUT_SCALE = context.getString(R.string.settings_cut_image_scale);
-        mSharedPreferences = new SettingsPreference(context, Constants.SETTINGS_NAME);
+        mSharedPreferences = context.getSharedPreferences(Constants.SETTINGS_NAME, 0);
         mCurStyle = mSharedPreferences.getString(KEY_STYLE_PATH, null);
         defImageType = context.getString(R.string.settings_default_image_type);
         String defPath = null;

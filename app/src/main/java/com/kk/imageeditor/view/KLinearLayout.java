@@ -4,17 +4,14 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.kk.common.utils.BitmapUtil;
 import com.kk.imageeditor.bean.data.LayoutData;
 import com.kk.imageeditor.bean.data.SelectElement;
-import com.kk.imageeditor.bean.data.ViewData;
 import com.kk.imageeditor.bean.enums.LayoutType;
 import com.kk.imageeditor.bean.view.LayoutInfo;
-import com.kk.imageeditor.bean.view.ViewInfo;
-import com.kk.imageeditor.utils.BitmapUtil;
 
 
 public class KLinearLayout extends LinearLayout implements IKLayout<LayoutData, LayoutInfo, LinearLayout> {

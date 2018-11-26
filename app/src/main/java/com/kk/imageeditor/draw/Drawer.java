@@ -8,24 +8,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import com.kk.common.utils.BitmapUtil;
+import com.kk.common.utils.FileUtil;
+import com.kk.common.utils.XmlUtils;
 import com.kk.imageeditor.Constants;
 import com.kk.imageeditor.bean.Style;
 import com.kk.imageeditor.bean.StyleData;
 import com.kk.imageeditor.bean.StyleInfo;
 import com.kk.imageeditor.bean.data.ViewData;
 import com.kk.imageeditor.bean.view.ViewInfo;
-import com.kk.imageeditor.utils.BitmapUtil;
-import com.kk.imageeditor.utils.FileUtil;
-import com.kk.imageeditor.utils.XmlUtils;
 import com.kk.imageeditor.view.IKView;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
-import java.util.Locale;
-import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import static com.kk.imageeditor.Constants.DEBUG;

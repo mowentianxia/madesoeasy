@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion 28
+
     defaultConfig {
         applicationId "com.kk.imageeditor"
         minSdkVersion 15
-        targetSdkVersion 22
+        targetSdkVersion 26
         versionCode 3200
         versionName "3.1.0"
         buildConfigField "String","DEFAULT_STYLE",'"yugioh-9-cn.xml"'
@@ -22,7 +22,6 @@ android {
     sourceSets {
         main {
             assets.srcDirs = ['assets', 'src/main/assets']
-//            java.srcDirs = ['src/main/java', '../libxml2object/xml2object/src/main/java']
         }
     }
     compileOptions {
@@ -42,21 +41,20 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:support-vector-drawable:'+rootProject.ext.supportVersion
-    compile 'com.android.support:appcompat-v7:'+rootProject.ext.supportVersion
-    compile 'com.android.support:design:'+rootProject.ext.supportVersion
-    compile 'org.jdeferred:jdeferred-android-aar:1.2.4'
-    compile 'com.github.chrisbanes.photoview:library:1.2.4'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    testCompile 'junit:junit:4.12'
-    testCompile 'xmlpull:xmlpull:1.1.3.1'
-    testCompile 'net.sf.kxml:kxml2:2.3.0'
-    compile project(':settingsprovider')
-    compile project(':filedialog')
-    compile project(':fittextview')
-    compile (project(':xml2object')){
-        exclude module:'xmlpull'
-        exclude module:'kxml2'
-    }
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':common')
+    implementation 'org.jdeferred:jdeferred-android-aar:1.2.4'
+    implementation 'com.android.support:support-vector-drawable:28.0.0'
+    implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
+
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+//    implementation 'com.soundcloud.android:android-crop:1.0.1@aar'
+
+    implementation 'com.github.chrisbanes.photoview:library:1.2.4'
+
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'xmlpull:xmlpull:1.1.3.1'
+    testImplementation 'net.sf.kxml:kxml2:2.3.0'
 }
