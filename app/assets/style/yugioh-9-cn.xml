@@ -1,13 +1,17 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!-- folder="true" 则是从当前文件夹读取 否则则是从<file>yugioh-9.zip</file>读取 -->
 <styleinfo folder="false">
+    <!-- 样式名字 -->
 	<name>yugioh-9-cn</name>
 	<desc>游戏王第九期</desc>
 	<author>菜菜</author>
 	<version>20161119</version>
 	<app-version>3</app-version>
 	<icon>icon/cn.png</icon>
+	<!-- 资源包 -->
 	<file>yugioh-9.zip</file>
+	<!-- 数据（等级，种族。。。） -->
 	<data>data/yugioh-9-cn-data.xml</data>
+	<!-- 卡片模板 -->
 	<layout>data/yugioh-9-cn-layout.xml</layout>
 </styleinfo>

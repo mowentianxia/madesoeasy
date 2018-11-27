@@ -17,6 +17,7 @@
 		<item name="魔法" value="spell" />
 		<item name="陷阱" value="trap" />
 	</data>
+	<!-- 单项选择 -->
 	<data name="cardtype" default="normal" desc="卡片类型" >
 		<item name="无" value="none" />
 		<item name="通常" value="normal" />
@@ -29,6 +30,7 @@
 		<item name="魔法" value="spell" />
 		<item name="陷阱" value="trap" />
 	</data>
+	<!-- 输入框 -->
 	<data name="cardname" desc="卡片名称" type="text" default="未命名" />
 	<data name="cardcode" desc="卡片密码" type="text"  default="00000000" />
 	<data name="cardtext" desc="效果文本" type="text"  default="点击输入效果文本" />
@@ -167,6 +169,7 @@
 		<item name="pimagetype" value="pimagetype"	/>
 		<item name="namecolor" 	value="namecolor"	/>
 	</data>
+	<!-- 判断数据，用于简化模板的代码 -->
 	<bool name="cardborder_is_gold" value="'{{cardborder}}' == 'gold'"/>
 	<bool name="is_pendulum" 		value="'{{pendulum}}' == 'big' or '{{pendulum}}' == 'normal' or '{{pendulum}}' == 'small'"/>
 	<bool name="image_is_normal" 	value="'{{image_type}}' == ''"/>

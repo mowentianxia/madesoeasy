@@ -1,10 +1,15 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
+<!-- 宽高只是确定比例，具体大小应用可以缩放 -->
 <style width="421" height="610" savename="{{cardname}}">
 	<layout>
+		<!-- 卡片尺寸 -->
 		<size left="0" top="0" width="421" height="610"/>
+		<!-- 卡片模板 -->
 		<image index="-1" click="cardbg">
 			<size left="0" top="0" width="421" height="610"/>
+			<!-- 图片源，cardtype是data数据的单项选择cardtype的值 -->
 			<src>bg/card-{{cardtype}}.png</src>
+			<!-- 是否可见 -->
 			<visible>{{image_not_full}}</visible>
 		</image>
 		<!-- 卡名背景（透明） -->
@@ -38,6 +43,7 @@
 		</image>
 		<!-- 中间图-->
 		<image index="-1" click="cardcode_image" background="#ffffff">
+		    <!-- 尺寸多个值时，从上到下判断when条件 -->
 			<size when="{{pimage_is_normal}} and {{pendulum_nots_big}}"
 				left="29.5" top="105.5" width="363" height="345"/>
 			<size when="{{pimage_is_normal}} and {{pendulum_is_big}}"
@@ -99,6 +105,7 @@
 		<!-- DEF（透明） -->
 		<text index="2" singleline="true">
 			<size left="313" top="554" width="56" height="21"/>
+			<!-- 对齐（多种用|分开，v是垂直，h是水平） left|right|center|vcenter|hcenter-->
 			<align>vcenter</align>
 			<color>#000000</color>
 			<font name="font/MatrixBoldSmallCaps.ttf" style="normal" size="18.5"/>
